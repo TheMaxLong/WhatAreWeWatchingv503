@@ -1318,58 +1318,15 @@ const FILMS = [
 const ALL_GENRES = [...new Set(FILMS.flatMap(f => f.g))].sort();
 const DECADES = ["1970s","1980s","1990s","2000s","2010s","2020s"];
 
-// Streaming availability data — verified entries only; absence = unknown, not unavailable
+// Streaming availability data — live-verified entries ONLY
+// IMPORTANT: Streaming catalogs rotate constantly (weekly/monthly). NO entries from model memory.
+// Only verified entries that passed a live fetch test on the actual platform.
 // Key format: "Title|Year" for unambiguous lookup
-// Data sourced from direct platform knowledge and JustWatch archives as of 2026-08-21
+// Absence of a film = unknown availability, not unavailable (data honesty)
 const STREAMING_AS_OF = "2026-08-21";
 const STREAMING = {
-  "The Godfather|1972": ["paramount"],
-  "The Godfather Part II|1974": ["paramount"],
-  "Chinatown|1974": ["criterion"],
-  "Taxi Driver|1976": ["criterion"],
-  "Jaws|1975": ["netflix"],
-  "Star Wars|1977": ["disney+"],
-  "Close Encounters of the Third Kind|1977": ["netflix"],
-  "Alien|1979": ["disney+"],
-  "Blade Runner|1982": ["netflix"],
-  "E.T. the Extra-Terrestrial|1982": ["disney+"],
-  "Raiders of the Lost Ark|1981": ["netflix"],
-  "The Shining|1980": ["netflix"],
-  "Raging Bull|1980": ["criterion"],
-  "The Thing|1982": ["netflix"],
-  "Back to the Future|1985": ["netflix"],
-  "The Breakfast Club|1985": ["netflix"],
-  "Ferris Bueller's Day Off|1986": ["netflix"],
-  "Stand by Me|1986": ["netflix"],
-  "The Princess Bride|1987": ["netflix"],
-  "Die Hard|1988": ["netflix"],
-  "Blue Velvet|1986": ["criterion"],
-  "Blood Simple|1984": ["criterion"],
-  "Raising Arizona|1987": ["criterion"],
-  "Do the Right Thing|1989": ["criterion"],
-  "Goodfellas|1990": ["netflix"],
-  "Pulp Fiction|1994": ["netflix"],
-  "Forrest Gump|1994": ["netflix"],
-  "Seven|1995": ["netflix"],
-  "The Matrix|1999": ["netflix"],
-  "Fight Club|1999": ["netflix"],
-  "American Beauty|1999": ["netflix"],
-  "Gladiator|2000": ["netflix"],
-  "The Sixth Sense|1999": ["netflix"],
-  "Memento|2000": ["netflix"],
-  "Black Hawk Down|2001": ["netflix"],
-  "The Lord of the Rings: The Fellowship of the Ring|2001": ["prime"],
-  "Mulholland Drive|2001": ["criterion"],
-  "Minority Report|2002": ["netflix"],
-  "The Dark Knight|2008": ["hbo-max"],
-  "Inception|2010": ["netflix"],
-  "Interstellar|2014": ["netflix"],
-  "Spotlight|2015": ["netflix"],
-  "Parasite|2019": ["criterion"],
-  "1917|2019": ["netflix"],
-  "Tenet|2020": ["netflix"],
-  "Dune|2021": ["hbo-max"],
-  "Nosferatu|2024": ["netflix"],
+  // Add entries here ONLY after live-verifying on platform pages or JustWatch/similar
+  // Example: "The Godfather|1972": ["paramount"], // verified 2026-08-21 via JustWatch
 };
 
 let activeGenres = new Set();
