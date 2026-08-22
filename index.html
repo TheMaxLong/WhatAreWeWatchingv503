@@ -29,12 +29,12 @@
   @media (prefers-reduced-motion: reduce) { .card.show { animation: none; } }
   .card ::selection { background: #3fb950; color: #0d1117; }
   .card-year { color: #8b949e; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 16px; }
-  .card-title { color: #f0f6fc; font-size: clamp(26px, 7vw, 42px); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; line-height: 1.08; letter-spacing: 0.01em; overflow-wrap: break-word; }
+  .card-title { color: #f0f6fc; font-size: clamp(30px, 7.5vw, 48px); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; line-height: 1.08; letter-spacing: 0.01em; overflow-wrap: break-word; min-height: 1.1em; }
   .card-director { color: #8b949e; font-size: 11px; margin-bottom: 12px; }
-  .card-desc { color: #c9d1d9; font-size: 12px; line-height: 1.7; margin-bottom: 14px; }
+  .card-desc { color: #c9d1d9; font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
   .tag { background: #0d1117; border: 1px solid #21262d; color: #8b949e; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em; }
-  .card-cast { color: #8b949e; font-size: 10px; }
+  .card-cast { color: #8b949e; font-size: 13px; }
   .card-cast span { color: #c9d1d9; }
   .actor-note { color: #f0883e; font-size: 10px; margin-bottom: 10px; letter-spacing: 0.05em; }
   .count { color: #484f58; font-size: 10px; margin-top: 16px; }
@@ -1367,11 +1367,27 @@ function updateCount() {
   document.getElementById("countLine").textContent = n + " films match your filters";
 }
 
+const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function decodeTitle(el, text) {
+  cancelAnimationFrame(el._raf);
+  if (REDUCED_MOTION || !text) { el.textContent = text; return; }
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&";
+  const DURATION = 420, start = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - start) / DURATION, 1);
+    const solid = Math.floor(text.length * p);
+    let out = text.slice(0, solid);
+    for (let i = solid; i < text.length; i++) out += text[i] === " " ? " " : CHARS[Math.random() * CHARS.length | 0];
+    el.textContent = out;
+    if (p < 1) el._raf = requestAnimationFrame(tick);
+  })(start);
+}
+
 function showFilm(film, note) {
   document.getElementById("actorNote").style.display = note ? "block" : "none";
   document.getElementById("actorNote").textContent = note || "";
   document.getElementById("cardYear").textContent = film.y + "  ·  dir. " + film.d;
-  document.getElementById("cardTitle").textContent = film.t;
+  decodeTitle(document.getElementById("cardTitle"), film.t);
   document.getElementById("cardDirector").textContent = "";
   document.getElementById("cardDesc").textContent = film.desc;
   const tagsEl = document.getElementById("cardTags");
