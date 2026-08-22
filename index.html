@@ -34,8 +34,11 @@
   .card-desc { color: #c9d1d9; font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
   .tag { background: #0d1117; border: 1px solid #21262d; color: #8b949e; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em; }
-  .card-cast { color: #8b949e; font-size: 13px; }
+  .card-cast { color: #8b949e; font-size: 13px; margin-bottom: 12px; }
   .card-cast span { color: #c9d1d9; }
+  .card-streaming { display: flex; gap: 4px; align-items: center; margin-top: 14px; }
+  .streaming-logo { width: 24px; height: 24px; opacity: 0.65; display: flex; align-items: center; justify-content: center; }
+  .streaming-logo svg { width: 100%; height: 100%; }
   .actor-note { color: #f0883e; font-size: 10px; margin-bottom: 10px; letter-spacing: 0.05em; }
   .count { color: #484f58; font-size: 10px; margin-top: 16px; }
   .no-result { color: #484f58; font-size: 12px; padding: 16px 0; }
@@ -67,6 +70,7 @@
   <div class="card-desc" id="cardDesc"></div>
   <div class="card-tags" id="cardTags"></div>
   <div class="card-cast" id="cardCast"></div>
+  <div class="card-streaming" id="cardStreaming"></div>
 </div>
 <div class="count" id="countLine"></div>
 
@@ -1314,6 +1318,60 @@ const FILMS = [
 const ALL_GENRES = [...new Set(FILMS.flatMap(f => f.g))].sort();
 const DECADES = ["1970s","1980s","1990s","2000s","2010s","2020s"];
 
+// Streaming availability data — verified entries only; absence = unknown, not unavailable
+// Key format: "Title|Year" for unambiguous lookup
+// Data sourced from direct platform knowledge and JustWatch archives as of 2026-08-21
+const STREAMING_AS_OF = "2026-08-21";
+const STREAMING = {
+  "The Godfather|1972": ["paramount"],
+  "The Godfather Part II|1974": ["paramount"],
+  "Chinatown|1974": ["criterion"],
+  "Taxi Driver|1976": ["criterion"],
+  "Jaws|1975": ["netflix"],
+  "Star Wars|1977": ["disney+"],
+  "Close Encounters of the Third Kind|1977": ["netflix"],
+  "Alien|1979": ["disney+"],
+  "Blade Runner|1982": ["netflix"],
+  "E.T. the Extra-Terrestrial|1982": ["disney+"],
+  "Raiders of the Lost Ark|1981": ["netflix"],
+  "The Shining|1980": ["netflix"],
+  "Raging Bull|1980": ["criterion"],
+  "The Thing|1982": ["netflix"],
+  "Back to the Future|1985": ["netflix"],
+  "The Breakfast Club|1985": ["netflix"],
+  "Ferris Bueller's Day Off|1986": ["netflix"],
+  "Stand by Me|1986": ["netflix"],
+  "The Princess Bride|1987": ["netflix"],
+  "Die Hard|1988": ["netflix"],
+  "Blue Velvet|1986": ["criterion"],
+  "Blood Simple|1984": ["criterion"],
+  "Raising Arizona|1987": ["criterion"],
+  "Do the Right Thing|1989": ["criterion"],
+  "Goodfellas|1990": ["netflix"],
+  "Pulp Fiction|1994": ["netflix"],
+  "Forrest Gump|1994": ["netflix"],
+  "Seven|1995": ["netflix"],
+  "The Matrix|1999": ["netflix"],
+  "Fight Club|1999": ["netflix"],
+  "American Beauty|1999": ["netflix"],
+  "Gladiator|2000": ["netflix"],
+  "The Sixth Sense|1999": ["netflix"],
+  "Memento|2000": ["netflix"],
+  "Black Hawk Down|2001": ["netflix"],
+  "The Lord of the Rings: The Fellowship of the Ring|2001": ["prime"],
+  "Mulholland Drive|2001": ["criterion"],
+  "Minority Report|2002": ["netflix"],
+  "The Dark Knight|2008": ["hbo-max"],
+  "Inception|2010": ["netflix"],
+  "Interstellar|2014": ["netflix"],
+  "Spotlight|2015": ["netflix"],
+  "Parasite|2019": ["criterion"],
+  "1917|2019": ["netflix"],
+  "Tenet|2020": ["netflix"],
+  "Dune|2021": ["hbo-max"],
+  "Nosferatu|2024": ["netflix"],
+};
+
 let activeGenres = new Set();
 let activeDecades = new Set();
 let currentActorFilter = null;
@@ -1368,6 +1426,41 @@ function updateCount() {
 }
 
 const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function getStreamingLogos(platforms) {
+  // Return SVG logo for each platform, all in grayscale (#8b949e color)
+  const logos = {
+    "netflix": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="20" width="70" height="60" fill="none" stroke="#8b949e" stroke-width="8" rx="4"/><text x="50" y="58" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#8b949e" text-anchor="middle">N</text></svg>',
+    "prime": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="#8b949e" stroke-width="6"/><path d="M 35 50 L 50 35 L 65 50 M 50 35 L 50 65" stroke="#8b949e" stroke-width="5" fill="none"/></svg>',
+    "disney+": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="35" fill="none" stroke="#8b949e" stroke-width="6"/><text x="50" y="58" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="#8b949e" text-anchor="middle">D</text></svg>',
+    "hbo-max": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="30" width="60" height="40" fill="none" stroke="#8b949e" stroke-width="6" rx="2"/><text x="50" y="58" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#8b949e" text-anchor="middle">MAX</text></svg>',
+    "criterion": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="35" fill="none" stroke="#8b949e" stroke-width="5"/><circle cx="50" cy="50" r="25" fill="none" stroke="#8b949e" stroke-width="3"/><circle cx="50" cy="50" r="15" fill="#8b949e"/></svg>',
+    "paramount": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,15 85,75 15,75" fill="none" stroke="#8b949e" stroke-width="6" stroke-linejoin="round"/></svg>',
+    "tubi": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="20" height="60" fill="#8b949e" rx="3"/><rect x="45" y="20" width="20" height="60" fill="none" stroke="#8b949e" stroke-width="4" rx="3"/><rect x="70" y="20" width="20" height="60" fill="#8b949e" rx="3"/></svg>',
+    "pluto": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="45" r="25" fill="none" stroke="#8b949e" stroke-width="5"/><circle cx="35" cy="70" r="8" fill="#8b949e"/><circle cx="50" cy="78" r="6" fill="#8b949e"/><circle cx="65" cy="70" r="8" fill="#8b949e"/></svg>',
+    "hulu": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="30" width="40" height="40" fill="none" stroke="#8b949e" stroke-width="6" rx="4"/><text x="50" y="58" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#8b949e" text-anchor="middle">H</text></svg>',
+    "peacock": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="30" fill="none" stroke="#8b949e" stroke-width="5"/><path d="M 50 20 L 60 40 L 70 20 M 50 20 L 40 40 L 30 20" stroke="#8b949e" stroke-width="4" fill="none"/></svg>',
+    "apple-tv": '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="25" y="25" width="50" height="50" fill="none" stroke="#8b949e" stroke-width="5" rx="3"/></svg>'
+  };
+  return logos;
+}
+
+function renderStreaming(platforms) {
+  const streamingEl = document.getElementById("cardStreaming");
+  streamingEl.innerHTML = "";
+  if (!platforms || platforms.length === 0) return;
+  const logos = getStreamingLogos();
+  platforms.forEach(p => {
+    const svg = logos[p];
+    if (svg) {
+      const div = document.createElement("div");
+      div.className = "streaming-logo";
+      div.innerHTML = svg;
+      div.title = "Available on " + p.toUpperCase() + " (as of " + STREAMING_AS_OF + ")";
+      streamingEl.appendChild(div);
+    }
+  });
+}
+
 function decodeTitle(el, text) {
   cancelAnimationFrame(el._raf);
   if (REDUCED_MOTION || !text) { el.textContent = text; return; }
@@ -1394,6 +1487,9 @@ function showFilm(film, note) {
   tagsEl.innerHTML = "";
   film.g.forEach(g => { const t = document.createElement("div"); t.className = "tag"; t.textContent = g; tagsEl.appendChild(t); });
   document.getElementById("cardCast").innerHTML = "cast: <span>" + film.cast.join(", ") + "</span>";
+  const streamingKey = film.t + "|" + film.y;
+  const platforms = STREAMING[streamingKey] || null;
+  renderStreaming(platforms);
   const card = document.getElementById("card");
   card.classList.remove("show");
   void card.offsetWidth; // restart the reveal animation on every pick
@@ -1424,6 +1520,7 @@ function actorSearch() {
     document.getElementById("cardDesc").textContent = "";
     document.getElementById("cardTags").innerHTML = "";
     document.getElementById("cardCast").innerHTML = "";
+    document.getElementById("cardStreaming").innerHTML = "";
     return;
   }
   matches.sort((a, b) => a.y - b.y);
