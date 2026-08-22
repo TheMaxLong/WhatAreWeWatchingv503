@@ -22,15 +22,14 @@
   .btn-actor { background: #161b22; border: 1px solid #21262d; color: #8b949e; font-family: monospace; font-size: 10px; padding: 8px 14px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
   .btn-actor:hover { border-color: #3fb950; color: #3fb950; }
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 26px 26px 22px; max-width: 540px; display: none; }
-  .card.show { display: block; border-color: #3fb950; animation: reveal 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .card.show { display: block; border-color: #3fb950; animation: reveal 500ms cubic-bezier(0.16, 1, 0.3, 1); }
   .card.show:has(.card-title:empty) { border-color: #21262d; }
   .card > div:empty { margin-bottom: 0; }
   @keyframes reveal { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .card.show { animation: none; } }
   .card ::selection { background: #3fb950; color: #0d1117; }
   .card-year { color: #8b949e; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 16px; }
-  .card-title { color: #f0f6fc; font-size: clamp(30px, 7.5vw, 48px); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; line-height: 1.08; letter-spacing: 0.01em; overflow-wrap: break-word; min-height: 1.1em; }
-  .card-director { color: #8b949e; font-size: 11px; margin-bottom: 12px; }
+  .card-title { color: #f0f6fc; font-size: clamp(30px, 7.5vw, 56px); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; line-height: 1.08; letter-spacing: 0.01em; overflow-wrap: break-word; min-height: 1.1em; }
   .card-desc { color: #c9d1d9; font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
   .tag { background: #0d1117; border: 1px solid #21262d; color: #8b949e; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em; }
@@ -66,7 +65,6 @@
   <div class="actor-note" id="actorNote" style="display:none"></div>
   <div class="card-title" id="cardTitle"></div>
   <div class="card-year" id="cardYear"></div>
-  <div class="card-director" id="cardDirector"></div>
   <div class="card-desc" id="cardDesc"></div>
   <div class="card-tags" id="cardTags"></div>
   <div class="card-cast" id="cardCast"></div>
@@ -1436,9 +1434,8 @@ function decodeTitle(el, text) {
 function showFilm(film, note) {
   document.getElementById("actorNote").style.display = note ? "block" : "none";
   document.getElementById("actorNote").textContent = note || "";
-  document.getElementById("cardYear").textContent = film.y + "  ·  dir. " + film.d;
+  document.getElementById("cardYear").textContent = film.d ? film.y + "  ·  dir. " + film.d : "";
   decodeTitle(document.getElementById("cardTitle"), film.t);
-  document.getElementById("cardDirector").textContent = "";
   document.getElementById("cardDesc").textContent = film.desc;
   const tagsEl = document.getElementById("cardTags");
   tagsEl.innerHTML = "";
@@ -1473,7 +1470,6 @@ function actorSearch() {
     document.getElementById("actorNote").textContent = "No films found for \"" + document.getElementById("actorInput").value.trim() + "\" in the list.";
     document.getElementById("cardYear").textContent = "";
     document.getElementById("cardTitle").textContent = "";
-    document.getElementById("cardDirector").textContent = "";
     document.getElementById("cardDesc").textContent = "";
     document.getElementById("cardTags").innerHTML = "";
     document.getElementById("cardCast").innerHTML = "";
