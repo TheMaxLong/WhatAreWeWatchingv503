@@ -1,9 +1,86 @@
-All Rights Reserved
+WhatAreWeWatchingv503 — PROPRIETARY AND CONFIDENTIAL
+Copyright © 2026 Steven "Max" Long. All rights reserved.
 
-Copyright (c) 2026 Steven "Max" Long
+1. OWNERSHIP. This repository and all of its contents — including without
+   limitation all source code, object code, scripts, configuration, database
+   schemas, data models, documentation, designs, text, and images
+   (collectively, the "Software") — are the exclusive property of
+   Steven "Max" Long (the "Owner") and are protected by copyright, trade
+   secret, and other intellectual-property laws. The Software is proprietary
+   and confidential.
 
-This repository and all of its contents (source code, documentation, assets, and any other materials) are the proprietary and confidential property of Steven "Max" Long. No license, express or implied, is granted to any person or entity.
+2. NO LICENSE GRANTED. No license or right of any kind is granted to anyone.
+   Except as expressly authorized in a separate written agreement signed by
+   the Owner, you may NOT, in whole or in part: (a) use, run, or execute the
+   Software; (b) copy, reproduce, or download it; (c) modify, adapt, or create
+   derivative works from it; (d) distribute, publish, sublicense, sell, rent,
+   lease, or otherwise make it available to any third party; (e) reverse
+   engineer, decompile, or disassemble it; or (f) remove or alter this notice.
 
-No part of this repository may be copied, reproduced, distributed, transmitted, modified, publicly displayed, or used in any form or by any means, electronic or mechanical, for any purpose, without the prior written permission of the copyright holder.
+3. CONFIDENTIALITY / TRADE SECRETS. The Software contains trade secrets and
+   confidential information of the Owner. Any person granted access must keep
+   it strictly confidential and use it solely as authorized in writing by the
+   Owner. Unauthorized access, use, or disclosure is prohibited and may
+   violate civil and criminal law, including the federal Defend Trade Secrets
+   Act and the California Uniform Trade Secrets Act.
 
-Unauthorized use, reproduction, or distribution of this material, or any portion of it, is strictly prohibited and may result in civil and criminal penalties.
+4. NO WARRANTY. The Software is provided "AS IS", without warranty of any
+   kind, express or implied, including without limitation the implied
+   warranties of merchantability, fitness for a particular purpose, and
+   non-infringement.
+
+5. LIMITATION OF LIABILITY. To the maximum extent permitted by law, the Owner
+   shall not be liable for any indirect, incidental, special, consequential,
+   or punitive damages, or for any loss of profits or data, arising out of or
+   relating to the Software or its use.
+
+6. THIRD-PARTY COMPONENTS. The Software may include third-party open-source
+   components that remain governed by their own licenses; those licenses apply
+   only to those components, and not to the Software as a whole.
+
+7. RESERVATION OF RIGHTS. All rights not expressly granted are reserved by the
+   Owner. This notice transfers no ownership or license.
+
+8. CONTACT. For licensing inquiries: GoodGuyMax89@gmail.com.
+
+9. EQUITABLE RELIEF. The Software and the Owner's trade secrets are unique.
+   Unauthorized use or disclosure would cause irreparable harm for which
+   monetary damages alone would be inadequate. The Owner is therefore entitled
+   to seek injunctive and other equitable relief, without the need to post a
+   bond, in addition to any other remedy available at law.
+
+10. GOVERNING LAW & VENUE. This notice, and any dispute arising out of or
+    relating to it or the Software, is governed by the laws of the State of
+    California, United States, without regard to its conflict-of-laws
+    principles. The exclusive venue for any such dispute shall be the state
+    and federal courts located in Riverside County, California, and each party
+    consents to the personal jurisdiction of those courts.
+
+11. NO AUTOMATED INGESTION, MODEL TRAINING, OR MACHINE REIMPLEMENTATION.
+    Without limiting Section 2, and whether or not access to the Software was
+    itself authorized, no person, organization, crawler, or automated system
+    may: (a) scrape, crawl, index, mirror, cache, or otherwise harvest the
+    Software; (b) use the Software, in whole or in part, as input to train,
+    fine-tune, distill, embed, evaluate, ground, retrieve against, or prompt
+    any machine-learning model, large language model, coding assistant, or
+    autonomous software agent; or (c) use any automated or AI-assisted means
+    to produce a work that reproduces, translates, ports, reimplements, or is
+    substantially or functionally equivalent to the Software or any material
+    part of it. Any output so produced is a derivative work within the meaning
+    of Section 2(c), is owned exclusively by the Owner, and its creation,
+    possession, or use is an unauthorized use of the Owner's trade secrets.
+    No robots.txt directive, terms-of-service permission, platform setting, or
+    third-party crawling policy grants any right under this Section, and this
+    Section is an express reservation of rights against text and data mining.
+
+12. MONITORING AND ENFORCEMENT. Access to the Software is logged. The Owner
+    monitors for unauthorized copying, distribution, and derivative use and
+    will pursue every available remedy — including injunctive relief under
+    Section 9, actual damages, statutory damages, disgorgement of profits,
+    costs, and attorneys' fees — against any person or entity that violates
+    this notice, to the fullest extent permitted by law. Violations may be
+    referred for criminal prosecution.
+
+Project names, logos, and branding are trademarks of the Owner and may not be
+used without the Owner's prior written permission.
+Unauthorized use of the Software is unlawful.
