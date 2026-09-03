@@ -6,12 +6,11 @@
 <title>WHAT ARE WE WATCHING</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0d1117; color: #c9d1d9; font-family: monospace; min-height: 100vh; padding: 24px 16px; }
+  body { background: #0d1117; color: #c9d1d9; font-family: monospace; min-height: 100vh; min-height: 100dvh; padding: 24px 16px; -webkit-text-size-adjust: 100%; }
   h1 { color: #3fb950; font-size: 18px; letter-spacing: 0.15em; margin-bottom: 4px; }
   .sub { color: #484f58; font-size: 10px; letter-spacing: 0.1em; margin-bottom: 24px; }
   .controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
   .btn-main { background: #3fb950; color: #0d1117; border: none; padding: 14px 28px; font-family: monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; border-radius: 6px; width: 100%; max-width: 340px; }
-  .btn-main:hover { background: #56d364; }
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip { background: #161b22; border: 1px solid #21262d; color: #8b949e; font-family: monospace; font-size: 10px; padding: 4px 10px; border-radius: 20px; cursor: pointer; letter-spacing: 0.05em; }
   .chip.active { background: #1f2937; border-color: #3fb950; color: #3fb950; }
@@ -20,7 +19,6 @@
   .actor-input:focus { border-color: #3fb950; }
   .actor-input::placeholder { color: #484f58; }
   .btn-actor { background: #161b22; border: 1px solid #21262d; color: #8b949e; font-family: monospace; font-size: 10px; padding: 8px 14px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
-  .btn-actor:hover { border-color: #3fb950; color: #3fb950; }
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 26px 26px 22px; max-width: 540px; display: none; }
   .card.show { display: block; border-color: #3fb950; animation: reveal 500ms cubic-bezier(0.16, 1, 0.3, 1); }
   .card.show:has(.card-title:empty) { border-color: #21262d; }
@@ -41,16 +39,46 @@
   .actor-note { color: #f0883e; font-size: 10px; margin-bottom: 10px; letter-spacing: 0.05em; }
   .count { color: #484f58; font-size: 10px; margin-top: 16px; }
   .no-result { color: #484f58; font-size: 12px; padding: 16px 0; }
+  .nb { white-space: nowrap; }
+  .genre-toggle { display: none; }
+
+  /* hover only where a real pointer exists — otherwise it sticks after a tap */
+  @media (hover: hover) {
+    .btn-main:hover { background: #56d364; }
+    .btn-actor:hover { border-color: #3fb950; color: #3fb950; }
+  }
+
+  /* ── phone ─────────────────────────────────────────────────────────── */
+  @media (max-width: 620px) {
+    body { padding: 20px 14px calc(28px + env(safe-area-inset-bottom)); }
+    h1 { font-size: 16px; letter-spacing: 0.12em; }
+    .sub { margin-bottom: 18px; }
+    .controls { gap: 10px; }
+    .btn-main { max-width: none; padding: 16px 24px; font-size: 15px; }
+    .chip { font-size: 13px; padding: 12px 15px; }
+    .btn-actor { font-size: 11px; padding: 13px 16px; }
+    .actor-row { flex-wrap: wrap; }
+    .actor-input { flex: 1 1 100%; font-size: 16px; padding: 11px 12px; }
+    .genre-toggle { display: inline-block; align-self: flex-start; }
+    .genre-toggle.on { border-color: #3fb950; color: #3fb950; }
+    #genres { display: none; }
+    #genres.open { display: flex; align-content: flex-start; max-height: 44vh; overflow-y: auto;
+                   border: 1px solid #21262d; border-radius: 8px; padding: 10px; }
+    .card { padding: 18px 16px; }
+    .card-desc { font-size: 15px; line-height: 1.7; }
+    .streaming-logo { width: 26px; height: 26px; }
+  }
 </style>
 </head>
 <body>
 
 <h1>&#9899; WHAT ARE WE WATCHING</h1>
-<p class="sub">CLASSICS · CULT · DOCS · FRINGE · SPACE · <span id="total"></span> FILMS</p>
+<p class="sub">CLASSICS · CULT · DOCS · FRINGE · SPACE · <span class="nb"><span id="total"></span> FILMS</span></p>
 
 <div class="controls">
   <button class="btn-main" onclick="pick()">&#9654; SURPRISE ME</button>
 
+  <button class="chip genre-toggle" id="genreToggle" aria-expanded="false" aria-controls="genres" onclick="toggleGenres()">GENRES &#9662;</button>
   <div class="filter-row" id="genres"></div>
   <div class="filter-row" id="decades"></div>
 
@@ -1341,10 +1369,31 @@ ALL_GENRES.forEach(g => {
   c.className = "chip"; c.textContent = g;
   c.onclick = () => {
     if (activeGenres.has(g)) activeGenres.delete(g); else activeGenres.add(g);
-    c.classList.toggle("active"); updateCount();
+    c.classList.toggle("active"); updateCount(); updateGenreToggle();
   };
   genreEl.appendChild(c);
 });
+
+// Genre row collapses on phones — the card, not the filters, is what you came for
+function toggleGenres() {
+  const open = document.getElementById("genres").classList.toggle("open");
+  document.getElementById("genreToggle").setAttribute("aria-expanded", open ? "true" : "false");
+  updateGenreToggle();
+}
+
+function updateGenreToggle() {
+  const btn = document.getElementById("genreToggle");
+  const open = document.getElementById("genres").classList.contains("open");
+  const n = activeGenres.size;
+  btn.textContent = "GENRES" + (n ? " \u00b7 " + n : "") + " " + (open ? "\u25b4" : "\u25be");
+  btn.classList.toggle("on", n > 0);
+}
+updateGenreToggle();
+
+// Full placeholder overflows a phone-width input — say the same thing shorter
+if (window.matchMedia("(max-width: 620px)").matches) {
+  document.getElementById("actorInput").placeholder = "actor name \u2192 first film";
+}
 
 // Build decade chips
 const decadeEl = document.getElementById("decades");
