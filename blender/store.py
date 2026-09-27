@@ -91,8 +91,8 @@ M_SHELF   = mat("shelf",   srgb("#e8e6df"), 0.45)
 M_HEADER  = mat("header",  srgb("#1537b8"), 0.4)
 M_YELLOW  = mat("yellow",  srgb("#ffd21f"), 0.35, emit=srgb("#ffd21f"), strength=0.6)
 M_TUBE    = mat("tube",    srgb("#ffffff"), 0.2, emit=srgb("#eef6ff"), strength=13.0)
-M_NEON    = mat("neon",    srgb("#ff2a8a"), 0.2, emit=srgb("#ff2a8a"), strength=55.0)
-M_NEON2   = mat("neon2",   srgb("#2ad4ff"), 0.2, emit=srgb("#2ad4ff"), strength=30.0)
+M_NEON    = mat("neon",    srgb("#ff2a8a"), 0.2, emit=srgb("#ff2a8a"), strength=22.0)   # coloured letters, not a white-hot blob
+M_NEON2   = mat("neon2",   srgb("#2ad4ff"), 0.2, emit=srgb("#2ad4ff"), strength=11.0)
 M_TAG     = mat("tag",     srgb("#ffd21f"), 0.4, emit=srgb("#ffd21f"), strength=1.2)
 
 # tape covers: one mesh, colour per box from a colour attribute
@@ -187,11 +187,13 @@ mesh_obj("covers", covers, M_COVER)
 mesh_obj("pricetags", tags, M_TAG)
 
 # ── section headers: blue panels, yellow lettering ──────────────────────────
-def text(body, x, y, z, size, m, rot_z=0.0, extrude=0.004):
+def text(body, x, y, z, size, m, rot_z=0.0, extrude=0.004, tube=0.0, spacing=1.0):
     cu = bpy.data.curves.new(body, "FONT")
     cu.body = body
     cu.size = size
     cu.extrude = extrude
+    cu.bevel_depth = tube            # neon: fatten the strokes into tubes so they survive the blur
+    cu.space_character = spacing
     cu.align_x = "CENTER"
     cu.align_y = "CENTER"
     o = bpy.data.objects.new(body, cu)
@@ -211,10 +213,10 @@ for gx, face, name in ((-2.35, 1, "FAMILY"), (2.25, -1, "THRILLER")):
     text(name, gx, 0.495, FLOOR + 1.81, 0.14, M_YELLOW)
 
 # neon: a pink VIDEO and a cyan underline, just above where the TV sits in frame
-text("VIDEO", 0.8, WALL_Y - 0.05, 1.42, 0.36, M_NEON, extrude=0.012)
-box("neonbar", 0.34, 1.26, WALL_Y - 0.06, WALL_Y - 0.04, 1.25, 1.27, M_NEON2)
+text("VIDEO", 1.0, WALL_Y - 0.05, 1.42, 0.36, M_NEON, extrude=0.012, tube=0.007, spacing=1.08)
+box("neonbar", 0.52, 1.48, WALL_Y - 0.06, WALL_Y - 0.04, 1.24, 1.265, M_NEON2)
 # and a smaller OPEN LATE on the left
-text("OPEN LATE", -0.52, WALL_Y - 0.05, 1.42, 0.2, M_NEON2, extrude=0.01)
+text("OPEN LATE", -0.5, WALL_Y - 0.05, 1.42, 0.24, M_NEON2, extrude=0.01, tube=0.007, spacing=1.05)
 
 # a soft cool fill so the shadows are not black
 fill = bpy.data.lights.new("fill", "AREA")
@@ -238,7 +240,7 @@ cam.sensor_width = SENSOR_MM
 cam.sensor_fit = "HORIZONTAL"
 cam.dof.use_dof = True
 cam.dof.focus_distance = FOCUS
-cam.dof.aperture_fstop = 0.35
+cam.dof.aperture_fstop = 0.5
 cam.dof.aperture_blades = 6
 cam.clip_end = 50
 co = bpy.data.objects.new("cam", cam)
@@ -268,6 +270,73 @@ scene.view_settings.view_transform = "AgX"
 scene.view_settings.exposure = 0.35
 scene.render.image_settings.file_format = "JPEG"
 scene.render.image_settings.quality = 82
-scene.render.filepath = OUT
-bpy.ops.render.render(write_still=True)
-print("plate", OUT)
+FALLBACK = "--fallback" in sys.argv
+if not FALLBACK:
+    scene.render.filepath = OUT
+    bpy.ops.render.render(write_still=True)
+    print("plate", OUT)
+else:
+    # ── the flat (no-WebGL) TV: the whole scene — store, counter, set — in one
+    # Cycles frame from the page's camera, with the tube left dark. The page scales
+    # this image so the TV lands in its slot and lays the live screen on the tube;
+    # fallback.json says where the TV and the tube are, in image pixels.
+    import json
+    from bpy_extras.object_utils import world_to_camera_view
+    bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, "assets", "set.glb"))
+    mats = bpy.data.materials
+    def bsdf(name):
+        return mats[name].node_tree.nodes.get("Principled BSDF") if name in mats else None
+    # what the page paints on the live set, Blender paints here in its own way
+    wood = mats["M_Wood"].node_tree
+    wave = wood.nodes.new("ShaderNodeTexWave"); wave.bands_direction = "X"; wave.wave_profile = "SAW"
+    wave.inputs["Scale"].default_value = 3.0; wave.inputs["Distortion"].default_value = 9.0; wave.inputs["Detail"].default_value = 6.0
+    ramp = wood.nodes.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (*srgb("#3d2412"), 1); ramp.color_ramp.elements[1].color = (*srgb("#8a5a33"), 1)
+    wood.links.new(wave.outputs["Fac"], ramp.inputs["Fac"]); wood.links.new(ramp.outputs["Color"], bsdf("M_Wood").inputs["Base Color"])
+    for name, case in (("M_Sleeve0", "#15309a"), ("M_Sleeve1", "#101014"), ("M_Sleeve2", "#8d1520")):
+        if name not in mats:
+            continue
+        nt = mats[name].node_tree
+        coord = nt.nodes.new("ShaderNodeTexCoord")
+        sep = nt.nodes.new("ShaderNodeSeparateXYZ")
+        nt.links.new(coord.outputs["Object"], sep.inputs["Vector"])
+        band = nt.nodes.new("ShaderNodeValToRGB")      # the store's white label across the case
+        band.color_ramp.interpolation = "CONSTANT"
+        band.color_ramp.elements[0].position = 0.0; band.color_ramp.elements[0].color = (*srgb(case), 1)
+        e1 = band.color_ramp.elements.new(0.3); e1.color = (*srgb("#f1ead6"), 1)
+        e2 = band.color_ramp.elements.new(0.7); e2.color = (*srgb(case), 1)
+        mapr = nt.nodes.new("ShaderNodeMapRange")
+        mapr.inputs["From Min"].default_value = -0.095; mapr.inputs["From Max"].default_value = 0.095
+        nt.links.new(sep.outputs["Y"], mapr.inputs["Value"]); nt.links.new(mapr.outputs["Result"], band.inputs["Fac"])
+        nt.links.new(band.outputs["Color"], bsdf(name).inputs["Base Color"])
+    bsdf("M_Screen").inputs["Base Color"].default_value = (0.004, 0.005, 0.005, 1)
+    bsdf("M_VFD").inputs["Base Color"].default_value = (0.01, 0.03, 0.028, 1)
+    # the troffer over the counter and the neon spill, as the page lights them
+    def area(name, loc, energy, size, colour, target=(0, 0, 0.1)):
+        ld = bpy.data.lights.new(name, "AREA"); ld.energy = energy; ld.size = size; ld.color = colour
+        lo = bpy.data.objects.new(name, ld); lo.location = loc
+        lo.rotation_euler = (Vector(target) - Vector(loc)).to_track_quat("-Z", "Y").to_euler(); link(lo)
+    area("troffer", (0.0, -1.25, 1.6), 90, 1.2, srgb("#eaf2ff"))
+    for name, loc, colour, e in (("pink", (1.3, 1.4, 0.95), "#ff2a8a", 25), ("cyan", (-1.6, 1.2, 0.8), "#2ad4ff", 15)):
+        pl = bpy.data.lights.new(name, "POINT"); pl.energy = e; pl.color = srgb(colour)
+        po = bpy.data.objects.new(name, pl); po.location = loc; link(po)
+    cam.lens = 21.0                         # 81° across: room around the TV for every layout
+    FW, FH = 3200, 2200
+    scene.render.resolution_x, scene.render.resolution_y = FW, FH
+    def px(p):
+        v = world_to_camera_view(scene, co, Vector(p))
+        return (v.x * FW, (1 - v.y) * FH)
+    def rect(pts):
+        xs = [px(p)[0] for p in pts]; ys = [px(p)[1] for p in pts]
+        return {"x": round(min(xs), 1), "y": round(min(ys), 1), "w": round(max(xs) - min(xs), 1), "h": round(max(ys) - min(ys), 1)}
+    front = -0.16
+    tv_box = rect([(-0.32, front, -0.095), (0.32, front, -0.095), (-0.32, front, 0.49), (0.32, front, 0.49)])
+    # the tube opening from tv.py: centre (−0.075, 0.2375), 0.36 × 0.27, at the glass
+    glass = -0.152 - 0.035 + 0.026
+    tube = rect([(-0.255, glass, 0.1025), (0.105, glass, 0.1025), (-0.255, glass, 0.3725), (0.105, glass, 0.3725)])
+    json.dump({"w": FW, "h": FH, "tv": tv_box, "screen": tube},
+              open(os.path.join(ROOT, "assets", "fallback.json"), "w"), indent=1)
+    scene.render.image_settings.quality = 80
+    scene.render.filepath = os.path.join(ROOT, "assets", "fallback.jpg")
+    bpy.ops.render.render(write_still=True)
+    print("fallback", scene.render.filepath, tv_box, tube)

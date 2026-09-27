@@ -50,14 +50,11 @@
   .flat { display: none; }
   html.no-webgl #stage { display: none; }
   html.no-webgl .flat { display: block; position: absolute; inset: 0; }
-  #flatPlate { position: absolute; inset: 0; background: #0b0d18 center / cover no-repeat; filter: saturate(1.1); }
-  /* the flat TV: a Blender still of the same set (blender/tv.py --still), with the live
-     screen laid on its tube — x −0.255…0.105, z 0.1025…0.3725 m of a −0.36…0.36 × −0.10…0.52 m frame */
-  .flat-tv { position: absolute; aspect-ratio: 1440 / 1240;
-    background: url(assets/tv-still.webp?v=__ASSET_V__) center / contain no-repeat;
-    filter: drop-shadow(0 28px 26px rgba(0,0,0,.7)); }
-  #flatScreen { position: absolute; left: 14.583%; top: 23.79%; width: 50%; height: 43.55%;
-    border-radius: 7% / 9%; background: #111; }
+  #flatPlate { position: absolute; inset: 0; background-color: #0b0d18; }
+  /* the flat TV: one Cycles frame of the whole scene (blender/store.py --fallback) —
+     store, counter, set — placed so its TV sits in the slot, the live screen on its tube */
+  #flatPlate { background-repeat: no-repeat; }
+  #flatScreen { position: absolute; border-radius: 7% / 9%; background: #111; }
 
   /* ── the counter: everything you touch ──────────────────────────────────── */
   .counter { position: relative; z-index: 1; }
@@ -171,17 +168,19 @@
   /* the sleeve: the back of the rental box */
   .card {
     display: none; position: relative; overflow: hidden;
-    border-radius: 12px; padding: 12px;
-    background: #0f1013 url(assets/clamshell.jpg?v=__ASSET_V__) center / cover;
+    border-radius: 12px; padding: 18px 18px 18px 30px;       /* the hinge side of the case is wider */
+    background: #16171b url(assets/clamshell.jpg?v=__ASSET_V__) center / cover;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(0,0,0,.65), 0 30px 60px -22px rgba(0,0,0,.9);
   }
   .card.show { display: block; }
   .sleeve-body {
-    position: relative; border-radius: 5px; padding: 20px 18px 20px;
-    background: #15161c url(assets/insert.jpg?v=__ASSET_V__) center / cover;
+    position: relative; border-radius: 4px; padding: 20px 18px 20px calc(7.5% + 16px);   /* clear the printed spine strip */
+    background: #1b1d27 url(assets/insert.jpg?v=__ASSET_V__) left top / 100% auto repeat-y;
     box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.55);
     transition: opacity 340ms ease-out, transform 460ms var(--ease-out), filter 340ms ease-out;
   }
+  .card::before { content: ""; position: absolute; left: 12px; top: 18px; bottom: 18px; width: 3px; border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0,0,0,.7), rgba(255,255,255,.12)); pointer-events: none; }
   /* the clear vinyl sleeve over the printed insert */
   .sleeve-body::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     background: linear-gradient(115deg, rgba(255,255,255,0) 34%, rgba(255,255,255,.07) 45%, rgba(255,255,255,0) 56%); }
@@ -248,8 +247,11 @@
     .playbar { grid-area: play; justify-self: center; width: min(100%, 560px); }
     .card { grid-area: card; align-self: center; max-height: 100%; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
     .card-main { flex-direction: column; }
-    .card-top { display: flex; gap: 16px; align-items: flex-end; }
-    .card-poster { width: 118px; }
+    /* poster, then the title at the card's full width: a long title wraps at words, never clips */
+    .card-top { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+    .card-head { padding-right: 0; }
+    .card-poster { width: 112px; }
+    .card-title { font-size: clamp(30px, 2.5vw, 46px); }
     /* the board holds 42 genres: keep it to one screen at 900 px tall */
     .directory { padding: 16px 16px 18px; }
     .tagline { margin-top: 14px; }
@@ -306,8 +308,9 @@
     .actor-input { flex: 1 1 100%; }
     .actor-row .key { flex: 1; }
     #clearBtn { flex: 0 0 56px; }
-    .card { padding: 10px; }
-    .sleeve-body { padding: 18px 14px; }
+    .card { padding: 12px 12px 12px 22px; }
+    .card::before { left: 8px; top: 12px; bottom: 12px; }
+    .sleeve-body { padding: 18px 14px 18px calc(7.5% + 12px); }
     .card-main { flex-direction: column; }
     .card-poster { width: 108px; }
     .card-title { font-size: 34px; }
@@ -332,7 +335,7 @@
 
 <div class="stage-wrap">
   <canvas id="stage" aria-hidden="true"></canvas>
-  <div class="flat" aria-hidden="true"><div id="flatPlate"></div><div class="flat-tv" id="flatTv"><canvas id="flatScreen"></canvas></div></div>
+  <div class="flat" aria-hidden="true"><div id="flatPlate"></div><canvas id="flatScreen"></canvas></div>
 </div>
 
 <main class="counter">

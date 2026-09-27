@@ -294,30 +294,44 @@ export function propCanvases(titles) {
     for (let i = 0; i <= 128; i += 32) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 512); x.stroke(); }
     out.M_Grid = c;
   }
-  { // walnut veneer: the slats map about 4% of this tall, so the grain is fine and dense
+  { // walnut veneer, drawn for how it is seen: each slat shows a band ~37 px tall of
+    // this texture squeezed to a few screen pixels, so fine hairlines average away.
+    // What survives is tone that changes slat to slat and along each slat, so the
+    // figure is built from bands and long patches first, hairlines last.
     const c = makeCanvas(1024, 1024), x = c.getContext("2d");
-    x.fillStyle = "#5a371d"; x.fillRect(0, 0, 1024, 1024);
-    // broad figure: lighter and darker flitches along the length
-    for (let i = 0; i < 14; i++) {
-      const g = x.createLinearGradient(0, 0, 1024, 0);
-      const a = 0.08 + Math.random() * 0.12;
-      g.addColorStop(0, `rgba(150,98,56,0)`); g.addColorStop(Math.random(), `rgba(150,98,56,${a})`); g.addColorStop(1, `rgba(150,98,56,0)`);
-      x.fillStyle = g; x.fillRect(0, Math.random() * 1024, 1024, 20 + Math.random() * 80);
+    const tones = ["#3e2410", "#5b3519", "#72451f", "#8a5629", "#4b2a13", "#9a6233"];
+    for (let y = 0; y < 1024;) {
+      const h = 22 + Math.random() * 30;
+      x.fillStyle = tones[Math.floor(Math.random() * tones.length)];
+      x.fillRect(0, y, 1024, h);
+      // long lighter / darker flitches along the length, full band height, soft ends
+      for (let k = 0; k < 7; k++) {
+        const x0 = Math.random() * 1024, len = 90 + Math.random() * 260;
+        const light = Math.random() < 0.5;
+        const g = x.createLinearGradient(x0, 0, x0 + len, 0);
+        const c0 = light ? "rgba(168,112,62," : "rgba(28,13,4,";
+        const a = 0.32 + Math.random() * 0.3;
+        g.addColorStop(0, c0 + "0)"); g.addColorStop(0.25, c0 + a + ")"); g.addColorStop(0.75, c0 + a + ")"); g.addColorStop(1, c0 + "0)");
+        x.fillStyle = g; x.fillRect(x0, y, len, h);
+      }
+      // a dark growth line or two through the band
+      for (let k = 0; k < 2; k++) {
+        x.strokeStyle = `rgba(24,10,3,${0.45 + Math.random() * 0.3})`;
+        x.lineWidth = 3 + Math.random() * 4;
+        const yy = y + h * (0.2 + Math.random() * 0.6), ph = Math.random() * 6;
+        x.beginPath(); x.moveTo(0, yy);
+        for (let px = 0; px <= 1024; px += 16) x.lineTo(px, yy + Math.sin(px * 0.006 + ph) * h * 0.25);
+        x.stroke();
+      }
+      y += h;
     }
-    // grain lines every few pixels, gently wavy
-    for (let y = 0; y < 1024; y += 2 + Math.random() * 3) {
-      const dark = Math.random() < 0.55;
-      x.strokeStyle = dark ? `rgba(30,14,4,${0.25 + Math.random() * 0.35})` : `rgba(176,122,74,${0.12 + Math.random() * 0.2})`;
-      x.lineWidth = 0.6 + Math.random() * 1.4;
-      const ph = Math.random() * 6, amp = 0.6 + Math.random() * 2;
+    // fine hairlines and pores for close views (a phone at 3x)
+    for (let y = 0; y < 1024; y += 3 + Math.random() * 4) {
+      x.strokeStyle = Math.random() < 0.6 ? `rgba(30,14,4,${0.15 + Math.random() * 0.2})` : `rgba(176,122,74,${0.1 + Math.random() * 0.15})`;
+      x.lineWidth = 0.8 + Math.random();
       x.beginPath(); x.moveTo(0, y);
-      for (let px = 0; px <= 1024; px += 16) x.lineTo(px, y + Math.sin(px * 0.009 + ph) * amp);
+      for (let px = 0; px <= 1024; px += 32) x.lineTo(px, y + Math.sin(px * 0.01 + y) * 1.2);
       x.stroke();
-    }
-    // pores
-    for (let i = 0; i < 5000; i++) {
-      x.fillStyle = `rgba(20,8,2,${0.2 + Math.random() * 0.3})`;
-      x.fillRect(Math.random() * 1024, Math.random() * 1024, 1 + Math.random() * 3, 1);
     }
     out.M_Wood = c;
   }

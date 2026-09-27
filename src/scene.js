@@ -19,6 +19,9 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 const ASSET_V = typeof __ASSET_V__ !== "undefined" ? __ASSET_V__ : "dev";
 const asset = name => `assets/${name}?v=${ASSET_V}`;
 const storeUrl = asset("store.jpg");
+/* global __FALLBACK__ */
+// where the TV and its tube sit in assets/fallback.jpg (pixels), from store.py --fallback
+const FALLBACK = typeof __FALLBACK__ !== "undefined" ? __FALLBACK__ : null;
 import { createScreen, propCanvases, FONT_OSD, FONT_DISPLAY } from "./screen.js";
 import { createCrtMaterial } from "./crt.js";
 
@@ -545,15 +548,26 @@ const flat = {
     this.tmp = document.createElement("canvas");
     this.tmp.width = 200; this.tmp.height = 150;
     this.snow = this.tmp.getContext("2d").createImageData(200, 150);
-    document.getElementById("flatPlate").style.backgroundImage = `url(${storeUrl})`;
-    const tvEl = document.getElementById("flatTv");
+    const plate = document.getElementById("flatPlate");
+    const wrap = document.querySelector(".stage-wrap");
+    plate.style.backgroundImage = `url(${asset(FALLBACK ? "fallback.jpg" : "store.jpg")})`;
     const place = () => {
-      const r = slot.getBoundingClientRect(), c = document.querySelector(".stage-wrap").getBoundingClientRect();
-      const aspect = 1440 / 1240;          // the still's frame
-      const w = Math.min(r.width * 0.98, r.height * 0.98 * aspect);
-      tvEl.style.width = w + "px";
-      tvEl.style.left = (r.left - c.left + (r.width - w) / 2) + "px";
-      tvEl.style.top = (r.top - c.top + (r.height - w / aspect) / 2) + "px";
+      const r = slot.getBoundingClientRect(), c = wrap.getBoundingClientRect();
+      const fit = parseFloat(getComputedStyle(slot).getPropertyValue("--fit")) || 0.9;
+      if (!FALLBACK) { plate.style.backgroundSize = "cover"; plate.style.backgroundPosition = "center"; return; }
+      const { w: W, h: H, tv, screen: tube } = FALLBACK;
+      // scale the frame so its TV fills the slot like the 3D set would, centred in it,
+      // but never smaller than the stage it has to cover
+      let k = Math.min(r.width * fit / tv.w, r.height * fit / tv.h);
+      k = Math.max(k, c.width / W, c.height / H);
+      const left = (r.left - c.left + r.width / 2) - (tv.x + tv.w / 2) * k;
+      const top = (r.top - c.top + r.height / 2) - (tv.y + tv.h / 2) * k;
+      plate.style.backgroundSize = `${W * k}px ${H * k}px`;
+      plate.style.backgroundPosition = `${left}px ${top}px`;
+      Object.assign(this.el.style, {
+        left: left + tube.x * k + "px", top: top + tube.y * k + "px",
+        width: tube.w * k + "px", height: tube.h * k + "px",
+      });
     };
     new ResizeObserver(place).observe(slot);
     window.addEventListener("resize", place);

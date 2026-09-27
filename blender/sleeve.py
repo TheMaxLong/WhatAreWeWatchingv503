@@ -64,40 +64,76 @@ def material(name):
 # ── clamshell: pebbled black plastic ─────────────────────────────────────────
 sc, plane = scene_setup()
 m, nt, b = material("clamshell")
-b.inputs["Base Color"].default_value = (*srgb("#101114"), 1)
+b.inputs["Base Color"].default_value = (*srgb("#16171b"), 1)
 b.inputs["Roughness"].default_value = 0.42
 vor = nt.nodes.new("ShaderNodeTexVoronoi"); vor.inputs["Scale"].default_value = 260
 noi = nt.nodes.new("ShaderNodeTexNoise"); noi.inputs["Scale"].default_value = 40; noi.inputs["Detail"].default_value = 8
 mix = nt.nodes.new("ShaderNodeMath"); mix.operation = "ADD"
 nt.links.new(vor.outputs["Distance"], mix.inputs[0]); nt.links.new(noi.outputs["Fac"], mix.inputs[1])
-bump = nt.nodes.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.55; bump.inputs["Distance"].default_value = 0.004
+bump = nt.nodes.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.9; bump.inputs["Distance"].default_value = 0.006
 nt.links.new(mix.outputs["Value"], bump.inputs["Height"]); nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
 rough = nt.nodes.new("ShaderNodeMapRange")
 rough.inputs["To Min"].default_value = 0.34; rough.inputs["To Max"].default_value = 0.55
 nt.links.new(noi.outputs["Fac"], rough.inputs["Value"]); nt.links.new(rough.outputs["Result"], b.inputs["Roughness"])
 plane.data.materials.append(m)
-area(sc, (-1.4, 2.2, 1.6), 55, 1.6, srgb("#dfe8ff"))       # the store's troffer, off the top-left
+area(sc, (-2.6, 2.4, 0.9), 260, 1.2, srgb("#dfe8ff"))      # the store's troffer, low and raking so the pebbles cast
 area(sc, (1.6, -1.8, 1.2), 10, 2.5, srgb("#ff9ccb"))       # a breath of the neon
 sc.render.filepath = os.path.join(ASSETS, "clamshell.jpg")
 bpy.ops.render.render(write_still=True)
 print("clamshell", sc.render.filepath)
 
-# ── insert: coated card, near-black ink, paper tooth ────────────────────────
+# ── insert: the printed back cover behind the clear sleeve ───────────────────
+# A store-blue spine strip with a yellow pinstripe down the left edge, then dark
+# ink laid as a coarse halftone that grows toward the foot (the way cheap 90s
+# back covers printed a dark gradient), on coated card with visible tooth.
 sc, plane = scene_setup()
 m, nt, b = material("insert")
-noi = nt.nodes.new("ShaderNodeTexNoise"); noi.inputs["Scale"].default_value = 900; noi.inputs["Detail"].default_value = 3
-ramp = nt.nodes.new("ShaderNodeValToRGB")
-ramp.color_ramp.elements[0].color = (*srgb("#0f1015"), 1)
-ramp.color_ramp.elements[1].color = (*srgb("#1b1d25"), 1)
-nt.links.new(noi.outputs["Fac"], ramp.inputs["Fac"]); nt.links.new(ramp.outputs["Color"], b.inputs["Base Color"])
-fib = nt.nodes.new("ShaderNodeTexWave"); fib.inputs["Scale"].default_value = 120; fib.inputs["Distortion"].default_value = 30
-bump = nt.nodes.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.08
-nt.links.new(fib.outputs["Fac"], bump.inputs["Height"]); nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
-b.inputs["Roughness"].default_value = 0.5
-b.inputs["Coat Weight"].default_value = 0.35
-b.inputs["Coat Roughness"].default_value = 0.2
+def col_in(node, name):
+    return next(x for x in node.inputs if x.name == name and x.type == "RGBA")
+def col_out(node):
+    return next(x for x in node.outputs if x.name == "Result" and x.type == "RGBA")
+uv = nt.nodes.new("ShaderNodeTexCoord")
+sep = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(uv.outputs["UV"], sep.inputs["Vector"])
+mapn = nt.nodes.new("ShaderNodeMapping"); mapn.inputs["Scale"].default_value = (1.0, 2.0, 1.0)   # plane is 1×2: square cells
+nt.links.new(uv.outputs["UV"], mapn.inputs["Vector"])
+vor = nt.nodes.new("ShaderNodeTexVoronoi"); vor.inputs["Scale"].default_value = 70
+vor.voronoi_dimensions = "2D"; vor.inputs["Randomness"].default_value = 0.0      # a regular dot screen
+nt.links.new(mapn.outputs["Vector"], vor.inputs["Vector"])
+# dot radius grows toward the foot: 0.16 at the top, 0.46 at the bottom
+rad = nt.nodes.new("ShaderNodeMapRange")
+rad.inputs["From Min"].default_value = 0.0; rad.inputs["From Max"].default_value = 1.0
+rad.inputs["To Min"].default_value = 0.46; rad.inputs["To Max"].default_value = 0.16
+nt.links.new(sep.outputs["Y"], rad.inputs["Value"])
+dot = nt.nodes.new("ShaderNodeMath"); dot.operation = "LESS_THAN"
+nt.links.new(vor.outputs["Distance"], dot.inputs[0]); nt.links.new(rad.outputs["Result"], dot.inputs[1])
+ink = nt.nodes.new("ShaderNodeMix"); ink.data_type = "RGBA"
+col_in(ink, "A").default_value = (*srgb("#2a2d3c"), 1)       # paper showing through the screen
+col_in(ink, "B").default_value = (*srgb("#0c0d12"), 1)       # the dots
+nt.links.new(dot.outputs["Value"], ink.inputs["Factor"])
+# the spine strip and its pinstripe
+spine = nt.nodes.new("ShaderNodeMath"); spine.operation = "LESS_THAN"; spine.inputs[1].default_value = 0.075
+nt.links.new(sep.outputs["X"], spine.inputs[0])
+pin_lo = nt.nodes.new("ShaderNodeMath"); pin_lo.operation = "GREATER_THAN"; pin_lo.inputs[1].default_value = 0.075
+pin_hi = nt.nodes.new("ShaderNodeMath"); pin_hi.operation = "LESS_THAN"; pin_hi.inputs[1].default_value = 0.083
+nt.links.new(sep.outputs["X"], pin_lo.inputs[0]); nt.links.new(sep.outputs["X"], pin_hi.inputs[0])
+pin = nt.nodes.new("ShaderNodeMath"); pin.operation = "MULTIPLY"
+nt.links.new(pin_lo.outputs["Value"], pin.inputs[0]); nt.links.new(pin_hi.outputs["Value"], pin.inputs[1])
+with_spine = nt.nodes.new("ShaderNodeMix"); with_spine.data_type = "RGBA"
+col_in(with_spine, "B").default_value = (*srgb("#1537b8"), 1)
+nt.links.new(col_out(ink), col_in(with_spine, "A")); nt.links.new(spine.outputs["Value"], with_spine.inputs["Factor"])
+with_pin = nt.nodes.new("ShaderNodeMix"); with_pin.data_type = "RGBA"
+col_in(with_pin, "B").default_value = (*srgb("#ffd21f"), 1)
+nt.links.new(col_out(with_spine), col_in(with_pin, "A")); nt.links.new(pin.outputs["Value"], with_pin.inputs["Factor"])
+nt.links.new(col_out(with_pin), b.inputs["Base Color"])
+# paper tooth
+tooth = nt.nodes.new("ShaderNodeTexNoise"); tooth.inputs["Scale"].default_value = 700; tooth.inputs["Detail"].default_value = 4
+bump = nt.nodes.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.35; bump.inputs["Distance"].default_value = 0.002
+nt.links.new(tooth.outputs["Fac"], bump.inputs["Height"]); nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
+b.inputs["Roughness"].default_value = 0.55
+b.inputs["Coat Weight"].default_value = 0.25
+b.inputs["Coat Roughness"].default_value = 0.25
 plane.data.materials.append(m)
-area(sc, (-1.2, 2.4, 1.8), 40, 2.2, srgb("#e6eeff"))
+area(sc, (-2.2, 2.4, 1.2), 150, 1.6, srgb("#e6eeff"))
 sc.render.filepath = os.path.join(ASSETS, "insert.jpg")
 bpy.ops.render.render(write_still=True)
 print("insert", sc.render.filepath)

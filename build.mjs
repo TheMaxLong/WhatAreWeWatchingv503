@@ -6,6 +6,8 @@
 // The Blender assets are built separately and committed:
 //   blender -b -P blender/tv.py        → assets/set.glb, assets/set-ao.jpg
 //   blender -b -P blender/store.py     → assets/store.jpg
+//   blender -b -P blender/store.py -- --fallback   → assets/fallback.jpg + fallback.json (no-WebGL TV)
+//   blender -b -P blender/sleeve.py    → assets/clamshell.jpg, assets/insert.jpg
 import { build } from "esbuild";
 import fs from "node:fs";
 import crypto from "node:crypto";
@@ -17,7 +19,7 @@ const page = read("./src/page.html");
 
 // content hash of the Blender outputs, so a re-bake busts the browser cache
 const assetVersion = crypto.createHash("sha256")
-  .update(Buffer.concat(["set.glb", "set-ao.jpg", "store.jpg", "tv-still.webp", "clamshell.jpg", "insert.jpg"]
+  .update(Buffer.concat(["set.glb", "set-ao.jpg", "store.jpg", "fallback.jpg", "fallback.json", "clamshell.jpg", "insert.jpg"]
     .map(f => fs.readFileSync(new URL("./assets/" + f, import.meta.url)))))
   .digest("hex").slice(0, 10);
 
@@ -29,7 +31,10 @@ const bundle = await build({
   write: false,
   target: ["es2020"],
   legalComments: "eof",            // three.js is MIT; its notice stays in the file
-  define: { __ASSET_V__: JSON.stringify(assetVersion) },
+  define: {
+    __ASSET_V__: JSON.stringify(assetVersion),
+    __FALLBACK__: read("./assets/fallback.json"),     // where the TV and tube sit in fallback.jpg
+  },
 });
 const scene = bundle.outputFiles[0].text;
 
