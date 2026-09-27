@@ -2,3 +2,4 @@ node_modules/
 .impeccable/review/
 blender/preview-*.png
 _noscene.html
+mac/build/
