@@ -211,10 +211,10 @@ for gx, face, name in ((-2.35, 1, "FAMILY"), (2.25, -1, "THRILLER")):
     text(name, gx, 0.495, FLOOR + 1.81, 0.14, M_YELLOW)
 
 # neon: a pink VIDEO and a cyan underline, just above where the TV sits in frame
-text("VIDEO", 0.55, WALL_Y - 0.05, 1.5, 0.42, M_NEON, extrude=0.012)
-box("neonbar", 0.05, 1.05, WALL_Y - 0.06, WALL_Y - 0.04, 1.3, 1.32, M_NEON2)
+text("VIDEO", 0.8, WALL_Y - 0.05, 1.42, 0.36, M_NEON, extrude=0.012)
+box("neonbar", 0.34, 1.26, WALL_Y - 0.06, WALL_Y - 0.04, 1.25, 1.27, M_NEON2)
 # and a smaller OPEN LATE on the left
-text("OPEN LATE", -0.95, WALL_Y - 0.05, 1.52, 0.26, M_NEON2, extrude=0.01)
+text("OPEN LATE", -0.52, WALL_Y - 0.05, 1.42, 0.2, M_NEON2, extrude=0.01)
 
 # a soft cool fill so the shadows are not black
 fill = bpy.data.lights.new("fill", "AREA")

@@ -17,7 +17,8 @@ const page = read("./src/page.html");
 
 // content hash of the Blender outputs, so a re-bake busts the browser cache
 const assetVersion = crypto.createHash("sha256")
-  .update(Buffer.concat(["set.glb", "set-ao.jpg", "store.jpg"].map(f => fs.readFileSync(new URL("./assets/" + f, import.meta.url)))))
+  .update(Buffer.concat(["set.glb", "set-ao.jpg", "store.jpg", "tv-still.webp", "clamshell.jpg", "insert.jpg"]
+    .map(f => fs.readFileSync(new URL("./assets/" + f, import.meta.url)))))
   .digest("hex").slice(0, 10);
 
 const bundle = await build({
@@ -39,6 +40,7 @@ for (const mark of ["/*@FILMS@*/", "/*@APP@*/", "/*@SCENE@*/"]) {
   if (page.split(mark).length !== 2) throw new Error(`page.html must hold ${mark} exactly once`);
 }
 const html = page
+  .replaceAll("__ASSET_V__", assetVersion)          // CSS url()s to the same assets
   .replace("/*@FILMS@*/", () => films)
   .replace("/*@APP@*/", () => safe(app))
   .replace("/*@SCENE@*/", () => safe(scene))

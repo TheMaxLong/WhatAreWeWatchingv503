@@ -215,8 +215,8 @@ function wake(ms = 400) { wakeUntil = Math.max(wakeUntil, performance.now() + ms
 // ═════════════════════════════════════════════════════════════════════════════
 function startWebGL() {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
-  const phone = window.matchMedia("(max-width: 820px)").matches;
-  let dprCap = phone ? 1.5 : 2;
+  // the phone canvas is only the top strip, so full density is affordable there too
+  let dprCap = 2;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprCap));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NoToneMapping;   // the plate is already graded in Blender
@@ -549,10 +549,11 @@ const flat = {
     const tvEl = document.getElementById("flatTv");
     const place = () => {
       const r = slot.getBoundingClientRect(), c = document.querySelector(".stage-wrap").getBoundingClientRect();
-      const w = Math.min(r.width * 0.94, r.height * 0.94 * 1.45);
+      const aspect = 1440 / 1240;          // the still's frame
+      const w = Math.min(r.width * 0.98, r.height * 0.98 * aspect);
       tvEl.style.width = w + "px";
       tvEl.style.left = (r.left - c.left + (r.width - w) / 2) + "px";
-      tvEl.style.top = (r.top - c.top + (r.height - w / 1.45) / 2) + "px";
+      tvEl.style.top = (r.top - c.top + (r.height - w / aspect) / 2) + "px";
     };
     new ResizeObserver(place).observe(slot);
     window.addEventListener("resize", place);

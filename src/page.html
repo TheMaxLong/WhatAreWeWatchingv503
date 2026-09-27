@@ -51,18 +51,13 @@
   html.no-webgl #stage { display: none; }
   html.no-webgl .flat { display: block; position: absolute; inset: 0; }
   #flatPlate { position: absolute; inset: 0; background: #0b0d18 center / cover no-repeat; filter: saturate(1.1); }
-  /* the same set drawn flat: silver cabinet, black face, screen left, dials + woodgrain right */
-  .flat-tv { position: absolute; aspect-ratio: 1.45; border-radius: 3% / 4.4%; padding: 2.4%;
-    background: linear-gradient(180deg, #d4d6d8, #a3a6a9); box-shadow: 0 30px 50px -20px rgba(0,0,0,.9); }
-  .flat-face { height: 100%; display: grid; grid-template-columns: 1fr 22%; gap: 3%; padding: 3.5% 3% 6%;
-    border-radius: 2%; background: #141416; }
-  .flat-bezel { display: grid; place-items: center; padding: 5%; border-radius: 4%;
-    background: linear-gradient(180deg, #d8dadc, #9fa2a6); box-shadow: inset 0 -4px 10px rgba(0,0,0,.35); }
-  #flatScreen { display: block; width: 100%; height: auto; max-height: 100%; aspect-ratio: 4 / 3; border-radius: 11% / 14%; background: #111;
-    box-shadow: 0 0 0 3px #0b0b0c; }
-  .flat-panel { display: grid; grid-template-rows: 1fr 1fr 1.1fr; gap: 5%; }
-  .flat-dial { border-radius: 8%; background: radial-gradient(circle, #1b1b1e 0 36%, #d9dbdd 37% 41%, #0e0e10 42%); }
-  .flat-speaker { border-radius: 4%; background: repeating-linear-gradient(180deg, #6a4528 0 5px, #1a1512 5px 8px); }
+  /* the flat TV: a Blender still of the same set (blender/tv.py --still), with the live
+     screen laid on its tube — x −0.255…0.105, z 0.1025…0.3725 m of a −0.36…0.36 × −0.10…0.52 m frame */
+  .flat-tv { position: absolute; aspect-ratio: 1440 / 1240;
+    background: url(assets/tv-still.webp?v=__ASSET_V__) center / contain no-repeat;
+    filter: drop-shadow(0 28px 26px rgba(0,0,0,.7)); }
+  #flatScreen { position: absolute; left: 14.583%; top: 23.79%; width: 50%; height: 43.55%;
+    border-radius: 7% / 9%; background: #111; }
 
   /* ── the counter: everything you touch ──────────────────────────────────── */
   .counter { position: relative; z-index: 1; }
@@ -121,24 +116,27 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(0,0,0,.25), 0 24px 48px -18px rgba(0,0,0,.85);
     color: #eef2ff;
   }
-  .sub { font-weight: 800; font-stretch: 80%; font-size: 12px; letter-spacing: .12em; color: var(--yellow); margin-bottom: 16px; line-height: 1.5; }
+  .tagline { margin-top: 18px; padding-top: 12px; border-top: 1px dashed rgba(255,210,31,.4);
+    font-weight: 800; font-stretch: 80%; font-size: 12px; letter-spacing: .12em; color: var(--yellow); line-height: 1.5; }
   .group + .group { margin-top: 18px; }
   .plaque { font-weight: 900; font-style: italic; font-stretch: 112%; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
     color: var(--yellow); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
   .plaque::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,210,31,.55), rgba(255,210,31,0)); }
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip {
-    min-height: 32px; padding: 6px 11px; border-radius: 7px;
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.2);
-    color: #eef2ff; font-weight: 700; font-stretch: 85%; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
-    transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 90ms ease-out;
+    min-height: 32px; padding: 6px 11px 7px; border-radius: 7px;
+    background: linear-gradient(180deg, #3b63ee 0%, #2649d2 55%, #1d3dbb 100%);
+    border: 1px solid #0a2276;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 0 rgba(4,16,72,.55), 0 3px 6px -2px rgba(0,0,0,.55);
+    color: #f1f4ff; font-weight: 700; font-stretch: 85%; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+    transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 90ms ease-out, box-shadow 90ms ease-out;
   }
-  .chip:active { transform: translateY(1px); }
+  .chip:active { transform: translateY(1px); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(4,16,72,.55), 0 1px 2px rgba(0,0,0,.45); }
   .chip.active {
-    background: linear-gradient(180deg, var(--yellow-hi), var(--yellow));
-    border-color: var(--yellow-lo); color: var(--blue-deep);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(140,90,0,.3);
+    transform: translateY(1px);
+    background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-hi) 100%);
+    border-color: #a87c00; color: var(--blue-deep);
+    box-shadow: inset 0 2px 3px rgba(120,80,0,.45), 0 1px 1px rgba(0,0,0,.35);
   }
   /* decades are fluorescent rental stickers, black ink */
   .sticker { border-radius: 999px; border: 2px solid rgba(255,255,255,.85); color: #111; font-weight: 900; font-stretch: 100%;
@@ -173,17 +171,22 @@
   /* the sleeve: the back of the rental box */
   .card {
     display: none; position: relative; overflow: hidden;
-    border-radius: 12px; padding: 22px 22px 22px;
-    background:
-      linear-gradient(115deg, rgba(255,255,255,0) 38%, rgba(255,255,255,.055) 48%, rgba(255,255,255,0) 58%),
-      linear-gradient(180deg, #121319, var(--sleeve));
-    border: 1px solid var(--sleeve-line);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 30px 60px -22px rgba(0,0,0,.9);
+    border-radius: 12px; padding: 12px;
+    background: #0f1013 url(assets/clamshell.jpg?v=__ASSET_V__) center / cover;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(0,0,0,.65), 0 30px 60px -22px rgba(0,0,0,.9);
   }
   .card.show { display: block; }
-  .sleeve-body { transition: opacity 340ms ease-out, transform 460ms var(--ease-out), filter 340ms ease-out; }
+  .sleeve-body {
+    position: relative; border-radius: 5px; padding: 20px 18px 20px;
+    background: #15161c url(assets/insert.jpg?v=__ASSET_V__) center / cover;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.55);
+    transition: opacity 340ms ease-out, transform 460ms var(--ease-out), filter 340ms ease-out;
+  }
+  /* the clear vinyl sleeve over the printed insert */
+  .sleeve-body::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,0) 34%, rgba(255,255,255,.07) 45%, rgba(255,255,255,0) 56%); }
   .card.tuning .sleeve-body { opacity: 0; transform: translateY(8px); filter: blur(2px); }
-  .rewind { position: absolute; top: 14px; right: 14px; width: 66px; height: 66px; border-radius: 50%;
+  .rewind { position: absolute; top: 18px; right: 18px; z-index: 2; width: 66px; height: 66px; border-radius: 50%;
     display: grid; place-items: center; text-align: center; transform: rotate(9deg);
     background: radial-gradient(circle at 35% 30%, #ff4a52, var(--red) 60%, #a4121c);
     box-shadow: 0 4px 10px -3px rgba(0,0,0,.7), inset 0 0 0 2px rgba(255,255,255,.75);
@@ -194,10 +197,12 @@
   .card-poster.hidden { display: none; }
   .card-body { flex: 1; min-width: 0; }
   .card-head { flex: 1; min-width: 0; padding-right: 58px; }
-  .actor-note { font-family: var(--osd); font-size: 20px; line-height: 1.1; color: var(--yellow); margin-bottom: 10px; }
+  .actor-note { font-weight: 800; font-stretch: 80%; font-size: 13px; line-height: 1.3; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--yellow); margin-bottom: 10px; padding-right: 64px; }
   .card-title { font-weight: 900; font-stretch: 68%; font-size: clamp(32px, 2.9vw, 50px); line-height: .94; text-transform: uppercase;
     letter-spacing: -0.005em; color: var(--paper); overflow-wrap: break-word; text-wrap: balance; }
-  .card-year { font-family: var(--osd); font-size: 22px; color: var(--yellow); margin-top: 10px; letter-spacing: .02em; }
+  .card-year { font-weight: 700; font-stretch: 75%; font-size: 16px; line-height: 1.3; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--yellow); margin-top: 10px; text-wrap: balance; }
   .card-desc { font-stretch: 92%; font-size: 16px; line-height: 1.6; color: var(--paper-2); margin-top: 18px; max-width: 62ch; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
   .tag { border: 1.5px solid rgba(246,240,222,.5); color: var(--paper); padding: 3px 8px 2px; border-radius: 3px;
@@ -238,7 +243,7 @@
       gap: 22px 30px;
       padding: 28px 32px 30px;
     }
-    .directory { grid-area: dir; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,210,31,.45) transparent; align-self: stretch; }
+    .directory { grid-area: dir; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,210,31,.45) transparent; align-self: start; max-height: 100%; }
     .tv-slot { grid-area: slot; }
     .playbar { grid-area: play; justify-self: center; width: min(100%, 560px); }
     .card { grid-area: card; align-self: center; max-height: 100%; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
@@ -247,7 +252,7 @@
     .card-poster { width: 118px; }
     /* the board holds 42 genres: keep it to one screen at 900 px tall */
     .directory { padding: 16px 16px 18px; }
-    .sub { margin-bottom: 12px; }
+    .tagline { margin-top: 14px; }
     .group + .group { margin-top: 14px; }
     .plaque { margin-bottom: 8px; }
     .filter-row { gap: 5px; }
@@ -256,6 +261,7 @@
   }
   @media (min-width: 1600px) and (min-aspect-ratio: 5/4) {
     .playbar { width: min(100%, 640px); }
+    .tv-slot { --fit: 0.8; }          /* a wide screen shows more store: the neon clears the top edge */
     .chip { min-height: 32px; padding: 6px 11px; font-size: 13px; }
     .counter { padding: 40px 48px 40px; gap: 26px 44px; }
     .btn-main { min-height: 72px; font-size: 25px; }
@@ -265,12 +271,18 @@
 
   /* ── stacked: phones, tablets, anything tall — the TV stays up top ─────── */
   @media not ((min-width: 1080px) and (min-aspect-ratio: 5/4)) {
-    .stage-wrap { bottom: auto; height: var(--tvh); z-index: 3;
-      box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 18px 30px -10px rgba(0,0,0,.9); }
-    .tv-slot { position: fixed; top: 10px; left: 12px; right: 12px; height: calc(var(--tvh) - 20px); z-index: -1; --fit: 0.84; }
+    :root { --tvh: clamp(280px, min(96vw, 50svh), 580px); }
+    /* below the TV is the counter's blue front, under an aluminium edge, not a seam */
+    html, body { background: #0b2372; }
+    body { background: linear-gradient(180deg, #102f93 0, #0d2982 40vh, #0a2066 100%) fixed; }
+    .stage-wrap { bottom: auto; height: var(--tvh); z-index: 3; }
+    .stage-wrap::after { content: ""; position: absolute; left: 0; right: 0; bottom: -9px; height: 9px;
+      background: linear-gradient(180deg, #e2e4e7 0, #a9adb3 40%, #6d7178 100%);
+      box-shadow: 0 8px 16px -4px rgba(0,0,0,.6); }
+    .tv-slot { position: fixed; top: calc(var(--tvh) * 0.17); left: 12px; right: 12px; height: calc(var(--tvh) * 0.83 - 6px); z-index: -1; --fit: 0.9; }
     .counter {
       display: flex; flex-direction: column; gap: 16px;
-      padding: calc(var(--tvh) + 18px) max(14px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+      padding: calc(var(--tvh) + 26px) max(14px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
       max-width: 720px; margin: 0 auto;
     }
     .card-top { display: contents; }
@@ -294,7 +306,8 @@
     .actor-input { flex: 1 1 100%; }
     .actor-row .key { flex: 1; }
     #clearBtn { flex: 0 0 56px; }
-    .card { padding: 18px 16px; }
+    .card { padding: 10px; }
+    .sleeve-body { padding: 18px 14px; }
     .card-main { flex-direction: column; }
     .card-poster { width: 108px; }
     .card-title { font-size: 34px; }
@@ -309,17 +322,17 @@
 <body>
 <!--
   THESIS: the chooser is a tube TV on a rental-store counter at night; a pick is a channel change — half a second of snow or torn bars, then the film plays like a tape. Refuses the dark app card on a flat page.
-  OWN-WORLD: Blender-built silver 70s portable on a 90s VCR, three.js-lit in front of a Cycles store plate (face-out tapes, blue headers, pink neon). UI in rental-store blue + sticker yellow, fluorescent decade stickers, VFD cyan, VT323 OSD, Archivo condensed caps; chunky plastic keys, no glass.
+  OWN-WORLD: Blender-built silver 70s portable on a 90s VCR, three.js-lit in front of a Cycles store plate (face-out tapes, blue headers, pink neon). Rental-store blue, sticker yellow, fluorescent decade stickers, VFD cyan. VT323 only on the tube and VCR; Archivo in two voices — wide black italic for signage (keys, plaques: 90s retail sign lettering), condensed caps for the sleeve's print. Chunky plastic keys; the sleeve is a pebbled clamshell over a printed insert. No glass.
   STORY: open → the TV shows WHAT ARE WE WATCHING on VCR blue; press SURPRISE ME → snow + shh → a film plays; the sleeve back gives the words and where to watch.
   FIRST VIEWPORT: desktop — sign board left, TV centre on the counter with the yellow key under it, sleeve right. Phone — TV pinned across the top, yellow key directly below.
-  FORM: brief-pinned (owner: video store + CRT, pre-Frutiger-Aero), code-led, no seed roll.
+  FORM: pinned by the owner 2026-09-27 — "Blockbuster movie rental store vibe", "CRT Tube look", "WhatAreWeWatching within the TV", "Pre-Frutiger Aero or earlier", plus his photos (silver portable TV; snow with CH 03; torn colour bars). A pinned brief beats the roll: no seed key; code-led.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->
 <h1 class="sr-only">What Are We Watching</h1>
 
 <div class="stage-wrap">
   <canvas id="stage" aria-hidden="true"></canvas>
-  <div class="flat" aria-hidden="true"><div id="flatPlate"></div><div class="flat-tv" id="flatTv"><div class="flat-face"><div class="flat-bezel"><canvas id="flatScreen"></canvas></div><div class="flat-panel"><div class="flat-dial"></div><div class="flat-dial"></div><div class="flat-speaker"></div></div></div></div></div>
+  <div class="flat" aria-hidden="true"><div id="flatPlate"></div><div class="flat-tv" id="flatTv"><canvas id="flatScreen"></canvas></div></div>
 </div>
 
 <main class="counter">
@@ -361,7 +374,6 @@
   </article>
 
   <section class="directory" aria-label="Filters">
-    <p class="sub">CLASSICS · CULT · DOCS · FRINGE · SPACE · <span class="nb"><span id="total"></span> FILMS</span></p>
     <div class="group">
       <h2 class="plaque plaque-genres">Genres</h2>
       <button class="chip genre-toggle" id="genreToggle" type="button" aria-expanded="false" aria-controls="genres"><span class="label">GENRES</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.3 8.3 12 15l6.7-6.7 1.4 1.4L12 17.8 3.9 9.7z"/></svg></button>
@@ -379,6 +391,7 @@
         <button class="key" id="clearBtn" type="button" aria-label="Clear actor search"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
       </div>
     </div>
+    <p class="tagline">CLASSICS · CULT · DOCS · FRINGE · SPACE · <span class="nb"><span id="total"></span> FILMS</span></p>
   </section>
 </main>
 

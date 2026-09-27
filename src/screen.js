@@ -294,16 +294,30 @@ export function propCanvases(titles) {
     for (let i = 0; i <= 128; i += 32) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 512); x.stroke(); }
     out.M_Grid = c;
   }
-  { // walnut-look woodgrain
-    const c = makeCanvas(512, 256), x = c.getContext("2d");
-    x.fillStyle = "#6a4528"; x.fillRect(0, 0, 512, 256);
-    for (let i = 0; i < 260; i++) {
-      const y = Math.random() * 256, a = Math.random() * 0.22;
-      x.strokeStyle = Math.random() < 0.5 ? `rgba(40,22,10,${a})` : `rgba(160,110,70,${a * 0.6})`;
-      x.lineWidth = 0.6 + Math.random() * 2.2;
+  { // walnut veneer: the slats map about 4% of this tall, so the grain is fine and dense
+    const c = makeCanvas(1024, 1024), x = c.getContext("2d");
+    x.fillStyle = "#5a371d"; x.fillRect(0, 0, 1024, 1024);
+    // broad figure: lighter and darker flitches along the length
+    for (let i = 0; i < 14; i++) {
+      const g = x.createLinearGradient(0, 0, 1024, 0);
+      const a = 0.08 + Math.random() * 0.12;
+      g.addColorStop(0, `rgba(150,98,56,0)`); g.addColorStop(Math.random(), `rgba(150,98,56,${a})`); g.addColorStop(1, `rgba(150,98,56,0)`);
+      x.fillStyle = g; x.fillRect(0, Math.random() * 1024, 1024, 20 + Math.random() * 80);
+    }
+    // grain lines every few pixels, gently wavy
+    for (let y = 0; y < 1024; y += 2 + Math.random() * 3) {
+      const dark = Math.random() < 0.55;
+      x.strokeStyle = dark ? `rgba(30,14,4,${0.25 + Math.random() * 0.35})` : `rgba(176,122,74,${0.12 + Math.random() * 0.2})`;
+      x.lineWidth = 0.6 + Math.random() * 1.4;
+      const ph = Math.random() * 6, amp = 0.6 + Math.random() * 2;
       x.beginPath(); x.moveTo(0, y);
-      for (let px = 0; px <= 512; px += 32) x.lineTo(px, y + Math.sin(px * 0.013 + i) * 3);
+      for (let px = 0; px <= 1024; px += 16) x.lineTo(px, y + Math.sin(px * 0.009 + ph) * amp);
       x.stroke();
+    }
+    // pores
+    for (let i = 0; i < 5000; i++) {
+      x.fillStyle = `rgba(20,8,2,${0.2 + Math.random() * 0.3})`;
+      x.fillRect(Math.random() * 1024, Math.random() * 1024, 1 + Math.random() * 3, 1);
     }
     out.M_Wood = c;
   }
@@ -340,6 +354,27 @@ export function propCanvases(titles) {
     x.fillStyle = "rgba(20,20,20,0.55)";
     for (let k = 0; k < 256; k += 18) x.fillRect(84, k + 6, 90 - (k * 7) % 40, 4);   // scribbled title lines
     out["M_Sleeve" + i] = c;
+  }
+  { // the loose cassette's top: reel windows, tape pack, a hand-written rental label
+    const c = makeCanvas(512, 272), x = c.getContext("2d");
+    x.fillStyle = "#121214"; x.fillRect(0, 0, 512, 272);
+    x.fillStyle = "rgba(255,255,255,0.05)"; x.fillRect(0, 0, 512, 6);
+    const rr = (x0, y0, w, h, r) => { x.beginPath(); x.roundRect(x0, y0, w, h, r); };
+    rr(78, 34, 356, 118, 16); x.fillStyle = "#26262a"; x.fill();         // smoked window
+    for (const [cx, pack] of [[168, 50], [344, 30]]) {
+      x.beginPath(); x.arc(cx, 93, pack, 0, Math.PI * 2); x.fillStyle = "#3a2618"; x.fill();   // tape pack
+      x.beginPath(); x.arc(cx, 93, 17, 0, Math.PI * 2); x.fillStyle = "#e9e6de"; x.fill();     // hub
+      x.fillStyle = "#26262a";
+      for (let k = 0; k < 6; k++) { const a = k * Math.PI / 3; x.fillRect(cx + Math.cos(a) * 11 - 2, 93 + Math.sin(a) * 11 - 2, 4, 4); }
+    }
+    rr(36, 172, 440, 78, 6); x.fillStyle = "#f1ead6"; x.fill();          // label
+    x.fillStyle = "#d8232f"; x.fillRect(36, 172, 440, 10);
+    x.fillStyle = "#1c2a8f";
+    x.font = `italic 700 34px ${FONT_DISPLAY}`;
+    x.textAlign = "center"; x.textBaseline = "middle";
+    const t = (titles[0] || "").toUpperCase();
+    x.fillText(t.length > 24 ? t.slice(0, 23) + "\u2026" : t, 256, 218, 410);
+    out.M_CassetteTop = c;
   }
   { // brushed-metal roughness streaks for the bezel
     const c = makeCanvas(256, 256), x = c.getContext("2d");

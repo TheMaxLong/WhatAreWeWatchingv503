@@ -25,6 +25,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ASSETS = os.path.join(ROOT, "assets")
 os.makedirs(ASSETS, exist_ok=True)
 PREVIEW = "--preview" in sys.argv
+STILL = "--still" in sys.argv     # also render assets/tv-still.webp for the flat (no-WebGL) TV
 
 # ── scene reset ──────────────────────────────────────────────────────────────
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -77,7 +78,7 @@ EDGE        = mat("M_Edge",        srgb("#a7abb0"), 0.9,  0.3)    # aluminium T-
 FRONT       = mat("M_CounterFront", srgb("#0f2f8f"), 0.0, 0.5)    # rental-store blue
 SLEEVE      = [mat(f"M_Sleeve{i}", srgb("#222222"), 0.0, 0.35) for i in range(3)]
 CASSETTE    = mat("M_Cassette",    srgb("#0b0b0c"), 0.0,  0.4)
-WINDOW      = mat("M_TapeWindow",  srgb("#1a1a1a"), 0.0,  0.1)
+CAS_TOP     = mat("M_CassetteTop", srgb("#111111"), 0.0,  0.35)  # label + reel windows, painted by the page
 
 
 def link(obj):
@@ -331,9 +332,17 @@ sleeve("Tape_2", -0.52, -0.16, TOP, 14, SLEEVE[2])
 cas = box("Cassette", -0.094, 0.094, -0.0515, 0.0515, 0.0, 0.025, CASSETTE, bevel=0.002)
 cas.location = (0.2, -0.36, TOP)
 cas.rotation_euler = (0, 0, math.radians(-16))
-for sx in (-0.045, 0.045):
-    w = cyl("Cassette_Window", sx, 0.004, 0.0256, 0.021, 0.001, WINDOW, axis="Z", verts=32)
-    w.parent = cas
+# its top face as a decal with clean UVs: the page paints the label and the reels
+bm = bmesh.new()
+uvl = bm.loops.layers.uv.new("UVMap")
+corners = [(-0.091, -0.0485), (0.091, -0.0485), (0.091, 0.0485), (-0.091, 0.0485)]
+vs = [bm.verts.new((x, y, 0.0254)) for x, y in corners]
+f = bm.faces.new(vs)
+for l in f.loops:
+    # u runs along the tape's length, v from the front edge (label side) back
+    l[uvl].uv = ((l.vert.co.x + 0.091) / 0.182, (l.vert.co.y + 0.0485) / 0.097)
+top = new_obj("Cassette_Top", bm, [CAS_TOP])
+top.parent = cas
 
 mark("modelled")
 # ── apply modifiers, give every mesh UVMap (0) + AO (1) ─────────────────────
@@ -465,6 +474,55 @@ bpy.ops.export_scene.gltf(
     export_lights=False,
 )
 print("exported", os.path.join(ASSETS, "set.glb"))
+
+# ── the flat TV's picture: the same set, straight on, on transparent ─────────
+# Orthographic so the screen lands on a known rectangle the page can overlay:
+# frame x −0.36…0.36, z −0.10…0.52 (metres) → 1440×1240 px.
+if STILL:
+    for o in list(scene.objects):
+        if o.name.startswith("Counter_") or o.name.startswith("Tape_2") or o.name.startswith("Cassette"):
+            o.hide_render = True
+    # the page paints dials and grain on the live set; the still gets Blender's own
+    wood = MATS["M_Wood"].node_tree
+    wave = wood.nodes.new("ShaderNodeTexWave")
+    wave.bands_direction = "X"; wave.wave_profile = "SAW"
+    wave.inputs["Scale"].default_value = 3.0
+    wave.inputs["Distortion"].default_value = 9.0
+    wave.inputs["Detail"].default_value = 6.0
+    ramp = wood.nodes.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (*srgb("#3d2412"), 1)
+    ramp.color_ramp.elements[1].color = (*srgb("#8a5a33"), 1)
+    wood.links.new(wave.outputs["Fac"], ramp.inputs["Fac"])
+    wood.links.new(ramp.outputs["Color"], wood.nodes["Principled BSDF"].inputs["Base Color"])
+    MATS["M_Screen"].node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.004, 0.005, 0.005, 1)
+    cam = bpy.data.cameras.new("still")
+    cam.type = "ORTHO"
+    cam.ortho_scale = 0.72
+    cam.sensor_fit = "HORIZONTAL"
+    co = bpy.data.objects.new("still", cam)
+    link(co)
+    co.location = (0.0, -3.0, 0.21)
+    co.rotation_euler = (math.pi / 2, 0, 0)
+    scene.camera = co
+    for loc, e, size in (((0.0, -1.6, 1.4), 260, 1.4), ((-1.4, -1.2, 0.5), 60, 1.0), ((1.4, -1.0, 0.6), 40, 1.0)):
+        ld = bpy.data.lights.new("l", "AREA")
+        ld.energy = e
+        ld.size = size
+        lo = bpy.data.objects.new("l", ld)
+        lo.location = loc
+        lo.rotation_euler = (Vector((0, 0, 0.2)) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
+        link(lo)
+    scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.08, 0.09, 0.12, 1)
+    scene.render.film_transparent = True
+    scene.cycles.samples = 96
+    scene.cycles.use_denoising = True
+    scene.render.resolution_x, scene.render.resolution_y = 1440, 1240
+    scene.render.image_settings.file_format = "WEBP"
+    scene.render.image_settings.color_mode = "RGBA"
+    scene.render.image_settings.quality = 86
+    scene.render.filepath = os.path.join(ASSETS, "tv-still.webp")
+    bpy.ops.render.render(write_still=True)
+    print("still", scene.render.filepath)
 
 # ── optional geometry preview ────────────────────────────────────────────────
 if PREVIEW:
