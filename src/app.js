@@ -59,12 +59,12 @@ function fitPlaceholder() {
 fitPlaceholder();
 window.addEventListener("resize", fitPlaceholder);
 
-// Build decade chips — each decade wears its own rental sticker colour
+// Build decade chips — same flat buttons as the genres
 const decadeEl = document.getElementById("decades");
 DECADES.forEach(d => {
   const c = document.createElement("button");
   c.type = "button";
-  c.className = "chip sticker sticker-" + d.slice(0, 4);
+  c.className = "chip decade";
   c.textContent = d;
   c.setAttribute("aria-pressed", "false");
   c.onclick = () => {

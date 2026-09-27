@@ -32,6 +32,7 @@ const PLATE_HALF_TAN = 18 / 20;                       // 36 mm sensor / 2 over a
 const PLATE_DIST = 4.8;                               // camera → back wall
 const TV_FRONT_Z = 0.16;                              // cabinet front face
 const TV_BOX = { x0: -0.32, x1: 0.32, y0: -0.095, y1: 0.49 };   // TV on VCR (+ the tapes on top), metres
+const NEON_TOP = 1.6;                                // top of the lit neon in store.py (Blender z = three y), glow included
 const STATIC_MS = 500;                                // the owner's half second
 const MAX_WAIT_MS = 1000;                             // snow never outlasts a slow poster by more
 
@@ -367,7 +368,16 @@ function startWebGL() {
     view.w = Math.max(1, cr.width); view.h = Math.max(1, cr.height);
     view.slot = { x: sr.left - cr.left, y: sr.top - cr.top, w: Math.max(1, sr.width), h: Math.max(1, sr.height) };
     // how much of its slot the set fills: set per layout in CSS (--fit), so a phone keeps some store around the TV
-    view.fit = parseFloat(getComputedStyle(slot).getPropertyValue("--fit")) || 0.92;
+    const cs = getComputedStyle(slot);
+    view.fit = parseFloat(cs.getPropertyValue("--fit")) || 0.92;
+    // Owner 2026-09-27: no blurred strip above the neon. Every layout frames the store
+    // differently, so rather than a fixed nudge the backdrop is raised (or lowered) until
+    // the top of the neon sits --neon-gap px under the canvas top. It is a blurred far
+    // wall, so the shift reads as a different crop, never as a seam.
+    const gap = parseFloat(cs.getPropertyValue("--neon-gap")) || 14;
+    const f = fit(CAM);
+    const neonY = CAM.y + (view.h / 2 - (gap + f.oy)) * PLATE_DIST / f.fpx;
+    plate.position.y = CAM.y + THREE.MathUtils.clamp(neonY - NEON_TOP, -0.4, 0.6);
     renderer.setSize(view.w, view.h, false);
     composer.setSize(view.w, view.h);
     bloom.resolution.set(view.w / 2, view.h / 2);
@@ -378,18 +388,22 @@ function startWebGL() {
   window.addEventListener("resize", measure);
   measure();
 
-  function frameCamera() {
-    const d = camera.position.z - TV_FRONT_Z;
+  // focal length (px) and view offset that put the set in its slot, seen from `pos`
+  function fit(pos) {
+    const d = pos.z - TV_FRONT_Z;
     const tvW = TV_BOX.x1 - TV_BOX.x0, tvH = TV_BOX.y1 - TV_BOX.y0;
     const s = view.slot;
     const fpx = Math.min(s.w * view.fit * d / tvW, s.h * view.fit * d / tvH);
-    camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(view.h / 2 / fpx));
-    camera.aspect = view.w / view.h;
     const cxTV = (TV_BOX.x0 + TV_BOX.x1) / 2, cyTV = (TV_BOX.y0 + TV_BOX.y1) / 2;
-    const sx = view.w / 2 + fpx * (cxTV - camera.position.x) / d;
-    const sy = view.h / 2 - fpx * (cyTV - camera.position.y) / d;
-    const tx = s.x + s.w / 2, ty = s.y + s.h / 2;
-    camera.setViewOffset(view.w, view.h, sx - tx, sy - ty, view.w, view.h);
+    const sx = view.w / 2 + fpx * (cxTV - pos.x) / d;
+    const sy = view.h / 2 - fpx * (cyTV - pos.y) / d;
+    return { fpx, ox: sx - (s.x + s.w / 2), oy: sy - (s.y + s.h / 2) };
+  }
+  function frameCamera() {
+    const f = fit(camera.position);
+    camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(view.h / 2 / f.fpx));
+    camera.aspect = view.w / view.h;
+    camera.setViewOffset(view.w, view.h, f.ox, f.oy, view.w, view.h);
   }
 
   // ── parallax: the TV holds still in its slot, the store drifts behind it ─

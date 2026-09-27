@@ -58,7 +58,10 @@
 
   /* ── the counter: everything you touch ──────────────────────────────────── */
   .counter { position: relative; z-index: 1; }
-  .tv-slot { pointer-events: none; --fit: 0.9; }
+  /* --fit: how much of its slot the set fills (owner 2026-09-27: 8% bigger on desktop).
+     --neon-gap: the store backdrop is raised until the top of the neon sits this far
+     under the canvas top, so no blurred strip shows above it. */
+  .tv-slot { pointer-events: none; --fit: 0.972; --neon-gap: 30px; }
 
   /* play bar: the big yellow key, the VCR count window, the sound key */
   .playbar { display: flex; align-items: stretch; gap: 10px; }
@@ -105,50 +108,32 @@
   .key-sound[aria-pressed="false"] .wave { display: none; }
   .key-sound[aria-pressed="true"] .mute { display: none; }
 
-  /* directory: the store's blue sign board */
+  /* directory: the store's sign board, printed flat like the sleeve — no bevels,
+     no moulded keys, no candy colours. Blue buttons, yellow when chosen. (Owner, 2026-09-27:
+     the bubbly keys and fluorescent stickers read too "kid"; flat like the sleeve instead.) */
   .directory {
-    border-radius: 16px; padding: 18px 18px 20px;
-    background: linear-gradient(180deg, #2147d6 0%, var(--blue) 36%, #102d9c 100%);
-    border: 1px solid #0a1f6e;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(0,0,0,.25), 0 24px 48px -18px rgba(0,0,0,.85);
+    border-radius: 4px; padding: 18px 18px 20px;
+    background: #0d2982;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 24px 48px -18px rgba(0,0,0,.85);
     color: #eef2ff;
   }
-  .tagline { margin-top: 18px; padding-top: 12px; border-top: 1px dashed rgba(255,210,31,.4);
+  .tagline { margin-top: 18px; padding-top: 12px; border-top: 1px solid rgba(255,210,31,.4);
     font-weight: 800; font-stretch: 80%; font-size: 12px; letter-spacing: .12em; color: var(--yellow); line-height: 1.5; }
   .group + .group { margin-top: 18px; }
-  .plaque { font-weight: 900; font-style: italic; font-stretch: 112%; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  .plaque { font-weight: 800; font-stretch: 75%; font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
     color: var(--yellow); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-  .plaque::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,210,31,.55), rgba(255,210,31,0)); }
+  .plaque::after { content: ""; flex: 1; height: 1px; background: rgba(255,210,31,.4); }
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip {
-    min-height: 32px; padding: 6px 11px 7px; border-radius: 7px;
-    background: linear-gradient(180deg, #3b63ee 0%, #2649d2 55%, #1d3dbb 100%);
-    border: 1px solid #0a2276;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 0 rgba(4,16,72,.55), 0 3px 6px -2px rgba(0,0,0,.55);
-    color: #f1f4ff; font-weight: 700; font-stretch: 85%; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
-    transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 90ms ease-out, box-shadow 90ms ease-out;
+    min-height: 32px; padding: 6px 10px; border-radius: 3px;
+    background: var(--blue);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #eef2ff; font-weight: 700; font-stretch: 80%; font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+    transition: background 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out;
   }
-  .chip:active { transform: translateY(1px); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(4,16,72,.55), 0 1px 2px rgba(0,0,0,.45); }
-  .chip.active {
-    transform: translateY(1px);
-    background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-hi) 100%);
-    border-color: #a87c00; color: var(--blue-deep);
-    box-shadow: inset 0 2px 3px rgba(120,80,0,.45), 0 1px 1px rgba(0,0,0,.35);
-  }
-  /* decades are fluorescent rental stickers, black ink */
-  /* full ink always (dimming dropped the 1980s/2020s labels under 4.5:1); "1970s", not "1970S" */
-  .sticker { border-radius: 999px; border: 2px solid rgba(255,255,255,.85); color: #111; font-weight: 900; font-stretch: 100%;
-    text-transform: none; padding: 6px 14px; box-shadow: 0 4px 10px -4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.55);
-    background: var(--st); }
-  .sticker.active { color: #111; background: var(--st); border-color: #111;
-    box-shadow: 0 0 0 3px var(--yellow), 0 4px 10px -4px rgba(0,0,0,.6); }
-  .sticker-1970 { --st: #ff8a2a; transform: rotate(-2deg); }
-  .sticker-1980 { --st: #ff5fa2; transform: rotate(1.5deg); }
-  .sticker-1990 { --st: #2fd0c4; transform: rotate(-1deg); }
-  .sticker-2000 { --st: #b6e14a; transform: rotate(2deg); }
-  .sticker-2010 { --st: #b49cff; transform: rotate(-1.5deg); }
-  .sticker-2020 { --st: #ff6a5f; transform: rotate(1deg); }
-  .sticker:active { transform: translateY(1px); }
+  .chip.active { background: var(--yellow); border-color: var(--yellow); color: var(--blue-deep); }
+  .chip.decade { text-transform: none; }       /* "1970s", not "1970S" */
   .genre-toggle { display: none; }
   .genre-toggle .icon { width: 14px; height: 14px; transition: transform 160ms ease-out; }
   .genre-toggle.is-open .icon { transform: rotate(180deg); }
@@ -156,10 +141,14 @@
 
   .actor-row { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
   .actor-row .key { flex: 1; }
+  .directory .key {                             /* FIRST FILM and clear: the board's flat buttons */
+    border-radius: 3px; background: var(--blue); border: 1px solid rgba(255,255,255,.2); box-shadow: none; color: #eef2ff;
+  }
+  .directory .key:active { transform: none; background: var(--yellow); color: var(--blue-deep); }
   .actor-input {
-    flex: 1 1 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border-radius: 8px;
+    flex: 1 1 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border-radius: 3px;
     background: var(--cream); color: var(--ink); caret-color: var(--blue);
-    border: 1px solid #c9bf9f; box-shadow: inset 0 2px 4px rgba(0,0,0,.18);
+    border: 1px solid #c9bf9f;
     font-family: var(--display); font-weight: 600; font-size: 16px; outline: none;
   }
   .actor-input::placeholder { color: #6b6457; font-weight: 500; }
@@ -226,7 +215,7 @@
   @media (hover: hover) {
     .btn-main:hover { filter: brightness(1.06) saturate(1.05); }
     .chip:hover { border-color: var(--yellow); }
-    .chip.active:hover { border-color: var(--yellow-lo); }
+    .chip.active:hover { border-color: var(--yellow); }
     .key:hover { color: var(--yellow); }
     .btn-watch:hover { filter: brightness(1.06); }
   }
@@ -260,11 +249,10 @@
     .plaque { margin-bottom: 8px; }
     .filter-row { gap: 5px; }
     .chip { min-height: 29px; padding: 5px 9px; font-size: 12.5px; }
-    .sticker { padding: 5px 12px; }
   }
   @media (min-width: 1600px) and (min-aspect-ratio: 5/4) {
     .playbar { width: min(100%, 640px); }
-    .tv-slot { --fit: 0.8; }          /* a wide screen shows more store: the neon clears the top edge */
+    .tv-slot { --fit: 0.864; }        /* 8% up from 0.8; the lift keeps the neon clear of the top edge */
     .chip { min-height: 32px; padding: 6px 11px; font-size: 13px; }
     .counter { padding: 40px 48px 40px; gap: 26px 44px; }
     .btn-main { min-height: 72px; font-size: 25px; }
@@ -282,7 +270,7 @@
     .stage-wrap::after { content: ""; position: absolute; left: 0; right: 0; bottom: -9px; height: 9px;
       background: linear-gradient(180deg, #e2e4e7 0, #a9adb3 40%, #6d7178 100%);
       box-shadow: 0 8px 16px -4px rgba(0,0,0,.6); }
-    .tv-slot { position: fixed; top: calc(var(--tvh) * 0.17); left: 12px; right: 12px; height: calc(var(--tvh) * 0.83 - 6px); z-index: -1; --fit: 0.9; }
+    .tv-slot { position: fixed; top: calc(var(--tvh) * 0.17); left: 12px; right: 12px; height: calc(var(--tvh) * 0.83 - 6px); z-index: -1; --fit: 0.9; --neon-gap: 18px; }
     .counter {
       display: flex; flex-direction: column; gap: 16px;
       padding: calc(var(--tvh) + 26px) max(14px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
@@ -326,7 +314,7 @@
 <body>
 <!--
   THESIS: the chooser is a tube TV on a rental-store counter at night; a pick is a channel change — half a second of snow or torn bars, then the film plays like a tape. Refuses the dark app card on a flat page.
-  OWN-WORLD: Blender-built silver 70s portable on a 90s VCR, three.js-lit in front of a Cycles store plate (face-out tapes, blue headers, pink neon). Rental-store blue, sticker yellow, fluorescent decade stickers, VFD cyan. VT323 only on the tube and VCR; Archivo in two voices — wide black italic for signage (keys, plaques: 90s retail sign lettering), condensed caps for the sleeve's print. Chunky plastic keys; the sleeve is a pebbled clamshell over a printed insert. No glass.
+  OWN-WORLD: Blender-built silver 70s portable on a 90s VCR, three.js-lit in front of a Cycles store plate (face-out tapes, blue headers, pink neon). Rental-store blue, sticker yellow, VFD cyan. VT323 only on the tube and VCR; Archivo wide black italic only on the big yellow key, condensed caps everywhere else. The sign board is printed flat like the sleeve (owner 2026-09-27: flat blue buttons, yellow when chosen, no bubbly keys or candy stickers); the sleeve is a pebbled clamshell over a printed insert. No glass.
   STORY: open → the TV shows WHAT ARE WE WATCHING on VCR blue; press SURPRISE ME → snow + shh → a film plays; the sleeve back gives the words and where to watch.
   FIRST VIEWPORT: desktop — sign board left, TV centre on the counter with the yellow key under it, sleeve right. Phone — TV pinned across the top, yellow key directly below.
   FORM: pinned by the owner 2026-09-27 — "Blockbuster movie rental store vibe", "CRT Tube look", "WhatAreWeWatching within the TV", "Pre-Frutiger Aero or earlier", plus his photos (silver portable TV; snow with CH 03; torn colour bars). A pinned brief beats the roll: no seed key; code-led.

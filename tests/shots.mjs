@@ -27,6 +27,7 @@ const browser = await chromium.launch({ executablePath: CHROME, headless: true, 
 const views = [
   { name: "desktop", width: 1440, height: 900 },
   { name: "user-1920", width: 1920, height: 1080 },
+  { name: "user-1728", width: 1728, height: 1117 },
   { name: "mobile", width: 390, height: 844, mobile: true },
 ];
 const FIXED_FILM = process.env.FILM || "Chinatown";
