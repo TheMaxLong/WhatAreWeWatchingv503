@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-27T18:02:28+00:00",
+  "generatedAt": "2026-09-27T18:12:41+00:00",
   "title": "Design System: What Are We Watching",
   "extensions": {
     "colorMeta": {
@@ -676,7 +676,7 @@
       {
         "name": "state-colour",
         "value": "120-150ms ease-out",
-        "purpose": "Board button (120ms) and key (150ms) colour and border changes."
+        "purpose": "Board button (120ms) and key (150ms) colour and border changes; GENRES chevron turns in 160ms."
       },
       {
         "name": "stage-fade",

@@ -41,6 +41,7 @@ colors:
   ink: "#121216"
 typography:
   scale:
+    prop-phone: "8.5px"
     micro: "10.5px"
     tag: "11px"
     tagline: "12px"
@@ -54,6 +55,7 @@ typography:
     osd: "21px"
     display: "22px"
     display-wide: "25px"
+    headline-phone-min: "26px"
     headline-desktop-min: "30px"
     headline-min: "32px"
     headline-phone: "34px"
@@ -263,12 +265,12 @@ Store-at-night: a deep near-black room lit by rental blue signage, sticker yello
 The frontmatter `typography.scale` enumerates every size the build sets; each role below names which steps it takes at which breakpoint (stacked is the default, desktop is ≥1080px at 5:4, wide is ≥1600px at 5:4, phone is ≤620px).
 
 - **Display** (900 italic, wdth 115, 22px; 25px at wide, 20px on phones; uppercase): the SURPRISE ME key only. WHERE TO WATCH carries the same wide black voice upright (900, wdth 105, 14px, 0.06em).
-- **Headline** (900, wdth 68, lh 0.94, uppercase, balanced wrap): the film title on the sleeve. clamp(32px, 2.9vw, 50px) stacked; clamp(30px, 2.5vw, 46px) on desktop where the sleeve column is narrower; a fixed 34px on phones.
-- **Title** (800, wdth 75, 13px, 0.14em, uppercase, yellow): sign-board plaques (Genres, Decade, First film), each trailed by a 1px yellow rule at .4.
+- **Headline** (900, wdth 68, lh 0.94, uppercase, balanced wrap): the film title on the sleeve. clamp(32px, 2.9vw, 50px) stacked; clamp(30px, 2.5vw, 46px) on desktop where the sleeve column is narrower; clamp(26px, 7.6vw, 34px) on phones, where it sits beside the box art, with hyphens: auto so a long word breaks instead of clipping.
+- **Title** (800, wdth 75, 13px, 0.14em, uppercase, yellow): sign-board plaques (Genres, Decade, First film), each trailed by a 1px yellow rule at .4. On phones the GENRES toggle takes exactly this form, with a chevron after the rule.
 - **Body** (400, wdth 92, 16px, 17px at wide, lh 1.6, max 62ch, paper-2): the film's one-line take. The actor field is 16px at 600.
 - **Print label** (700, wdth 75, 16px, 0.06em, uppercase, yellow): year and director; cast in the same voice at 600 / wdth 70 / 14px in paper-3.
 - **Sign tagline** (800, wdth 80, 12px, 0.12em, yellow): the board's inventory line.
-- **Label** (700, condensed caps, 13px): board buttons at wdth 80 / 0.08em, with decades keeping their printed lowercase "s" (1970s); the play bar's key label at wdth 90 / 0.06em. Board buttons step to 12.5px on desktop (so 42 genres fit one screen), back to 13px at wide, and 14px on phones along with the GENRES toggle. Tags and streaming chips are 11px at 800 / 0.08-0.1em. The rewind seal is the smallest step, 10.5px at 900 / wdth 75.
+- **Label** (700, condensed caps, 13px): board buttons at wdth 80 / 0.08em, with decades keeping their printed lowercase "s" (1970s); the play bar's key label at wdth 90 / 0.06em. Board buttons step to 12.5px on desktop (so 42 genres fit one screen) and stay at 13px at wide and on phones. Tags and streaming chips are 11px at 800 / 0.08-0.1em. The rewind seal is the smallest step, 10.5px at 900 / wdth 75, dropping to 8.5px on the 50px phone seal; that step is prop lettering on an aria-hidden decoration and never carries information.
 - **OSD** (VT323, 21px, 19px on phones, lh 1.05, uppercase, cyan with phosphor bloom): the VFD count line. On the tube VT323 runs 38-168px with a hard dark outline.
 
 ### Named Rules
@@ -283,7 +285,7 @@ One fixed stage (the WebGL canvas, or the flat fallback) fills the viewport behi
 - **Desktop** (min-width 1080px and min-aspect-ratio 5/4): --fit 0.972, --neon-gap 30px. A fixed, non-scrolling three-column grid: sign board left (clamp 300-400px), TV slot centre with the play bar under it, sleeve right (clamp 330-460px). Gaps 22px / 30px, padding 28px 32px 30px. The board compacts its buttons (29px, 5px apart) so 42 genres fit one screen at 900px tall; board and sleeve scroll internally with thin scrollbars.
 - **Wide desktop** (min-width 1600px, same aspect): --fit 0.864; play bar 640px, main key 72px, padding 40px 48px.
 - **Stacked** (everything else, including tablets and tall screens): --fit 0.9, --neon-gap 18px. The stage is pinned across the top at --tvh (clamp(280px, min(96vw, 50svh), 580px)) above a 9px aluminium T-moulding; the page below is the counter's blue front (a Counter Blue gradient). Controls stack in one column, max 720px, 16px gap, safe-area padding.
-- **Phone** (max-width 620px): the play bar wraps with the VFD on its own full-width row; genres collapse behind a GENRES toggle into a scrollable well; board buttons grow to 44px touch height; the sleeve tightens.
+- **Phone** (max-width 620px): the play bar wraps with the VFD on its own full-width row. GENRES becomes a plaque-style heading row (44px tall, chevron at the end) that opens the list inline 8px below it, with no bordered box. Board buttons are 40px tall (8px 11px padding, 13px). The sleeve tightens and its top becomes a row: 92px box art beside the title and year.
 
 Spacing rhythm is small and physical: 6px between board buttons, 10px between play-bar keys, 16-18px inside panels and between groups.
 
@@ -292,7 +294,7 @@ Spacing rhythm is small and physical: 6px between board buttons, 10px between pl
 Depth is literal: a real lit 3D set in front of a baked, defocused plate, with bloom on emissive surfaces only (strength 0.28, threshold 0.93). In front of it the DOM layer has two grammars. The play bar and the sleeve's key are moulded plastic hardware: a gradient body with an inset top highlight, an inset bottom lip and a soft drop toward the counter; pressing removes the lip and shortens the drop. The sign board is print: one flat fill, a 1px white hairline, a single soft drop where it rests on the counter, and flat buttons with no lip, no drop and no travel.
 
 Every highlight, hairline and shade comes from one overlay scale, never a new colour:
-- **Highlight overlay** (Sticker White at .06, .07, .1, .12, .14, .2, .5, .6, .65, .75): .06 the VFD's lower lip light; .07 the vinyl sheen band; .1 the poster's edge; .12 the board's hairline, the case's top edge and the hinge groove; .14 the sound key's top edge; .2 the board buttons' hairline, the phone genres well and the sleeve scrollbar; .5-.65 the top edge of the yellow keys; .75 the rewind seal's die-cut edge.
+- **Highlight overlay** (Sticker White at .06, .07, .1, .12, .14, .2, .5, .6, .65, .75): .06 the VFD's lower lip light; .07 the vinyl sheen band; .1 the poster's edge; .12 the board's hairline, the case's top edge and the hinge groove; .14 the sound key's top edge; .2 the board buttons' hairline and the sleeve scrollbar; .5-.65 the top edge of the yellow keys; .75 the rewind seal's die-cut edge.
 - **Shade overlay** (black at .35, .4, .55, .6, .65, .7, .8, .85, .9): .35 the bottom lips; .4-.6 short contact shadows and the stacked TV's edge shadow; .65-.7 the case's inner edge and the hinge groove; .8-.9 the long drops of the board, the case and the keys onto the counter, and the VFD recess.
 
 ### Shadow Vocabulary
@@ -311,7 +313,7 @@ Every highlight, hairline and shade comes from one overlay scale, never a new co
 
 ## Shapes
 
-Radii follow the object. Print is nearly square: 3px for board buttons, the actor field, tags and the poster; 4px for the sign board and the insert; 2px for the hinge groove. Moulded keys are softened plastic (8-14px, scaling with key size; the phone genres well is 10px), the case is 12px, and the rewind seal is a circle, slapped on at 9deg. The sleeve is asymmetric on purpose: a wider hinge side (30px) with an embossed hinge line, and the insert clears a printed 7.5% spine strip.
+Radii follow the object. Print is nearly square: 3px for board buttons, the actor field, tags and the poster; 4px for the sign board and the insert; 2px for the hinge groove. Moulded keys are softened plastic (8-14px, scaling with key size), the case is 12px, and the rewind seal is a circle, slapped on at 9deg. The sleeve is asymmetric on purpose: a wider hinge side (30px) with an embossed hinge line, and the insert clears a printed 7.5% spine strip.
 
 ## Components
 
@@ -322,11 +324,12 @@ Radii follow the object. Print is nearly square: 3px for board buttons, the acto
 - **Board button (FIRST FILM, clear):** the board's flat button (Rental Blue, 1px white .2 hairline, radius 3px, 44px, Board Ink). Hover turns the label yellow; press turns it flat yellow with no travel.
 
 ### Chips
-- **Board button (genre and decade):** one flat button for both. Rental Blue fill, 1px white .2 hairline, radius 3px, 32px, Board Ink condensed caps (label voice). Hover: yellow border. Chosen: flat Sticker Yellow fill and border, Rental Blue Deep ink. No lip, no drop, no press travel; colour changes in 120ms. Decades are written as printed ("1970s").
+- **GENRES toggle (phone only):** not a button shape but a heading row identical to the plaques (yellow condensed caps, 1px yellow rule, chevron at the end that turns 180deg when open), 44px tall; the genre list opens inline beneath it.
+- **Board button (genre and decade):** one flat button for both. Rental Blue fill, 1px white .2 hairline, radius 3px, 32px (29px desktop, 40px phone), Board Ink condensed caps (label voice). Hover: yellow border. Chosen: flat Sticker Yellow fill and border, Rental Blue Deep ink. No lip, no drop, no press travel; colour changes in 120ms. Decades are written as printed ("1970s").
 
 ### Cards / Containers
 - **Sign board:** flat Counter Blue Mid, radius 4px, 1px white .12 hairline, the panel drop only. Yellow condensed plaques with 1px trailing rules, a solid 1px yellow rule at .4 above the store inventory tagline.
-- **Sleeve (rental case back):** the Blender clamshell raster under a radius 12px case, the Blender insert raster as the printed body (radius 4px) with a clear vinyl sheen overlay. Poster (2:3, radius 3px), title, yellow year/director line, take, outline tags, cast with yellow billing lead, streaming chips, where-to-watch key.
+- **Sleeve (rental case back):** the Blender clamshell raster under a radius 12px case, the Blender insert raster as the printed body (radius 4px) with a clear vinyl sheen overlay. The BE KIND PLEASE REWIND seal belongs to the box-art-and-title block: pinned at its top right corner (-4px, -4px) beside the poster on larger layouts, and on phones shrunk to 50px on the box art's lower corner (104px down, 58px in) so it never covers the title. Poster (2:3, radius 3px; 92px on phones, beside the title), title, yellow year/director line, take, outline tags, cast with yellow billing lead, streaming chips, where-to-watch key.
 
 ### Inputs / Fields
 - **Actor field:** a flat cream paper label (radius 3px, 44px, 1px label-edge border, no inner shadow), ink text 600 16px, Rental Blue caret. Focus: the global 3px yellow ring.
