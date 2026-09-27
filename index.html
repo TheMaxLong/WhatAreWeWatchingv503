@@ -176,7 +176,8 @@
   .sleeve-body::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     background: linear-gradient(115deg, rgba(255,255,255,0) 34%, rgba(255,255,255,.07) 45%, rgba(255,255,255,0) 56%); }
   .card.tuning .sleeve-body { opacity: 0; transform: translateY(8px); filter: blur(2px); }
-  .rewind { position: absolute; top: 18px; right: 18px; z-index: 2; width: 66px; height: 66px; border-radius: 50%;
+  .card-top { position: relative; }
+  .rewind { position: absolute; top: -4px; right: -4px; z-index: 2; width: 66px; height: 66px; border-radius: 50%;
     display: grid; place-items: center; text-align: center; transform: rotate(9deg);
     background: radial-gradient(circle at 35% 30%, #ff4a52, var(--red) 60%, #a4121c);
     box-shadow: 0 4px 10px -3px rgba(0,0,0,.7), inset 0 0 0 2px rgba(255,255,255,.75);
@@ -289,11 +290,17 @@
     .count { font-size: 19px; white-space: nowrap; }
     .directory { padding: 16px 14px 18px; }
     .plaque-genres { display: none; }
-    .genre-toggle { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; min-height: 44px; padding: 10px 15px; font-size: 14px; }
+    /* GENRES reads as the same heading row as DECADE and FIRST FILM, and opens the list */
+    .chip.genre-toggle { display: flex; width: 100%; align-items: center; gap: 10px; min-height: 44px; margin: 0;
+      padding: 0; background: none; border: 0; color: var(--yellow);
+      font-weight: 800; font-stretch: 75%; font-size: 13px; letter-spacing: .14em; }
+    .genre-toggle .label { order: 1; }
+    .genre-toggle::after { content: ""; order: 2; flex: 1; height: 1px; background: rgba(255,210,31,.4); }
+    .genre-toggle .icon { order: 3; width: 18px; height: 18px; }
+    .genre-toggle.on { color: var(--yellow); }
     #genres { display: none; }
-    #genres.open { display: flex; align-content: flex-start; max-height: 44vh; overflow-y: auto;
-      border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 10px; }
-    .chip { font-size: 14px; min-height: 44px; padding: 10px 14px; }
+    #genres.open { display: flex; margin-top: 8px; }
+    .chip { font-size: 13px; min-height: 40px; padding: 8px 11px; }
     .actor-row { flex-wrap: wrap; }
     .actor-input { flex: 1 1 100%; }
     .actor-row .key { flex: 1; }
@@ -302,8 +309,11 @@
     .card::before { left: 8px; top: 12px; bottom: 12px; }
     .sleeve-body { padding: 18px 14px 18px calc(7.5% + 12px); }
     .card-main { flex-direction: column; }
-    .card-poster { width: 108px; }
-    .card-title { font-size: 34px; }
+    .card-top { display: flex; flex-direction: row; gap: 14px; align-items: flex-start; }
+    .card-head { padding-right: 0; }
+    .card-poster { width: 92px; }
+    .card-title { font-size: clamp(26px, 7.6vw, 34px); hyphens: auto; }
+    .rewind { width: 50px; height: 50px; font-size: 8.5px; top: 104px; right: auto; left: 58px; }   /* on the box art's lower corner, clear of the title */
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -344,11 +354,11 @@
   </section>
 
   <article class="card" id="card" aria-live="polite" aria-label="The tape you picked">
-    <div class="rewind" aria-hidden="true">BE KIND<br>PLEASE<br>REWIND</div>
     <div class="sleeve-body">
       <div class="actor-note" id="actorNote" style="display:none"></div>
       <div class="card-main">
         <div class="card-top">
+          <div class="rewind" aria-hidden="true">BE KIND<br>PLEASE<br>REWIND</div>
           <img class="card-poster hidden" id="cardPoster" alt="" crossorigin="anonymous">
           <div class="card-head">
             <h2 class="card-title" id="cardTitle"></h2>

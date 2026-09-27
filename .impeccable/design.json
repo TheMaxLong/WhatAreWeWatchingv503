@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-27T17:29:21+00:00",
+  "generatedAt": "2026-09-27T18:02:28+00:00",
   "title": "Design System: What Are We Watching",
   "extensions": {
     "colorMeta": {
@@ -49,79 +49,19 @@
           "#c4ecff"
         ]
       },
-      "rental-blue-key-hi": {
+      "counter-blue": {
         "role": "primary",
-        "displayName": "Chip Key Face",
-        "canonical": "#3b63ee",
-        "tonalRamp": [
-          "#030041",
-          "#08116d",
-          "#19329d",
-          "#2f51d0",
-          "#4874ff",
-          "#6d9cff",
-          "#96c3ff",
-          "#c1ebff"
-        ]
-      },
-      "rental-blue-key": {
-        "role": "primary",
-        "displayName": "Chip Key",
-        "canonical": "#2649d2",
-        "tonalRamp": [
-          "#030041",
-          "#07116d",
-          "#18329d",
-          "#2d52d0",
-          "#4774ff",
-          "#6c9cff",
-          "#95c4ff",
-          "#c0ebff"
-        ]
-      },
-      "rental-blue-key-lo": {
-        "role": "primary",
-        "displayName": "Chip Key Foot",
-        "canonical": "#1d3dbb",
-        "tonalRamp": [
-          "#030041",
-          "#06116d",
-          "#17329d",
-          "#2c52d0",
-          "#4a77f8",
-          "#6b9cff",
-          "#94c4ff",
-          "#bfebff"
-        ]
-      },
-      "rental-blue-key-edge": {
-        "role": "primary",
-        "displayName": "Chip Key Edge",
-        "canonical": "#0a2276",
+        "displayName": "Counter Blue",
+        "canonical": "#0f2f8f",
         "tonalRamp": [
           "#020041",
-          "#04156a",
-          "#1b398e",
-          "#385bb3",
-          "#577ed9",
-          "#78a1ff",
-          "#9bc6ff",
-          "#bfecff"
-        ]
-      },
-      "rental-blue-board-hi": {
-        "role": "primary",
-        "displayName": "Board Top",
-        "canonical": "#2147d6",
-        "tonalRamp": [
-          "#030041",
-          "#05126d",
-          "#16329d",
-          "#2b52d0",
-          "#4374ff",
-          "#6a9cff",
-          "#94c4ff",
-          "#bfecff"
+          "#02136d",
+          "#143696",
+          "#3159bc",
+          "#517ce2",
+          "#72a0ff",
+          "#94c6ff",
+          "#bcecff"
         ]
       },
       "counter-blue-mid": {
@@ -154,19 +94,19 @@
           "#c1edff"
         ]
       },
-      "counter-blue": {
+      "board-ink": {
         "role": "primary",
-        "displayName": "Counter Blue",
-        "canonical": "#0f2f8f",
+        "displayName": "Board Ink",
+        "canonical": "#eef2ff",
         "tonalRamp": [
-          "#020041",
-          "#02136d",
-          "#143696",
-          "#3159bc",
-          "#517ce2",
-          "#72a0ff",
-          "#94c6ff",
-          "#bcecff"
+          "#090b13",
+          "#22252e",
+          "#3f424c",
+          "#5d616c",
+          "#7e828d",
+          "#a1a5b1",
+          "#c5c9d5",
+          "#eaeefb"
         ]
       },
       "sticker-yellow": {
@@ -362,96 +302,6 @@
           "#00b8e2",
           "#3addff",
           "#6dffff"
-        ]
-      },
-      "decade-1970": {
-        "role": "secondary",
-        "displayName": "1970s Sticker Orange",
-        "canonical": "#ff8a2a",
-        "tonalRamp": [
-          "#2d0000",
-          "#560000",
-          "#810b00",
-          "#a73800",
-          "#ce5d00",
-          "#f5811c",
-          "#ffa64d",
-          "#ffd289"
-        ]
-      },
-      "decade-1980": {
-        "role": "secondary",
-        "displayName": "1980s Sticker Pink",
-        "canonical": "#ff5fa2",
-        "tonalRamp": [
-          "#2c000b",
-          "#550025",
-          "#810042",
-          "#b00561",
-          "#da3b83",
-          "#ff66a5",
-          "#ff95c9",
-          "#ffc3ef"
-        ]
-      },
-      "decade-1990": {
-        "role": "secondary",
-        "displayName": "1990s Sticker Teal",
-        "canonical": "#2fd0c4",
-        "tonalRamp": [
-          "#001714",
-          "#003530",
-          "#00554d",
-          "#00776d",
-          "#009a8f",
-          "#00beb2",
-          "#4ce4d7",
-          "#79fffd"
-        ]
-      },
-      "decade-2000": {
-        "role": "secondary",
-        "displayName": "2000s Sticker Lime",
-        "canonical": "#b6e14a",
-        "tonalRamp": [
-          "#031000",
-          "#172d00",
-          "#304e00",
-          "#4d6f00",
-          "#6d9200",
-          "#8eb600",
-          "#b2db4d",
-          "#daff8a"
-        ]
-      },
-      "decade-2010": {
-        "role": "secondary",
-        "displayName": "2010s Sticker Lilac",
-        "canonical": "#b49cff",
-        "tonalRamp": [
-          "#14003b",
-          "#2d0361",
-          "#492b84",
-          "#674da8",
-          "#886fce",
-          "#aa92f4",
-          "#ceb6ff",
-          "#f3dcff"
-        ]
-      },
-      "decade-2020": {
-        "role": "secondary",
-        "displayName": "2020s Sticker Coral",
-        "canonical": "#ff6a5f",
-        "tonalRamp": [
-          "#300000",
-          "#5a0000",
-          "#880000",
-          "#b21c1e",
-          "#db4841",
-          "#ff6e63",
-          "#ff988a",
-          "#ffc6b7"
         ]
       },
       "clamshell": {
@@ -713,7 +563,7 @@
     "typographyMeta": {
       "display": {
         "displayName": "Signage Display",
-        "purpose": "The SURPRISE ME key: wide black italic, 90s retail sign lettering."
+        "purpose": "The SURPRISE ME key: wide black italic, 90s retail sign lettering; the only wide voice besides WHERE TO WATCH."
       },
       "headline": {
         "displayName": "Sleeve Title",
@@ -721,7 +571,7 @@
       },
       "title": {
         "displayName": "Plaque",
-        "purpose": "Sign-board section plaques, yellow, trailed by a fading rule."
+        "purpose": "Sign-board section plaques: yellow condensed caps on a 1px rule."
       },
       "body": {
         "displayName": "Print Body",
@@ -732,8 +582,8 @@
         "purpose": "Year, director and cast lines printed on the sleeve."
       },
       "label": {
-        "displayName": "Key Label",
-        "purpose": "Keys, chips and tags: condensed caps."
+        "displayName": "Label",
+        "purpose": "Board buttons, key labels and tags: condensed caps."
       },
       "osd": {
         "displayName": "OSD / VFD",
@@ -754,22 +604,17 @@
       {
         "name": "key",
         "value": "inset 0 1px 0 rgba(255,255,255,.14), inset 0 -3px 0 rgba(0,0,0,.35), 0 6px 14px -6px rgba(0,0,0,.8)",
-        "purpose": "Dark plastic keys."
+        "purpose": "The moulded sound key in the play bar."
       },
       {
-        "name": "chip",
-        "value": "inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 0 rgba(4,16,72,.55), 0 3px 6px -2px rgba(0,0,0,.55)",
-        "purpose": "Blue genre chip keys at rest."
-      },
-      {
-        "name": "chip-on",
-        "value": "inset 0 2px 3px rgba(120,80,0,.45), 0 1px 1px rgba(0,0,0,.35)",
-        "purpose": "A chip pressed in and latched (yellow)."
+        "name": "watch-key",
+        "value": "inset 0 1px 0 rgba(255,255,255,.6), inset 0 -3px 0 rgba(140,90,0,.3), 0 8px 16px -8px rgba(0,0,0,.8)",
+        "purpose": "The sleeve's yellow WHERE TO WATCH key."
       },
       {
         "name": "panel",
         "value": "0 24px 48px -18px rgba(0,0,0,.85)",
-        "purpose": "Sign board resting on the counter."
+        "purpose": "Sign board resting on the counter; its only shadow."
       },
       {
         "name": "case",
@@ -779,7 +624,7 @@
       {
         "name": "recess",
         "value": "inset 0 2px 8px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.06)",
-        "purpose": "VFD window set into the counter."
+        "purpose": "VFD window set into the play bar."
       },
       {
         "name": "vfd-glow",
@@ -788,13 +633,13 @@
       },
       {
         "name": "highlight-overlay-scale",
-        "value": "rgba(255,255,255,.07) rgba(255,255,255,.12) rgba(255,255,255,.14) rgba(255,255,255,.2) rgba(255,255,255,.25) rgba(255,255,255,.28) rgba(255,255,255,.34) rgba(255,255,255,.55) rgba(255,255,255,.6) rgba(255,255,255,.65) rgba(255,255,255,.75) rgba(255,255,255,.85)",
-        "purpose": "The Moulded Plastic highlight scale: sheen .07, dark-key/case edge .12-.14, wells .2, blue-key edge .25-.34, yellow-key and sticker edge .55-.65, die-cut edges .75-.85."
+        "value": "rgba(255,255,255,.06) rgba(255,255,255,.07) rgba(255,255,255,.1) rgba(255,255,255,.12) rgba(255,255,255,.14) rgba(255,255,255,.2) rgba(255,255,255,.5) rgba(255,255,255,.6) rgba(255,255,255,.65) rgba(255,255,255,.75)",
+        "purpose": "Highlight and hairline scale: VFD lip .06, vinyl sheen .07, poster edge .1, board hairline and case edge .12, sound key edge .14, board button hairline and wells .2, yellow key edges .5-.65, rewind seal edge .75."
       },
       {
         "name": "shade-overlay-scale",
-        "value": "rgba(0,0,0,.18) rgba(0,0,0,.25) rgba(0,0,0,.35) rgba(0,0,0,.4) rgba(0,0,0,.45) rgba(0,0,0,.55) rgba(0,0,0,.6) rgba(0,0,0,.65) rgba(0,0,0,.7) rgba(0,0,0,.8) rgba(0,0,0,.85) rgba(0,0,0,.9)",
-        "purpose": "The Moulded Plastic shade scale: input well .18, lips .25-.35, contact shadows .4-.6, case inner edge and hinge groove .65-.7, panel drops and VFD recess .8-.9."
+        "value": "rgba(0,0,0,.35) rgba(0,0,0,.4) rgba(0,0,0,.55) rgba(0,0,0,.6) rgba(0,0,0,.65) rgba(0,0,0,.7) rgba(0,0,0,.8) rgba(0,0,0,.85) rgba(0,0,0,.9)",
+        "purpose": "Shade scale: lips .35, contact shadows .4-.6, case inner edge and hinge groove .65-.7, panel and key drops and VFD recess .8-.9."
       },
       {
         "name": "bloom",
@@ -826,12 +671,12 @@
       {
         "name": "key-press",
         "value": "90ms ease-out",
-        "purpose": "Key travel 1-3px on press."
+        "purpose": "Moulded key travel, 2-3px on press; board buttons do not travel."
       },
       {
         "name": "state-colour",
-        "value": "140-150ms ease-out",
-        "purpose": "Chip and key colour/border changes."
+        "value": "120-150ms ease-out",
+        "purpose": "Board button (120ms) and key (150ms) colour and border changes."
       },
       {
         "name": "stage-fade",
@@ -861,15 +706,21 @@
       },
       {
         "name": "stacked",
-        "value": "not ((min-width: 1080px) and (min-aspect-ratio: 5/4))"
+        "value": "not ((min-width: 1080px) and (min-aspect-ratio: 5/4))",
+        "fit": 0.9,
+        "neonGap": "18px"
       },
       {
         "name": "desktop",
-        "value": "(min-width: 1080px) and (min-aspect-ratio: 5/4)"
+        "value": "(min-width: 1080px) and (min-aspect-ratio: 5/4)",
+        "fit": 0.972,
+        "neonGap": "30px"
       },
       {
         "name": "wide",
-        "value": "(min-width: 1600px) and (min-aspect-ratio: 5/4)"
+        "value": "(min-width: 1600px) and (min-aspect-ratio: 5/4)",
+        "fit": 0.864,
+        "neonGap": "30px"
       }
     ]
   },
@@ -883,28 +734,20 @@
       "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-btn-main{display:inline-flex;align-items:center;gap:14px;min-height:64px;padding:0 26px;border:0;border-radius:14px;color:var(--blue-deep);background:linear-gradient(180deg,var(--yellow-hi) 0%,var(--yellow) 42%,var(--yellow-lo) 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -5px 0 rgba(140,90,0,.35),0 10px 22px -8px rgba(0,0,0,.85),0 2px 4px rgba(0,0,0,.4);font-family:var(--display);font-weight:900;font-style:italic;font-stretch:115%;font-size:22px;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;transition:transform 90ms ease-out,box-shadow 90ms ease-out,filter 150ms ease-out}.ds-btn-main:hover{filter:brightness(1.06) saturate(1.05)}.ds-btn-main:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-btn-main:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(140,90,0,.35),0 4px 10px -6px rgba(0,0,0,.9)}"
     },
     {
-      "name": "Key",
+      "name": "Sound Key",
       "kind": "button",
       "refersTo": "key",
-      "description": "Dark moulded plastic key for secondary actions.",
-      "html": "<button class=\"ds-key\">First film</button>",
-      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-key{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-radius:10px;color:var(--paper);background:linear-gradient(180deg,#34363d,#212328);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -3px 0 rgba(0,0,0,.35),0 6px 14px -6px rgba(0,0,0,.8);font-family:var(--display);font-weight:700;font-stretch:90%;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform 90ms ease-out,color 150ms ease-out}.ds-key:hover{color:var(--yellow)}.ds-key:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-key:active{transform:translateY(2px)}"
+      "description": "Dark moulded plastic key in the play bar (icon-only sound toggle).",
+      "html": "<button class=\"ds-key\" aria-label=\"Sound\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M4 9h4l5-4v14l-5-4H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z\"/><path d=\"M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></button>",
+      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-key{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:0;border-radius:10px;color:var(--paper);background:linear-gradient(180deg,#34363d,#212328);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -3px 0 rgba(0,0,0,.35),0 6px 14px -6px rgba(0,0,0,.8);cursor:pointer;transition:transform 90ms ease-out,color 150ms ease-out}.ds-key:hover{color:var(--yellow)}.ds-key:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-key:active{transform:translateY(2px)}"
     },
     {
-      "name": "Genre Chip",
+      "name": "Board Button",
       "kind": "chip",
       "refersTo": "chip",
-      "description": "Blue moulded filter key on the sign board; pressed in and yellow when on.",
-      "html": "<div class=\"ds-row\"><button class=\"ds-chip\">Horror</button><button class=\"ds-chip is-on\">Neo-noir</button></div>",
-      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-row{display:flex;gap:6px;padding:14px;background:var(--blue);border-radius:12px}.ds-chip{min-height:32px;padding:6px 11px 7px;border-radius:7px;background:linear-gradient(180deg,#3b63ee 0%,#2649d2 55%,#1d3dbb 100%);border:1px solid #0a2276;box-shadow:inset 0 1px 0 rgba(255,255,255,.34),inset 0 -3px 0 rgba(4,16,72,.55),0 3px 6px -2px rgba(0,0,0,.55);color:#f1f4ff;font-family:var(--display);font-weight:700;font-stretch:85%;font-size:13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background 140ms ease-out,border-color 140ms ease-out,transform 90ms ease-out}.ds-chip:hover{border-color:var(--yellow)}.ds-chip:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-chip:active{transform:translateY(1px)}.ds-chip.is-on{transform:translateY(1px);background:linear-gradient(180deg,var(--yellow) 0%,var(--yellow-hi) 100%);border-color:#a87c00;color:var(--blue-deep);box-shadow:inset 0 2px 3px rgba(120,80,0,.45),0 1px 1px rgba(0,0,0,.35)}"
-    },
-    {
-      "name": "Decade Sticker",
-      "kind": "chip",
-      "refersTo": "sticker-1980",
-      "description": "Fluorescent die-cut rental sticker, one ink per decade, slightly tilted.",
-      "html": "<div class=\"ds-row\"><button class=\"ds-sticker\" style=\"--st:#ff8a2a;transform:rotate(-2deg)\">1970s</button><button class=\"ds-sticker is-on\" style=\"--st:#ff5fa2;transform:rotate(1.5deg)\">1980s</button><button class=\"ds-sticker\" style=\"--st:#2fd0c4;transform:rotate(-1deg)\">1990s</button></div>",
-      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-row{display:flex;gap:8px;padding:14px;background:var(--blue);border-radius:12px}.ds-sticker{border-radius:999px;border:2px solid rgba(255,255,255,.85);background:var(--st);color:#111;padding:6px 14px;font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:.04em;box-shadow:0 4px 10px -4px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.55);cursor:pointer}.ds-sticker:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-sticker.is-on{border-color:#111;box-shadow:0 0 0 3px var(--yellow),0 4px 10px -4px rgba(0,0,0,.6)}"
+      "description": "The sign board's one flat button for genres and decades: Rental Blue with a white hairline, flat yellow when chosen, no lip or travel.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-chip\">Horror</button><button class=\"ds-chip is-on\">Neo-noir</button><button class=\"ds-chip ds-decade\">1970s</button><button class=\"ds-chip ds-decade is-on\">1980s</button></div>",
+      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-row{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:#0d2982;border-radius:4px}.ds-chip{min-height:32px;padding:6px 10px;border-radius:3px;background:var(--blue);border:1px solid rgba(255,255,255,.2);color:#eef2ff;font-family:var(--display);font-weight:700;font-stretch:80%;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background 120ms ease-out,color 120ms ease-out,border-color 120ms ease-out}.ds-chip:hover{border-color:var(--yellow)}.ds-chip:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-chip.is-on{background:var(--yellow);border-color:var(--yellow);color:var(--blue-deep)}.ds-decade{text-transform:none}"
     },
     {
       "name": "VFD Count Window",
@@ -918,35 +761,35 @@
       "name": "Actor Field",
       "kind": "input",
       "refersTo": "input-field",
-      "description": "Cream paper label you write an actor's name on.",
-      "html": "<input class=\"ds-input\" placeholder=\"actor name \u2192 first film\" aria-label=\"Actor name\">",
-      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-input{min-height:44px;padding:10px 12px;border-radius:8px;background:var(--cream);color:var(--ink);caret-color:#1537b8;border:1px solid #c9bf9f;box-shadow:inset 0 2px 4px rgba(0,0,0,.18);font-family:var(--display);font-weight:600;font-size:16px;outline:none}.ds-input::placeholder{color:#6b6457;font-weight:500}.ds-input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}"
+      "description": "Flat cream paper label you write an actor's name on, with the board's flat FIRST FILM button.",
+      "html": "<div class=\"ds-row\"><input class=\"ds-input\" placeholder=\"actor name → first film\" aria-label=\"Actor name\"><button class=\"ds-bkey\">First film</button></div>",
+      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-row{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:#0d2982;border-radius:4px;max-width:340px}.ds-input{flex:1 1 100%;min-height:44px;padding:10px 12px;border-radius:3px;background:var(--cream);color:var(--ink);caret-color:#1537b8;border:1px solid #c9bf9f;font-family:var(--display);font-weight:600;font-size:16px;outline:none}.ds-input::placeholder{color:#6b6457;font-weight:500}.ds-input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}.ds-bkey{flex:1;min-height:44px;padding:0 14px;border-radius:3px;background:var(--blue);border:1px solid rgba(255,255,255,.2);color:#eef2ff;font-family:var(--display);font-weight:700;font-stretch:90%;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}.ds-bkey:hover{color:var(--yellow)}.ds-bkey:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-bkey:active{background:var(--yellow);color:var(--blue-deep)}"
     },
     {
       "name": "Sleeve",
       "kind": "card",
       "refersTo": "sleeve-case",
       "description": "Back of a rental case: clamshell edge, printed insert, rewind seal, film facts and the watch key.",
-      "html": "<article class=\"ds-case\"><div class=\"ds-rewind\">BE KIND<br>PLEASE<br>REWIND</div><div class=\"ds-insert\"><h3 class=\"ds-title\">Chinatown</h3><div class=\"ds-year\">1974 \u00b7 Dir. Roman Polanski</div><p class=\"ds-desc\">A private detective uncovers a vast conspiracy. As dark as they come.</p><div class=\"ds-tags\"><span class=\"ds-tag\">Neo-noir</span><span class=\"ds-tag\">Mystery</span></div><a class=\"ds-watch\" href=\"#\">Where to watch</a></div></article>",
+      "html": "<article class=\"ds-case\"><div class=\"ds-rewind\">BE KIND<br>PLEASE<br>REWIND</div><div class=\"ds-insert\"><h3 class=\"ds-title\">Chinatown</h3><div class=\"ds-year\">1974 · Dir. Roman Polanski</div><p class=\"ds-desc\">A private detective uncovers a vast conspiracy. As dark as they come.</p><div class=\"ds-tags\"><span class=\"ds-tag\">Neo-noir</span><span class=\"ds-tag\">Mystery</span></div><a class=\"ds-watch\" href=\"#\">Where to watch</a></div></article>",
       "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-case{position:relative;max-width:380px;border-radius:12px;padding:18px 18px 18px 30px;background:#16171b;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(0,0,0,.65),0 30px 60px -22px rgba(0,0,0,.9)}.ds-insert{position:relative;border-radius:4px;padding:20px 18px 20px 42px;background:linear-gradient(90deg,#1537b8 0 22px,#ffd21f 22px 25px,#1b1d27 25px);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 2px 8px rgba(0,0,0,.55);transition:opacity 340ms ease-out,transform 460ms var(--ease-out)}.ds-rewind{position:absolute;top:18px;right:18px;z-index:2;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(9deg);background:radial-gradient(circle at 35% 30%,#ff4a52,var(--red) 60%,#a4121c);box-shadow:0 4px 10px -3px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.75);color:#fff;font-family:var(--display);font-weight:900;font-stretch:75%;font-size:10.5px;line-height:1.05;letter-spacing:.05em}.ds-title{font-family:var(--display);font-weight:900;font-stretch:68%;font-size:40px;line-height:.94;text-transform:uppercase;color:var(--paper);padding-right:58px}.ds-year{font-family:var(--display);font-weight:700;font-stretch:75%;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--yellow);margin-top:10px}.ds-desc{font-family:var(--display);font-stretch:92%;font-size:16px;line-height:1.6;color:var(--paper-2);margin-top:18px}.ds-tags{display:flex;gap:6px;margin-top:16px}.ds-tag{border:1.5px solid rgba(246,240,222,.5);color:var(--paper);padding:3px 8px 2px;border-radius:3px;font-family:var(--display);font-weight:800;font-stretch:80%;font-size:11px;letter-spacing:.1em;text-transform:uppercase}.ds-watch{display:inline-flex;align-items:center;margin-top:18px;min-height:44px;padding:0 16px;border-radius:8px;text-decoration:none;color:var(--blue-deep);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow) 50%,var(--yellow-lo));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -3px 0 rgba(140,90,0,.3),0 8px 16px -8px rgba(0,0,0,.8);font-family:var(--display);font-weight:900;font-stretch:105%;font-size:14px;letter-spacing:.06em;text-transform:uppercase}.ds-watch:hover{filter:brightness(1.06)}.ds-watch:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}"
     },
     {
       "name": "Sign Board",
       "kind": "custom",
       "refersTo": "sign-board",
-      "description": "The store's blue sign board holding the filters, with yellow italic plaques.",
-      "html": "<section class=\"ds-board\"><h4 class=\"ds-plaque\">Decade</h4><p class=\"ds-tagline\">CLASSICS \u00b7 CULT \u00b7 DOCS \u00b7 FRINGE \u00b7 SPACE \u00b7 1138 FILMS</p></section>",
-      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-board{max-width:340px;border-radius:16px;padding:18px 18px 20px;background:linear-gradient(180deg,#2147d6 0%,var(--blue) 36%,#102d9c 100%);border:1px solid #0a1f6e;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.25),0 24px 48px -18px rgba(0,0,0,.85);color:#eef2ff}.ds-plaque{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--display);font-weight:900;font-style:italic;font-stretch:112%;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--yellow)}.ds-plaque::after{content:\"\";flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,210,31,.55),rgba(255,210,31,0))}.ds-tagline{margin:18px 0 0;padding-top:12px;border-top:1px dashed rgba(255,210,31,.4);font-family:var(--display);font-weight:800;font-stretch:80%;font-size:12px;letter-spacing:.12em;line-height:1.5;color:var(--yellow)}"
+      "description": "The store's sign board printed flat: Counter Blue ground, white hairline, yellow condensed plaques on 1px rules.",
+      "html": "<section class=\"ds-board\"><h4 class=\"ds-plaque\">Decade</h4><p class=\"ds-tagline\">CLASSICS · CULT · DOCS · FRINGE · SPACE · 1138 FILMS</p></section>",
+      "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-board{max-width:340px;border-radius:4px;padding:18px 18px 20px;background:#0d2982;border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 48px -18px rgba(0,0,0,.85);color:#eef2ff}.ds-plaque{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--display);font-weight:800;font-stretch:75%;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow)}.ds-plaque::after{content:\"\";flex:1;height:1px;background:rgba(255,210,31,.4)}.ds-tagline{margin:18px 0 0;padding-top:12px;border-top:1px solid rgba(255,210,31,.4);font-family:var(--display);font-weight:800;font-stretch:80%;font-size:12px;letter-spacing:.12em;line-height:1.5;color:var(--yellow)}"
     }
   ],
   "narrative": {
     "northStar": "The Counter at Closing Time",
-    "overview": "The page is a place, not a panel. A Blender-built silver 70s portable TV sits on a 90s VCR on a rental-store counter, lit in three.js in front of an out-of-focus Cycles plate of the store: face-out tapes on white shelving, blue section headers, a pink VIDEO and cyan OPEN LATE neon. The tube is the product's voice. The name WHAT ARE WE WATCHING lives on its VCR-blue idle screen, a pick is a channel change (half a second of snow or torn colour bars, one detent of the VHF dial, a static \"shh\"), and the film then plays on the tube like a tape.\n\nEverything the hand touches sits in front of that scene and is made of the counter's own stuff: a blue sign board with yellow plaques, chunky bevelled plastic keys, fluorescent decade stickers, a VFD count window glowing cyan, and the back of a rental case (pebbled black clamshell over a printed insert under clear vinyl) that carries the film's words. Two worlds are composed and never blended: the lit 3D world behind, and the tactile retail-plastic world in front. The period line is pre-Frutiger-Aero: plastic, print and phosphor, never frosted glass or glossy bubbles.\n\nDensity is operational. The pick, the filters and the facts stay one glance away; the theatre happens on the tube, not by hiding controls.",
+    "overview": "The page is a place, not a panel. A Blender-built silver 70s portable TV sits on a 90s VCR on a rental-store counter, lit in three.js in front of an out-of-focus Cycles plate of the store: face-out tapes on white shelving, blue section headers, a pink VIDEO and cyan OPEN LATE neon. The tube is the product's voice. The name WHAT ARE WE WATCHING lives on its VCR-blue idle screen, a pick is a channel change (half a second of snow or torn colour bars, one detent of the VHF dial, a static \"shh\"), and the film then plays on the tube like a tape.\n\nEverything the hand touches sits in front of that scene and is made of the counter's own stuff: a sign board printed flat in counter blue with yellow plaques and flat blue buttons, a play bar of chunky moulded plastic keys with a VFD count window glowing cyan, and the back of a rental case (pebbled black clamshell over a printed insert under clear vinyl) that carries the film's words. Two worlds are composed and never blended: the lit 3D world behind, and the retail world of print and plastic in front. The owner rejected an earlier moulded, candy-coloured filter board as too \"kid\" (2026-09-27); the board is now printed flat like the sleeve, and moulded plastic is kept for the few keys that are actual hardware. The period line is pre-Frutiger-Aero: plastic, print and phosphor, never frosted glass or glossy bubbles.\n\nDensity is operational. The pick, the filters and the facts stay one glance away; the theatre happens on the tube, not by hiding controls.",
     "keyCharacteristics": [
       "A lit 3D set (TV, VCR, counter, returned tapes) in front of a baked, bokeh'd store plate; one camera frames every layout.",
       "Rental blue and sticker yellow carry the whole UI; VFD cyan and neon pink/cyan are light sources, not fills.",
-      "Archivo in two voices (wide black italic signage, condensed caps print); VT323 only on the tube and the VCR.",
-      "Physical keys: gradient plastic, inset top highlight, inset bottom lip, soft drop; they travel down 1-3px when pressed.",
+      "Archivo in two voices (wide black on the two yellow keys only, condensed caps everywhere else); VT323 only on the tube and the VCR.",
+      "Two surface grammars: play-bar and sleeve keys are moulded plastic that travels when pressed; the sign board is flat print with hairlines, blue buttons that turn yellow when chosen.",
       "Every raster is procedural Blender output that carries its own provenance."
     ],
     "rules": [
@@ -957,7 +800,7 @@
       },
       {
         "name": "The Yellow Means Press Rule",
-        "body": "Among the controls, a Sticker Yellow surface means \"this is the thing to press\" or \"this is pressed\". Elsewhere yellow is signage and print: plaque rules, pinstripes, labels, the year and billing lines; never body copy.",
+        "body": "Among the controls, a Sticker Yellow surface means \"this is the thing to press\" or \"this is chosen\". Elsewhere yellow is signage and print: plaques and their rules, pinstripes, labels, the year and billing lines; never body copy.",
         "section": "colors"
       },
       {
@@ -972,12 +815,17 @@
       },
       {
         "name": "The Two Voices Rule",
-        "body": "Wide italic black is for signage you press or read across the room; condensed caps is for print you read up close. Reading text (the take, the actor field) is plain sentence-case Archivo. Do not invent a third display voice.",
+        "body": "Wide black is for the two yellow keys you press from across the room; condensed caps is print, read up close, and that includes the whole sign board. Reading text (the take, the actor field) is plain sentence-case Archivo. Do not invent a third display voice.",
         "section": "typography"
       },
       {
         "name": "The Moulded Plastic Rule",
-        "body": "A pressable surface has a crisp inset top highlight, a crisp inset bottom lip and a soft blurred drop; it travels 1-3px down on press. Outer drop shadows are always blurred; no flat pressables.",
+        "body": "Moulded plastic is for hardware keys only: the play bar (SURPRISE ME, sound) and the sleeve's WHERE TO WATCH. Each has a crisp inset top highlight, a crisp inset bottom lip and a soft blurred drop, and travels 2-3px down on press. Outer drop shadows are always blurred.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat Board Rule",
+        "body": "The sign board is printed flat like the sleeve (owner, 2026-09-27: the bubbly keys and fluorescent stickers read too \"kid\"). One flat Counter Blue ground, 1px hairlines, flat Rental Blue buttons that turn flat Sticker Yellow when chosen. No gradients, bevels, lips, press travel or candy colours on the board.",
         "section": "elevation"
       },
       {
@@ -988,10 +836,9 @@
     ],
     "dos": [
       "**Do** keep the TV the first thing seen: centre on desktop, pinned across the top when stacked, with the yellow key directly under it.",
-      "**Do** make every pressable a moulded plastic key with a top highlight, bottom lip and soft drop, travelling 1-3px on press.",
-      "**Do** keep VT323 on the tube and the VCR only; Archivo wide black italic for signage, condensed caps for print.",
+      "**Do** make play-bar and sleeve keys moulded plastic (top highlight, bottom lip, soft drop, 2-3px travel), and keep the sign board flat: Rental Blue buttons with a white hairline, flat Sticker Yellow when chosen.",
+      "**Do** keep VT323 on the tube and the VCR only; wide black Archivo on the two yellow keys only, condensed caps for everything else.",
       "**Do** put glow only on things that emit light: the tube, the VFD, the neon.",
-      "**Do** give each decade its own fluorescent sticker ink with black type and a white die-cut edge.",
       "**Do** draw icons as SVG paths in the page and as canvas paths on the tube.",
       "**Do** build new rasters in Blender, ship them beside index.html under the content hash, and embed their provenance.",
       "**Do** evoke the era only: no real store's name, logo or marks."
@@ -999,9 +846,10 @@
     "donts": [
       "**Don't** use frosted glass, backdrop blur, glossy bubbles or any Frutiger-Aero finish.",
       "**Don't** put a dark app card on a flat page; controls sit in the store world, on the counter.",
-      "**Don't** use hard, unblurred outer drop shadows; depth comes from the lit set and the moulded key's inset lip and soft drop.",
+      "**Don't** use hard, unblurred outer drop shadows; depth comes from the lit set and the moulded keys' inset lip and soft drop.",
       "**Don't** set UI, signage or printed text in VT323.",
       "**Don't** give a non-pressable control or panel a Sticker Yellow surface.",
+      "**Don't** bevel, mould or candy-colour the sign board: no gradients, lips, press travel or fluorescent fills on the board or its buttons.",
       "**Don't** use text glyphs or emoji as icons."
     ]
   }
