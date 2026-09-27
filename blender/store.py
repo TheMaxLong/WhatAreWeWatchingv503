@@ -303,12 +303,79 @@ else:
         band = nt.nodes.new("ShaderNodeValToRGB")      # the store's white label across the case
         band.color_ramp.interpolation = "CONSTANT"
         band.color_ramp.elements[0].position = 0.0; band.color_ramp.elements[0].color = (*srgb(case), 1)
-        e1 = band.color_ramp.elements.new(0.3); e1.color = (*srgb("#f1ead6"), 1)
-        e2 = band.color_ramp.elements.new(0.7); e2.color = (*srgb(case), 1)
+        e1 = band.color_ramp.elements.new(0.22); e1.color = (*srgb("#f1ead6"), 1)
+        e2 = band.color_ramp.elements.new(0.78); e2.color = (*srgb(case), 1)
         mapr = nt.nodes.new("ShaderNodeMapRange")
-        mapr.inputs["From Min"].default_value = -0.095; mapr.inputs["From Max"].default_value = 0.095
-        nt.links.new(sep.outputs["Y"], mapr.inputs["Value"]); nt.links.new(mapr.outputs["Result"], band.inputs["Fac"])
+        # across the case's width, so the end facing the camera carries the label
+        mapr.inputs["From Min"].default_value = -0.0525; mapr.inputs["From Max"].default_value = 0.0525
+        nt.links.new(sep.outputs["X"], mapr.inputs["Value"]); nt.links.new(mapr.outputs["Result"], band.inputs["Fac"])
         nt.links.new(band.outputs["Color"], bsdf(name).inputs["Base Color"])
+    # the loose cassette's top, painted as the page paints it on the live set:
+    # smoked reel window with two hubs and tape packs, a cream label with a red stripe
+    if "M_CassetteTop" in mats:
+        nt = mats["M_CassetteTop"].node_tree
+        def col_in(node, name):
+            return next(x for x in node.inputs if x.name == name and x.type == "RGBA")
+        def col_out(node):
+            return next(x for x in node.outputs if x.name == "Result" and x.type == "RGBA")
+        uvn = nt.nodes.new("ShaderNodeUVMap"); uvn.uv_map = "UVMap"
+        sepuv = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(uvn.outputs["UV"], sepuv.inputs["Vector"])
+        def box_mask(u0, u1, v0, v1):
+            parts = []
+            for axis, lo, hi in (("X", u0, u1), ("Y", v0, v1)):
+                g = nt.nodes.new("ShaderNodeMath"); g.operation = "GREATER_THAN"; g.inputs[1].default_value = lo
+                l = nt.nodes.new("ShaderNodeMath"); l.operation = "LESS_THAN"; l.inputs[1].default_value = hi
+                nt.links.new(sepuv.outputs[axis], g.inputs[0]); nt.links.new(sepuv.outputs[axis], l.inputs[0])
+                m = nt.nodes.new("ShaderNodeMath"); m.operation = "MULTIPLY"
+                nt.links.new(g.outputs[0], m.inputs[0]); nt.links.new(l.outputs[0], m.inputs[1]); parts.append(m)
+            both = nt.nodes.new("ShaderNodeMath"); both.operation = "MULTIPLY"
+            nt.links.new(parts[0].outputs[0], both.inputs[0]); nt.links.new(parts[1].outputs[0], both.inputs[1])
+            return both.outputs[0]
+        def disc_mask(cu, cv, r):
+            # distance in cassette units (the face is 1.876 wide per 1 tall)
+            du = nt.nodes.new("ShaderNodeMath"); du.operation = "SUBTRACT"; du.inputs[1].default_value = cu
+            nt.links.new(sepuv.outputs["X"], du.inputs[0])
+            dus = nt.nodes.new("ShaderNodeMath"); dus.operation = "MULTIPLY"; dus.inputs[1].default_value = 1.876
+            nt.links.new(du.outputs[0], dus.inputs[0])
+            dv = nt.nodes.new("ShaderNodeMath"); dv.operation = "SUBTRACT"; dv.inputs[1].default_value = cv
+            nt.links.new(sepuv.outputs["Y"], dv.inputs[0])
+            comb = nt.nodes.new("ShaderNodeCombineXYZ")
+            nt.links.new(dus.outputs[0], comb.inputs["X"]); nt.links.new(dv.outputs[0], comb.inputs["Y"])
+            ln = nt.nodes.new("ShaderNodeVectorMath"); ln.operation = "LENGTH"; nt.links.new(comb.outputs[0], ln.inputs[0])
+            lt = nt.nodes.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = r
+            nt.links.new(ln.outputs["Value"], lt.inputs[0])
+            return lt.outputs[0]
+        layers = [
+            (box_mask(0.15, 0.85, 0.44, 0.88), "#26262a"),     # smoked window (back half of the top)
+            (disc_mask(0.33, 0.66, 0.19), "#3a2618"),           # tape pack, supply reel (full)
+            (disc_mask(0.67, 0.66, 0.11), "#3a2618"),           # take-up reel (little wound)
+            (disc_mask(0.33, 0.66, 0.065), "#e9e6de"),          # hubs
+            (disc_mask(0.67, 0.66, 0.065), "#e9e6de"),
+            (box_mask(0.07, 0.93, 0.08, 0.37), "#f1ead6"),     # the rental label, front edge
+            (box_mask(0.07, 0.93, 0.33, 0.37), "#d8232f"),     # its red stripe
+        ]
+        prev = None
+        for mask, colour in layers:
+            mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"
+            if prev is None:
+                col_in(mx, "A").default_value = (*srgb("#121214"), 1)
+            else:
+                nt.links.new(prev, col_in(mx, "A"))
+            col_in(mx, "B").default_value = (*srgb(colour), 1)
+            nt.links.new(mask, mx.inputs["Factor"])
+            prev = col_out(mx)
+        nt.links.new(prev, bsdf("M_CassetteTop").inputs["Base Color"])
+        # and a title lettered on the label in marker blue
+        top = bpy.data.objects.get("Cassette_Top")
+        if top:
+            cu = bpy.data.curves.new("label", "FONT"); cu.body = "CHINATOWN"; cu.size = 0.018
+            cu.align_x = "CENTER"; cu.align_y = "CENTER"
+            lab = bpy.data.objects.new("label", cu); link(lab)
+            ink = bpy.data.materials.new("marker"); ink.use_nodes = True
+            ink.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (*srgb("#1c2a8f"), 1)
+            cu.materials.append(ink)
+            lab.parent = top
+            lab.location = (0.0, -0.026, 0.0004)     # centre of the label strip, just above the face
     bsdf("M_Screen").inputs["Base Color"].default_value = (0.004, 0.005, 0.005, 1)
     bsdf("M_VFD").inputs["Base Color"].default_value = (0.01, 0.03, 0.028, 1)
     # the troffer over the counter and the neon spill, as the page lights them
