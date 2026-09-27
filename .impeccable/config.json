@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-09-27T15:31:29.278Z",
         "reason": "Claude: the only glow is the VCR count window, a vacuum-fluorescent display, whose phosphor genuinely glows cyan; domain-appropriate to the owner's pinned VCR/CRT brief"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0,0,0,.7)",
+        "files": [
+          "src/page.html"
+        ],
+        "createdAt": "2026-09-27T17:30:24.761Z",
+        "reason": "Claude: the sleeve's hinge groove gradient; black is deliberately not a palette token (DESIGN.md Shade) so opaque black stays checkable, and this .7 overlay is on the documented shade scale"
       }
     ]
   }

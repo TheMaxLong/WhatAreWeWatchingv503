@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-27T17:23:07+00:00",
+  "generatedAt": "2026-09-27T17:29:21+00:00",
   "title": "Design System: What Are We Watching",
   "extensions": {
     "colorMeta": {
@@ -47,6 +47,111 @@
           "#7da1fa",
           "#a0c6ff",
           "#c4ecff"
+        ]
+      },
+      "rental-blue-key-hi": {
+        "role": "primary",
+        "displayName": "Chip Key Face",
+        "canonical": "#3b63ee",
+        "tonalRamp": [
+          "#030041",
+          "#08116d",
+          "#19329d",
+          "#2f51d0",
+          "#4874ff",
+          "#6d9cff",
+          "#96c3ff",
+          "#c1ebff"
+        ]
+      },
+      "rental-blue-key": {
+        "role": "primary",
+        "displayName": "Chip Key",
+        "canonical": "#2649d2",
+        "tonalRamp": [
+          "#030041",
+          "#07116d",
+          "#18329d",
+          "#2d52d0",
+          "#4774ff",
+          "#6c9cff",
+          "#95c4ff",
+          "#c0ebff"
+        ]
+      },
+      "rental-blue-key-lo": {
+        "role": "primary",
+        "displayName": "Chip Key Foot",
+        "canonical": "#1d3dbb",
+        "tonalRamp": [
+          "#030041",
+          "#06116d",
+          "#17329d",
+          "#2c52d0",
+          "#4a77f8",
+          "#6b9cff",
+          "#94c4ff",
+          "#bfebff"
+        ]
+      },
+      "rental-blue-key-edge": {
+        "role": "primary",
+        "displayName": "Chip Key Edge",
+        "canonical": "#0a2276",
+        "tonalRamp": [
+          "#020041",
+          "#04156a",
+          "#1b398e",
+          "#385bb3",
+          "#577ed9",
+          "#78a1ff",
+          "#9bc6ff",
+          "#bfecff"
+        ]
+      },
+      "rental-blue-board-hi": {
+        "role": "primary",
+        "displayName": "Board Top",
+        "canonical": "#2147d6",
+        "tonalRamp": [
+          "#030041",
+          "#05126d",
+          "#16329d",
+          "#2b52d0",
+          "#4374ff",
+          "#6a9cff",
+          "#94c4ff",
+          "#bfecff"
+        ]
+      },
+      "counter-blue-mid": {
+        "role": "primary",
+        "displayName": "Counter Front Mid",
+        "canonical": "#0d2982",
+        "tonalRamp": [
+          "#020041",
+          "#03126d",
+          "#183891",
+          "#355ab7",
+          "#547ddd",
+          "#76a1ff",
+          "#98c6ff",
+          "#bdecff"
+        ]
+      },
+      "counter-blue-ground": {
+        "role": "primary",
+        "displayName": "Counter Front Ground",
+        "canonical": "#0b2372",
+        "tonalRamp": [
+          "#020041",
+          "#051767",
+          "#1d3a8a",
+          "#3a5caf",
+          "#597ed5",
+          "#7ba2fc",
+          "#9dc7ff",
+          "#c1edff"
         ]
       },
       "counter-blue": {
@@ -109,6 +214,21 @@
           "#ffe66c"
         ]
       },
+      "rewind-red-hi": {
+        "role": "secondary",
+        "displayName": "Rewind Red Hi",
+        "canonical": "#ff4a52",
+        "tonalRamp": [
+          "#300000",
+          "#5a0000",
+          "#88000b",
+          "#b70124",
+          "#e8303f",
+          "#ff6869",
+          "#ff9793",
+          "#ffc5bf"
+        ]
+      },
       "rewind-red": {
         "role": "secondary",
         "displayName": "Rewind Red",
@@ -122,6 +242,21 @@
           "#ff6864",
           "#ff978f",
           "#ffc5bc"
+        ]
+      },
+      "rewind-red-lo": {
+        "role": "secondary",
+        "displayName": "Rewind Red Lo",
+        "canonical": "#a4121c",
+        "tonalRamp": [
+          "#300000",
+          "#5a0000",
+          "#880000",
+          "#b02226",
+          "#d84c48",
+          "#ff7169",
+          "#ff988e",
+          "#ffc5ba"
         ]
       },
       "vfd-cyan": {
@@ -364,6 +499,81 @@
           "#edeef3"
         ]
       },
+      "key-plastic-top": {
+        "role": "neutral",
+        "displayName": "Key Plastic Top",
+        "canonical": "#34363d",
+        "tonalRamp": [
+          "#090b11",
+          "#23252b",
+          "#404249",
+          "#5f6169",
+          "#80828a",
+          "#a2a5ad",
+          "#c6c9d2",
+          "#ebeef7"
+        ]
+      },
+      "aluminium-hi": {
+        "role": "neutral",
+        "displayName": "Aluminium Hi",
+        "canonical": "#e2e4e7",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#404244",
+          "#606164",
+          "#818285",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeff2"
+        ]
+      },
+      "aluminium": {
+        "role": "neutral",
+        "displayName": "Aluminium",
+        "canonical": "#a9adb3",
+        "tonalRamp": [
+          "#090b0f",
+          "#22252a",
+          "#3f4247",
+          "#5e6167",
+          "#7f8388",
+          "#a1a5ab",
+          "#c5c9d0",
+          "#ebeff5"
+        ]
+      },
+      "aluminium-lo": {
+        "role": "neutral",
+        "displayName": "Aluminium Lo",
+        "canonical": "#6d7178",
+        "tonalRamp": [
+          "#080b10",
+          "#22252b",
+          "#3e4249",
+          "#5d6168",
+          "#7e828a",
+          "#a1a5ad",
+          "#c5c9d1",
+          "#eaeff7"
+        ]
+      },
+      "bezel-silver": {
+        "role": "neutral",
+        "displayName": "Bezel Silver",
+        "canonical": "#aeb1b5",
+        "tonalRamp": [
+          "#090b0e",
+          "#232528",
+          "#404246",
+          "#5f6165",
+          "#808386",
+          "#a2a5a9",
+          "#c6c9cd",
+          "#eceff3"
+        ]
+      },
       "cream": {
         "role": "neutral",
         "displayName": "Label Cream",
@@ -377,6 +587,66 @@
           "#aca590",
           "#d0c9b4",
           "#f5eed8"
+        ]
+      },
+      "label-edge": {
+        "role": "neutral",
+        "displayName": "Label Edge",
+        "canonical": "#c9bf9f",
+        "tonalRamp": [
+          "#120a00",
+          "#2d2408",
+          "#4a4125",
+          "#6a6144",
+          "#8c8264",
+          "#afa586",
+          "#d3c9a9",
+          "#f9eecd"
+        ]
+      },
+      "insert-ground": {
+        "role": "neutral",
+        "displayName": "Insert Ground",
+        "canonical": "#1b1d27",
+        "tonalRamp": [
+          "#090a13",
+          "#22242f",
+          "#3f414d",
+          "#5e616d",
+          "#7f828e",
+          "#a1a4b2",
+          "#c5c8d6",
+          "#ebeefc"
+        ]
+      },
+      "poster-ground": {
+        "role": "neutral",
+        "displayName": "Poster Ground",
+        "canonical": "#1a1b22",
+        "tonalRamp": [
+          "#0a0b11",
+          "#23242c",
+          "#404149",
+          "#5f6169",
+          "#80828b",
+          "#a3a4ae",
+          "#c7c8d2",
+          "#eceef8"
+        ]
+      },
+      "sticker-white": {
+        "role": "neutral",
+        "displayName": "Sticker White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
       "paper": {
@@ -517,6 +787,16 @@
         "purpose": "text-shadow for VFD phosphor; the only UI glow."
       },
       {
+        "name": "highlight-overlay-scale",
+        "value": "rgba(255,255,255,.07) rgba(255,255,255,.12) rgba(255,255,255,.14) rgba(255,255,255,.2) rgba(255,255,255,.25) rgba(255,255,255,.28) rgba(255,255,255,.34) rgba(255,255,255,.55) rgba(255,255,255,.6) rgba(255,255,255,.65) rgba(255,255,255,.75) rgba(255,255,255,.85)",
+        "purpose": "The Moulded Plastic highlight scale: sheen .07, dark-key/case edge .12-.14, wells .2, blue-key edge .25-.34, yellow-key and sticker edge .55-.65, die-cut edges .75-.85."
+      },
+      {
+        "name": "shade-overlay-scale",
+        "value": "rgba(0,0,0,.18) rgba(0,0,0,.25) rgba(0,0,0,.35) rgba(0,0,0,.4) rgba(0,0,0,.45) rgba(0,0,0,.55) rgba(0,0,0,.6) rgba(0,0,0,.65) rgba(0,0,0,.7) rgba(0,0,0,.8) rgba(0,0,0,.85) rgba(0,0,0,.9)",
+        "purpose": "The Moulded Plastic shade scale: input well .18, lips .25-.35, contact shadows .4-.6, case inner edge and hinge groove .65-.7, panel drops and VFD recess .8-.9."
+      },
+      {
         "name": "bloom",
         "value": "UnrealBloomPass(strength 0.28, radius 0.5, threshold 0.93)",
         "purpose": "three.js bloom on emissive surfaces: tube, VFD, neon; dropped on slow devices."
@@ -639,7 +919,7 @@
       "kind": "input",
       "refersTo": "input-field",
       "description": "Cream paper label you write an actor's name on.",
-      "html": "<input class=\"ds-input\" placeholder=\"actor name → first film\" aria-label=\"Actor name\">",
+      "html": "<input class=\"ds-input\" placeholder=\"actor name \u2192 first film\" aria-label=\"Actor name\">",
       "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-input{min-height:44px;padding:10px 12px;border-radius:8px;background:var(--cream);color:var(--ink);caret-color:#1537b8;border:1px solid #c9bf9f;box-shadow:inset 0 2px 4px rgba(0,0,0,.18);font-family:var(--display);font-weight:600;font-size:16px;outline:none}.ds-input::placeholder{color:#6b6457;font-weight:500}.ds-input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}"
     },
     {
@@ -647,7 +927,7 @@
       "kind": "card",
       "refersTo": "sleeve-case",
       "description": "Back of a rental case: clamshell edge, printed insert, rewind seal, film facts and the watch key.",
-      "html": "<article class=\"ds-case\"><div class=\"ds-rewind\">BE KIND<br>PLEASE<br>REWIND</div><div class=\"ds-insert\"><h3 class=\"ds-title\">Chinatown</h3><div class=\"ds-year\">1974 · Dir. Roman Polanski</div><p class=\"ds-desc\">A private detective uncovers a vast conspiracy. As dark as they come.</p><div class=\"ds-tags\"><span class=\"ds-tag\">Neo-noir</span><span class=\"ds-tag\">Mystery</span></div><a class=\"ds-watch\" href=\"#\">Where to watch</a></div></article>",
+      "html": "<article class=\"ds-case\"><div class=\"ds-rewind\">BE KIND<br>PLEASE<br>REWIND</div><div class=\"ds-insert\"><h3 class=\"ds-title\">Chinatown</h3><div class=\"ds-year\">1974 \u00b7 Dir. Roman Polanski</div><p class=\"ds-desc\">A private detective uncovers a vast conspiracy. As dark as they come.</p><div class=\"ds-tags\"><span class=\"ds-tag\">Neo-noir</span><span class=\"ds-tag\">Mystery</span></div><a class=\"ds-watch\" href=\"#\">Where to watch</a></div></article>",
       "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-case{position:relative;max-width:380px;border-radius:12px;padding:18px 18px 18px 30px;background:#16171b;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(0,0,0,.65),0 30px 60px -22px rgba(0,0,0,.9)}.ds-insert{position:relative;border-radius:4px;padding:20px 18px 20px 42px;background:linear-gradient(90deg,#1537b8 0 22px,#ffd21f 22px 25px,#1b1d27 25px);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 2px 8px rgba(0,0,0,.55);transition:opacity 340ms ease-out,transform 460ms var(--ease-out)}.ds-rewind{position:absolute;top:18px;right:18px;z-index:2;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(9deg);background:radial-gradient(circle at 35% 30%,#ff4a52,var(--red) 60%,#a4121c);box-shadow:0 4px 10px -3px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.75);color:#fff;font-family:var(--display);font-weight:900;font-stretch:75%;font-size:10.5px;line-height:1.05;letter-spacing:.05em}.ds-title{font-family:var(--display);font-weight:900;font-stretch:68%;font-size:40px;line-height:.94;text-transform:uppercase;color:var(--paper);padding-right:58px}.ds-year{font-family:var(--display);font-weight:700;font-stretch:75%;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--yellow);margin-top:10px}.ds-desc{font-family:var(--display);font-stretch:92%;font-size:16px;line-height:1.6;color:var(--paper-2);margin-top:18px}.ds-tags{display:flex;gap:6px;margin-top:16px}.ds-tag{border:1.5px solid rgba(246,240,222,.5);color:var(--paper);padding:3px 8px 2px;border-radius:3px;font-family:var(--display);font-weight:800;font-stretch:80%;font-size:11px;letter-spacing:.1em;text-transform:uppercase}.ds-watch{display:inline-flex;align-items:center;margin-top:18px;min-height:44px;padding:0 16px;border-radius:8px;text-decoration:none;color:var(--blue-deep);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow) 50%,var(--yellow-lo));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -3px 0 rgba(140,90,0,.3),0 8px 16px -8px rgba(0,0,0,.8);font-family:var(--display);font-weight:900;font-stretch:105%;font-size:14px;letter-spacing:.06em;text-transform:uppercase}.ds-watch:hover{filter:brightness(1.06)}.ds-watch:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}"
     },
     {
@@ -655,7 +935,7 @@
       "kind": "custom",
       "refersTo": "sign-board",
       "description": "The store's blue sign board holding the filters, with yellow italic plaques.",
-      "html": "<section class=\"ds-board\"><h4 class=\"ds-plaque\">Decade</h4><p class=\"ds-tagline\">CLASSICS · CULT · DOCS · FRINGE · SPACE · 1138 FILMS</p></section>",
+      "html": "<section class=\"ds-board\"><h4 class=\"ds-plaque\">Decade</h4><p class=\"ds-tagline\">CLASSICS \u00b7 CULT \u00b7 DOCS \u00b7 FRINGE \u00b7 SPACE \u00b7 1138 FILMS</p></section>",
       "css": ":host{--night:#07080d;--blue:#1537b8;--blue-deep:#0b1d6b;--yellow:#ffd21f;--yellow-hi:#ffe36a;--yellow-lo:#e6ad00;--cream:#f3ecd6;--vfd:#5ff5d9;--paper:#f6f0de;--paper-2:#d9d3c3;--paper-3:#b9b3a5;--ink:#121216;--red:#d8232f;--display:\"Archivo\",\"Arial Narrow\",\"Helvetica Neue\",sans-serif;--osd:\"VT323\",\"Courier New\",ui-monospace,monospace;--ease-out:cubic-bezier(0.16,1,0.3,1)} .ds-board{max-width:340px;border-radius:16px;padding:18px 18px 20px;background:linear-gradient(180deg,#2147d6 0%,var(--blue) 36%,#102d9c 100%);border:1px solid #0a1f6e;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.25),0 24px 48px -18px rgba(0,0,0,.85);color:#eef2ff}.ds-plaque{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--display);font-weight:900;font-style:italic;font-stretch:112%;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--yellow)}.ds-plaque::after{content:\"\";flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,210,31,.55),rgba(255,210,31,0))}.ds-tagline{margin:18px 0 0;padding-top:12px;border-top:1px dashed rgba(255,210,31,.4);font-family:var(--display);font-weight:800;font-stretch:80%;font-size:12px;letter-spacing:.12em;line-height:1.5;color:var(--yellow)}"
     }
   ],

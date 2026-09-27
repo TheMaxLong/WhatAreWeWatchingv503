@@ -5,11 +5,20 @@ colors:
   night: "#07080d"
   rental-blue: "#1537b8"
   rental-blue-deep: "#0b1d6b"
+  rental-blue-key-hi: "#3b63ee"
+  rental-blue-key: "#2649d2"
+  rental-blue-key-lo: "#1d3dbb"
+  rental-blue-key-edge: "#0a2276"
+  rental-blue-board-hi: "#2147d6"
+  counter-blue-mid: "#0d2982"
+  counter-blue-ground: "#0b2372"
   counter-blue: "#0f2f8f"
   sticker-yellow: "#ffd21f"
   sticker-yellow-hi: "#ffe36a"
   sticker-yellow-lo: "#e6ad00"
+  rewind-red-hi: "#ff4a52"
   rewind-red: "#d8232f"
+  rewind-red-lo: "#a4121c"
   vfd-cyan: "#5ff5d9"
   vcr-blue: "#1631c9"
   osd-white: "#f4f6ff"
@@ -26,12 +35,41 @@ colors:
   clamshell: "#0d0e12"
   sleeve-line: "#2a2c36"
   key-plastic: "#2c2d31"
+  key-plastic-top: "#34363d"
+  aluminium-hi: "#e2e4e7"
+  aluminium: "#a9adb3"
+  aluminium-lo: "#6d7178"
+  bezel-silver: "#aeb1b5"
   cream: "#f3ecd6"
+  label-edge: "#c9bf9f"
+  insert-ground: "#1b1d27"
+  poster-ground: "#1a1b22"
+  sticker-white: "#ffffff"
   paper: "#f6f0de"
   paper-2: "#d9d3c3"
   paper-3: "#b9b3a5"
   ink: "#121216"
 typography:
+  scale:
+    micro: "10.5px"
+    tag: "11px"
+    tagline: "12px"
+    chip-compact: "12.5px"
+    label: "13px"
+    label-lg: "14px"
+    plaque: "15px"
+    body: "16px"
+    body-wide: "17px"
+    osd-phone: "19px"
+    display-phone: "20px"
+    osd: "21px"
+    display: "22px"
+    display-wide: "25px"
+    headline-desktop-min: "30px"
+    headline-min: "32px"
+    headline-phone: "34px"
+    headline-desktop-max: "46px"
+    headline-max: "50px"
   display:
     fontFamily: "Archivo, Arial Narrow, Helvetica Neue, sans-serif"
     fontSize: "22px"
@@ -81,6 +119,7 @@ typography:
     lineHeight: 1.05
     letterSpacing: "normal"
 rounded:
+  hairline: "2px"
   print: "3px"
   insert: "4px"
   chip: "7px"
@@ -105,7 +144,7 @@ components:
     padding: "0 26px"
     height: "64px"
   key:
-    backgroundColor: "{colors.key-plastic}"
+    backgroundColor: "{colors.key-plastic-top}"
     textColor: "{colors.paper}"
     typography: "{typography.label}"
     rounded: "{rounded.key}"
@@ -114,7 +153,7 @@ components:
   key-hover:
     textColor: "{colors.sticker-yellow}"
   chip:
-    backgroundColor: "#2649d2"
+    backgroundColor: "{colors.rental-blue-key}"
     textColor: "{colors.osd-white}"
     typography: "{typography.label}"
     rounded: "{rounded.chip}"
@@ -163,7 +202,7 @@ components:
     padding: "3px 8px 2px"
   rewind-sticker:
     backgroundColor: "{colors.rewind-red}"
-    textColor: "#ffffff"
+    textColor: "{colors.sticker-white}"
     size: "66px"
 ---
 
@@ -191,11 +230,14 @@ Density is operational. The pick, the filters and the facts stay one glance away
 Store-at-night: a deep near-black room lit by rental blue signage, sticker yellow, phosphor cyan and neon, with warm paper for the printed words.
 
 ### Primary
-- **Rental Blue** (rental-blue): the store's brand paint. The sign board body, the Blender section headers, the insert's spine strip. Its deep step is the ink on every yellow surface. Counter Blue is the counter front beneath the TV and the stacked-layout page ground.
+- **Rental Blue** (rental-blue): the store's brand paint. The sign board body, the Blender section headers, the insert's spine strip. Its deep step is the ink on every yellow surface.
+- **Rental Blue key ramp** (rental-blue-key-hi, rental-blue-key, rental-blue-key-lo, rental-blue-key-edge): the moulded genre chip, lit face to shaded foot, with the darkest step as its 1px moulding edge. The board runs from rental-blue-board-hi through Rental Blue to the key-lo step.
+- **Counter Blue ramp** (counter-blue, counter-blue-mid, counter-blue-ground): the counter's painted front. counter-blue is the modelled front in Blender; the stacked layout paints the page as that front, #102f93 at the top through counter-blue-mid to counter-blue-ground, which is also the page colour behind it.
 - **Sticker Yellow** (sticker-yellow, with hi and lo steps): the one action colour. The SURPRISE ME key, WHERE TO WATCH, the pressed state of a chip, the plaques, the billing lead, the focus ring, text selection, the shelf tags in the plate.
 
 ### Secondary
-- **Rewind Red** (rewind-red): the BE KIND PLEASE REWIND sticker and the rental stripe on tape labels. Never a UI fill beyond those.
+- **Rewind Red** (rewind-red-hi, rewind-red, rewind-red-lo): the BE KIND PLEASE REWIND seal, a domed radial from the hi step through the base to the lo step, lettered in Sticker White. The base is also the rental stripe on tape labels. Never a UI fill beyond those.
+- **Sticker White** (sticker-white): the rewind seal's lettering and, as the highlight overlay scale (see Elevation & Depth), every lit edge of the moulded plastic.
 - **Decade Fluorescents** (decade-1970 to decade-2020): six rental-sticker inks, one per decade, always with black ink and a white die-cut edge.
 
 ### Tertiary (emissive only)
@@ -207,9 +249,12 @@ Store-at-night: a deep near-black room lit by rental blue signage, sticker yello
 ### Neutral
 - **Night** (night): the room, the theme colour, the stage behind the canvas, the VFD glass.
 - **Clamshell** (clamshell) and **Sleeve Line** (sleeve-line): the rental case and the rules printed on its insert.
-- **Key Plastic** (key-plastic): the dark secondary keys.
+- **Key Plastic** (key-plastic-top, key-plastic): the dark secondary keys, a vertical gradient from the top step down to #212328; key-plastic is also the modelled VCR buttons.
+- **Aluminium** (aluminium-hi, aluminium, aluminium-lo, bezel-silver): the counter's T-moulding edge strip under the stacked TV (a three-step brushed gradient) and the brushed bezel material three.js lays on the set.
+- **Shade** (no palette token, on purpose): black exists only as the shade overlay scale (see Elevation & Depth): lips, drops, recesses and the sleeve's hinge groove. It is never opaque; the darkest ground is Night. Keeping black out of the palette keeps the design check able to catch an opaque black; the one overlay the check cannot see as a shadow (the hinge groove's .7 gradient) is a recorded exception in .impeccable/config.json.
+- **Insert Ground** (insert-ground) and **Poster Ground** (poster-ground): what shows before the insert raster or a poster loads.
 - **Paper / Paper 2 / Paper 3**: printed insert text in three weights of emphasis (title, description, cast).
-- **Cream** (cream) with **Ink** (ink): the one writable field, a paper label you write on.
+- **Cream** (cream) with **Ink** (ink) and **Label Edge** (label-edge): the one writable field, a paper label you write on, with a darker cut edge. Ink is also the lettering on every decade sticker.
 
 ### Named Rules
 **The Light Source Rule.** Only things that emit light glow: the tube, the VFD, the neon. Glow (text-shadow, bloom) never lands on a panel, key or type that is paint or print.
@@ -227,13 +272,16 @@ Store-at-night: a deep near-black room lit by rental blue signage, sticker yello
 **Character:** one grotesque stretched into two voices. Wide, black, italic Archivo is 90s retail sign lettering on keys and plaques; condensed caps Archivo is the print on the back of a rental box. VT323 is a character generator and a vacuum-fluorescent display, and appears nowhere else.
 
 ### Hierarchy
+The frontmatter `typography.scale` enumerates every size the build sets; each role below names which steps it takes at which breakpoint (stacked is the default, desktop is ≥1080px at 5:4, wide is ≥1600px at 5:4, phone is ≤620px).
+
 - **Display** (900 italic, wdth 115, 22px; 25px at 1600px+, 20px on phones; uppercase): the SURPRISE ME key only.
-- **Headline** (900, wdth 68, clamp(32px, 2.9vw, 50px), lh 0.94, uppercase, balanced wrap): the film title on the sleeve.
+- **Headline** (900, wdth 68, lh 0.94, uppercase, balanced wrap): the film title on the sleeve. clamp(32px, 2.9vw, 50px) stacked; clamp(30px, 2.5vw, 46px) on desktop where the sleeve column is narrower; a fixed 34px on phones.
 - **Title** (900 italic, wdth 112, 15px, uppercase, yellow): sign-board plaques (Genres, Decade, First film), each trailed by a fading yellow rule.
-- **Body** (400, wdth 92, 16px, lh 1.6, max 62ch, paper-2): the film's one-line take.
+- **Body** (400, wdth 92, 16px, 17px at wide, lh 1.6, max 62ch, paper-2): the film's one-line take. The actor field is 16px at 600.
 - **Print label** (700, wdth 75, 16px, 0.06em, uppercase, yellow): year and director; cast in the same voice at 600 / wdth 70 / 14px in paper-3.
-- **Label** (700, wdth 85-90, 13px, 0.04-0.06em, uppercase): keys and chips; tags at 800 / wdth 80 / 11px / 0.1em.
-- **OSD** (VT323, 21px, lh 1.05, uppercase, cyan with phosphor bloom): the VFD count line. On the tube VT323 runs 38-168px with a hard dark outline.
+- **Sign tagline** (800, wdth 80, 12px, 0.12em, yellow): the board's inventory line.
+- **Label** (700, wdth 85-90, 13px, 0.04-0.06em, uppercase): keys and chips. Chips step to 12.5px on desktop (so the board fits one screen), back to 13px at wide, and 14px on phones with the GENRES toggle. The WHERE TO WATCH key is 14px at 900 / wdth 105. Tags and streaming chips are 11px at 800 / 0.08-0.1em. The rewind seal is the smallest step, 10.5px at 900 / wdth 75.
+- **OSD** (VT323, 21px, 19px on phones, lh 1.05, uppercase, cyan with phosphor bloom): the VFD count line. On the tube VT323 runs 38-168px with a hard dark outline.
 
 ### Named Rules
 **The Tube Font Rule.** VT323 lives only on the tube (the OSD and idle screen canvases) and the VCR window. Anything printed or signed is Archivo.
@@ -255,6 +303,10 @@ Spacing rhythm is small and physical: 6px between chips, 10px between play-bar k
 
 Depth is literal: a real lit 3D set in front of a baked, defocused plate, with bloom on emissive surfaces only (strength 0.28, threshold 0.93). The DOM layer imitates moulded objects rather than floating cards: every control is a gradient plastic body with an inset top highlight, an inset bottom lip, and a soft drop shadow toward the counter. Pressing removes the lip and shortens the drop.
 
+Every highlight and shade on the moulded plastic comes from one overlay scale, never a new colour:
+- **Highlight overlay** (Sticker White at .07, .12, .2, .25, .28, .34, .55, .6, .65, .75, .85): .07 is the vinyl sheen band; .12-.14 the top edge of dark keys, the case and the hinge groove; .2 scrollbars and the phone genres well; .25-.34 the top edge of blue keys and the board; .55-.65 the top edge of yellow keys and stickers; .75-.85 the die-cut white edges of the stickers and the rewind seal.
+- **Shade overlay** (black at .18, .25, .35, .45, .6, .65, .7, .85, .9): .18 the input well; .25-.35 the bottom lips; .45-.6 short contact shadows and the stacked TV's edge shadow; .65-.7 the case's inner edge and the hinge groove; .85-.9 the long drops of panels resting on the counter and the VFD recess.
+
 ### Shadow Vocabulary
 - **Main key** (`inset 0 2px 0 rgba(255,255,255,.65), inset 0 -5px 0 rgba(140,90,0,.35), 0 10px 22px -8px rgba(0,0,0,.85), 0 2px 4px rgba(0,0,0,.4)`): the big yellow key.
 - **Key** (`inset 0 1px 0 rgba(255,255,255,.14), inset 0 -3px 0 rgba(0,0,0,.35), 0 6px 14px -6px rgba(0,0,0,.8)`): dark plastic keys.
@@ -269,7 +321,7 @@ Depth is literal: a real lit 3D set in front of a baked, defocused plate, with b
 
 ## Shapes
 
-Radii follow the object: printed things are nearly square (3-4px: tags, poster, insert), keys are softened moulded plastic (7-14px, scaling with key size), the case and board are 12-16px, stickers are die-cut pills (999px) or a round seal (the 66px rewind sticker). Stickers are slapped on, not placed: each decade sits at its own small rotation (-2deg to 2deg) and the rewind seal at 9deg. The sleeve is asymmetric on purpose: a wider hinge side (30px) with an embossed hinge line, and the insert clears a printed 7.5% spine strip.
+Radii follow the object: printed things are nearly square (3-4px: tags, poster, insert), hairline details are 2px (the hinge groove, the plaque rule), keys are softened moulded plastic (7-14px, scaling with key size), the case and board are 12-16px, stickers are die-cut pills (999px) or a round seal (the 66px rewind sticker). Stickers are slapped on, not placed: each decade sits at its own small rotation (-2deg to 2deg) and the rewind seal at 9deg. The sleeve is asymmetric on purpose: a wider hinge side (30px) with an embossed hinge line, and the insert clears a printed 7.5% spine strip.
 
 ## Components
 
@@ -280,7 +332,7 @@ Radii follow the object: printed things are nearly square (3-4px: tags, poster, 
 
 ### Chips
 - **Genre chip:** blue moulded key (gradient #3b63ee to #1d3dbb, 1px #0a2276 border, radius 7px), white condensed caps. Hover: yellow border. Active: pressed in (1px down), yellow gradient face, Rental Blue Deep ink.
-- **Decade sticker:** a fluorescent pill with a 2px white die-cut edge, black 900 ink, its own tilt. Active: black edge and a 3px yellow ring. Set unselected stickers at full ink so black type holds at least 4.5:1, and write the decade with a lowercase "s" (1970s).
+- **Decade sticker:** a fluorescent pill with a 2px white die-cut edge, black 900 ink at full strength whether or not it is selected (every decade holds at least 6.6:1), the decade written as printed ("1970s", no uppercase), its own tilt. Active: black edge and a 3px yellow ring.
 
 ### Cards / Containers
 - **Sign board:** Rental Blue gradient (#2147d6 to #102d9c), 1px deep-blue border, radius 16px, yellow plaques with trailing rules, a dashed yellow rule above the store inventory tagline.
