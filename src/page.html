@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07080d">
+<title>WHAT ARE WE WATCHING</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://image.tmdb.org" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #07080d;
+    --blue: #1537b8;
+    --blue-hi: #2a52e0;
+    --blue-deep: #0b1d6b;
+    --yellow: #ffd21f;
+    --yellow-hi: #ffe36a;
+    --yellow-lo: #e6ad00;
+    --cream: #f3ecd6;
+    --vfd: #5ff5d9;
+    --sleeve: #0d0e12;
+    --sleeve-line: #2a2c36;
+    --paper: #f6f0de;
+    --paper-2: #d9d3c3;
+    --paper-3: #b9b3a5;
+    --ink: #121216;
+    --red: #d8232f;
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", sans-serif;
+    --osd: "VT323", "Courier New", ui-monospace, monospace;
+    --tvh: clamp(250px, min(80vw, 46svh), 540px);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--night); color: var(--paper); -webkit-text-size-adjust: 100%; }
+  body { background: var(--night); color: var(--paper); font-family: var(--display); min-height: 100dvh; }
+  ::selection { background: var(--yellow); color: var(--blue-deep); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .nb { white-space: nowrap; }
+  svg.icon { width: 1em; height: 1em; flex: none; fill: currentColor; }
+
+  /* ── the stage: the Blender store + set, drawn by three.js ───────────────── */
+  .stage-wrap { position: fixed; inset: 0; z-index: 0; background: var(--night); }
+  #stage { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 900ms var(--ease-out); }
+  html.tv-ready #stage { opacity: 1; }
+  .flat { display: none; }
+  html.no-webgl #stage { display: none; }
+  html.no-webgl .flat { display: block; position: absolute; inset: 0; }
+  #flatPlate { position: absolute; inset: 0; background: #0b0d18 center / cover no-repeat; filter: saturate(1.1); }
+  /* the same set drawn flat: silver cabinet, black face, screen left, dials + woodgrain right */
+  .flat-tv { position: absolute; aspect-ratio: 1.45; border-radius: 3% / 4.4%; padding: 2.4%;
+    background: linear-gradient(180deg, #d4d6d8, #a3a6a9); box-shadow: 0 30px 50px -20px rgba(0,0,0,.9); }
+  .flat-face { height: 100%; display: grid; grid-template-columns: 1fr 22%; gap: 3%; padding: 3.5% 3% 6%;
+    border-radius: 2%; background: #141416; }
+  .flat-bezel { display: grid; place-items: center; padding: 5%; border-radius: 4%;
+    background: linear-gradient(180deg, #d8dadc, #9fa2a6); box-shadow: inset 0 -4px 10px rgba(0,0,0,.35); }
+  #flatScreen { display: block; width: 100%; height: auto; max-height: 100%; aspect-ratio: 4 / 3; border-radius: 11% / 14%; background: #111;
+    box-shadow: 0 0 0 3px #0b0b0c; }
+  .flat-panel { display: grid; grid-template-rows: 1fr 1fr 1.1fr; gap: 5%; }
+  .flat-dial { border-radius: 8%; background: radial-gradient(circle, #1b1b1e 0 36%, #d9dbdd 37% 41%, #0e0e10 42%); }
+  .flat-speaker { border-radius: 4%; background: repeating-linear-gradient(180deg, #6a4528 0 5px, #1a1512 5px 8px); }
+
+  /* ── the counter: everything you touch ──────────────────────────────────── */
+  .counter { position: relative; z-index: 1; }
+  .tv-slot { pointer-events: none; --fit: 0.9; }
+
+  /* play bar: the big yellow key, the VCR count window, the sound key */
+  .playbar { display: flex; align-items: stretch; gap: 10px; }
+  .btn-main {
+    flex: 1 1 auto; min-height: 64px; padding: 0 26px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 14px;
+    border-radius: 14px;
+    color: var(--blue-deep);
+    background: linear-gradient(180deg, var(--yellow-hi) 0%, var(--yellow) 42%, var(--yellow-lo) 100%);
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,.65),
+      inset 0 -5px 0 rgba(140,90,0,.35),
+      0 10px 22px -8px rgba(0,0,0,.85),
+      0 2px 4px rgba(0,0,0,.4);
+    font-weight: 900; font-style: italic; font-stretch: 115%;
+    font-size: 22px; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap;
+    transition: transform 90ms ease-out, box-shadow 90ms ease-out, filter 150ms ease-out;
+  }
+  .btn-main .icon { width: 22px; height: 22px; }
+  .btn-main:active { transform: translateY(3px); box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 0 rgba(140,90,0,.35), 0 4px 10px -6px rgba(0,0,0,.9); }
+  .vfd {
+    flex: 0 1 190px; min-width: 0; display: flex; align-items: center; justify-content: center;
+    padding: 6px 14px; border-radius: 10px;
+    background: linear-gradient(180deg, #050807, #0b1210);
+    border: 1px solid #1e2624;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.06);
+  }
+  .count { font-family: var(--osd); font-size: 21px; line-height: 1.05; color: var(--vfd); text-transform: uppercase;
+    text-shadow: 0 0 6px rgba(95,245,217,.65), 0 0 16px rgba(95,245,217,.25); text-align: center; }
+  .key {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; padding: 0 14px; border-radius: 10px;
+    color: var(--paper);
+    background: linear-gradient(180deg, #34363d, #212328);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -3px 0 rgba(0,0,0,.35), 0 6px 14px -6px rgba(0,0,0,.8);
+    font-weight: 700; font-stretch: 90%; font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+    transition: transform 90ms ease-out, background 150ms ease-out, color 150ms ease-out;
+  }
+  .key:active { transform: translateY(2px); }
+  .key .icon { width: 18px; height: 18px; }
+  .key-sound { flex: none; }
+  .key-sound .label { display: none; }
+  .key-sound[aria-pressed="false"] { color: var(--paper-3); }
+  .key-sound[aria-pressed="false"] .wave { display: none; }
+  .key-sound[aria-pressed="true"] .mute { display: none; }
+
+  /* directory: the store's blue sign board */
+  .directory {
+    border-radius: 16px; padding: 18px 18px 20px;
+    background: linear-gradient(180deg, #2147d6 0%, var(--blue) 36%, #102d9c 100%);
+    border: 1px solid #0a1f6e;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(0,0,0,.25), 0 24px 48px -18px rgba(0,0,0,.85);
+    color: #eef2ff;
+  }
+  .sub { font-weight: 800; font-stretch: 80%; font-size: 12px; letter-spacing: .12em; color: var(--yellow); margin-bottom: 16px; line-height: 1.5; }
+  .group + .group { margin-top: 18px; }
+  .plaque { font-weight: 900; font-style: italic; font-stretch: 112%; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+    color: var(--yellow); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .plaque::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,210,31,.55), rgba(255,210,31,0)); }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    min-height: 32px; padding: 6px 11px; border-radius: 7px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #eef2ff; font-weight: 700; font-stretch: 85%; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+    transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 90ms ease-out;
+  }
+  .chip:active { transform: translateY(1px); }
+  .chip.active {
+    background: linear-gradient(180deg, var(--yellow-hi), var(--yellow));
+    border-color: var(--yellow-lo); color: var(--blue-deep);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(140,90,0,.3);
+  }
+  /* decades are fluorescent rental stickers, black ink */
+  .sticker { border-radius: 999px; border: 2px solid rgba(255,255,255,.85); color: #111; font-weight: 900; font-stretch: 100%;
+    padding: 6px 14px; box-shadow: 0 4px 10px -4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.55);
+    background: var(--st); opacity: .78; }
+  .sticker.active { opacity: 1; color: #111; background: var(--st); border-color: #111;
+    box-shadow: 0 0 0 3px var(--yellow), 0 4px 10px -4px rgba(0,0,0,.6); }
+  .sticker-1970 { --st: #ff8a2a; transform: rotate(-2deg); }
+  .sticker-1980 { --st: #ff5fa2; transform: rotate(1.5deg); }
+  .sticker-1990 { --st: #2fd0c4; transform: rotate(-1deg); }
+  .sticker-2000 { --st: #b6e14a; transform: rotate(2deg); }
+  .sticker-2010 { --st: #b49cff; transform: rotate(-1.5deg); }
+  .sticker-2020 { --st: #ff6a5f; transform: rotate(1deg); }
+  .sticker:active { transform: translateY(1px); }
+  .genre-toggle { display: none; }
+  .genre-toggle .icon { width: 14px; height: 14px; transition: transform 160ms ease-out; }
+  .genre-toggle.is-open .icon { transform: rotate(180deg); }
+  .genre-toggle.on { border-color: var(--yellow); color: var(--yellow); }
+
+  .actor-row { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+  .actor-row .key { flex: 1; }
+  .actor-input {
+    flex: 1 1 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border-radius: 8px;
+    background: var(--cream); color: var(--ink); caret-color: var(--blue);
+    border: 1px solid #c9bf9f; box-shadow: inset 0 2px 4px rgba(0,0,0,.18);
+    font-family: var(--display); font-weight: 600; font-size: 16px; outline: none;
+  }
+  .actor-input::placeholder { color: #6b6457; font-weight: 500; }
+  .actor-input:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+  #clearBtn { padding: 0 12px; flex: 0 0 52px; }
+
+  /* the sleeve: the back of the rental box */
+  .card {
+    display: none; position: relative; overflow: hidden;
+    border-radius: 12px; padding: 22px 22px 22px;
+    background:
+      linear-gradient(115deg, rgba(255,255,255,0) 38%, rgba(255,255,255,.055) 48%, rgba(255,255,255,0) 58%),
+      linear-gradient(180deg, #121319, var(--sleeve));
+    border: 1px solid var(--sleeve-line);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 30px 60px -22px rgba(0,0,0,.9);
+  }
+  .card.show { display: block; }
+  .sleeve-body { transition: opacity 340ms ease-out, transform 460ms var(--ease-out), filter 340ms ease-out; }
+  .card.tuning .sleeve-body { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+  .rewind { position: absolute; top: 14px; right: 14px; width: 66px; height: 66px; border-radius: 50%;
+    display: grid; place-items: center; text-align: center; transform: rotate(9deg);
+    background: radial-gradient(circle at 35% 30%, #ff4a52, var(--red) 60%, #a4121c);
+    box-shadow: 0 4px 10px -3px rgba(0,0,0,.7), inset 0 0 0 2px rgba(255,255,255,.75);
+    color: #fff; font-weight: 900; font-stretch: 75%; font-size: 10.5px; line-height: 1.05; letter-spacing: .05em; pointer-events: none; }
+  .card-main { display: flex; gap: 18px; align-items: flex-start; }
+  .card-poster { width: 132px; flex-shrink: 0; display: block; border-radius: 3px; background: #1a1b22;
+    box-shadow: 0 10px 22px -8px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.1); aspect-ratio: 2 / 3; object-fit: cover; }
+  .card-poster.hidden { display: none; }
+  .card-body { flex: 1; min-width: 0; }
+  .card-head { flex: 1; min-width: 0; padding-right: 58px; }
+  .actor-note { font-family: var(--osd); font-size: 20px; line-height: 1.1; color: var(--yellow); margin-bottom: 10px; }
+  .card-title { font-weight: 900; font-stretch: 68%; font-size: clamp(32px, 2.9vw, 50px); line-height: .94; text-transform: uppercase;
+    letter-spacing: -0.005em; color: var(--paper); overflow-wrap: break-word; text-wrap: balance; }
+  .card-year { font-family: var(--osd); font-size: 22px; color: var(--yellow); margin-top: 10px; letter-spacing: .02em; }
+  .card-desc { font-stretch: 92%; font-size: 16px; line-height: 1.6; color: var(--paper-2); margin-top: 18px; max-width: 62ch; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+  .tag { border: 1.5px solid rgba(246,240,222,.5); color: var(--paper); padding: 3px 8px 2px; border-radius: 3px;
+    font-weight: 800; font-stretch: 80%; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  .card-cast { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--sleeve-line);
+    font-weight: 600; font-stretch: 70%; font-size: 14px; line-height: 1.45; letter-spacing: .05em; text-transform: uppercase; color: var(--paper-3); }
+  .billing-lead { color: var(--yellow); font-weight: 800; }
+  .card-streaming { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+  .card-streaming:empty { display: none; }
+  .streaming-logo { font-weight: 800; font-size: 11px; letter-spacing: .08em; padding: 3px 7px; border-radius: 3px; background: #22242c; color: var(--paper-2); }
+  .card-watch { margin-top: 18px; }
+  .btn-watch {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 8px;
+    text-decoration: none; color: var(--blue-deep);
+    background: linear-gradient(180deg, var(--yellow-hi), var(--yellow) 50%, var(--yellow-lo));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -3px 0 rgba(140,90,0,.3), 0 8px 16px -8px rgba(0,0,0,.8);
+    font-weight: 900; font-stretch: 105%; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .btn-watch .icon { width: 16px; height: 16px; }
+
+  @media (hover: hover) {
+    .btn-main:hover { filter: brightness(1.06) saturate(1.05); }
+    .chip:hover { border-color: var(--yellow); }
+    .chip.active:hover { border-color: var(--yellow-lo); }
+    .key:hover { color: var(--yellow); }
+    .btn-watch:hover { filter: brightness(1.06); }
+  }
+
+  /* ── desktop: sign board | TV on the counter | the sleeve ───────────────── */
+  @media (min-width: 1080px) and (min-aspect-ratio: 5/4) {
+    body { overflow: hidden; height: 100dvh; }
+    .counter {
+      position: fixed; inset: 0;
+      display: grid;
+      grid-template-columns: clamp(300px, 24vw, 400px) minmax(0, 1fr) clamp(330px, 27vw, 460px);
+      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-areas: "dir slot card" "dir play card";
+      gap: 22px 30px;
+      padding: 28px 32px 30px;
+    }
+    .directory { grid-area: dir; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,210,31,.45) transparent; align-self: stretch; }
+    .tv-slot { grid-area: slot; }
+    .playbar { grid-area: play; justify-self: center; width: min(100%, 560px); }
+    .card { grid-area: card; align-self: center; max-height: 100%; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
+    .card-main { flex-direction: column; }
+    .card-top { display: flex; gap: 16px; align-items: flex-end; }
+    .card-poster { width: 118px; }
+    /* the board holds 42 genres: keep it to one screen at 900 px tall */
+    .directory { padding: 16px 16px 18px; }
+    .sub { margin-bottom: 12px; }
+    .group + .group { margin-top: 14px; }
+    .plaque { margin-bottom: 8px; }
+    .filter-row { gap: 5px; }
+    .chip { min-height: 29px; padding: 5px 9px; font-size: 12.5px; }
+    .sticker { padding: 5px 12px; }
+  }
+  @media (min-width: 1600px) and (min-aspect-ratio: 5/4) {
+    .playbar { width: min(100%, 640px); }
+    .chip { min-height: 32px; padding: 6px 11px; font-size: 13px; }
+    .counter { padding: 40px 48px 40px; gap: 26px 44px; }
+    .btn-main { min-height: 72px; font-size: 25px; }
+    .card-poster { width: 140px; }
+    .card-desc { font-size: 17px; }
+  }
+
+  /* ── stacked: phones, tablets, anything tall — the TV stays up top ─────── */
+  @media not ((min-width: 1080px) and (min-aspect-ratio: 5/4)) {
+    .stage-wrap { bottom: auto; height: var(--tvh); z-index: 3;
+      box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 18px 30px -10px rgba(0,0,0,.9); }
+    .tv-slot { position: fixed; top: 10px; left: 12px; right: 12px; height: calc(var(--tvh) - 20px); z-index: -1; --fit: 0.84; }
+    .counter {
+      display: flex; flex-direction: column; gap: 16px;
+      padding: calc(var(--tvh) + 18px) max(14px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+      max-width: 720px; margin: 0 auto;
+    }
+    .card-top { display: contents; }
+    .card-main { gap: 16px; }
+    .card-poster { width: 118px; }
+  }
+  @media (max-width: 620px) {
+    .playbar { flex-wrap: wrap; }
+    .btn-main { min-height: 60px; font-size: 20px; padding: 0 18px; flex: 1 1 0; }
+    .key-sound { min-width: 60px; }
+    .vfd { order: 3; flex: 1 1 100%; min-height: 44px; }
+    .count { font-size: 19px; white-space: nowrap; }
+    .directory { padding: 16px 14px 18px; }
+    .plaque-genres { display: none; }
+    .genre-toggle { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; min-height: 44px; padding: 10px 15px; font-size: 14px; }
+    #genres { display: none; }
+    #genres.open { display: flex; align-content: flex-start; max-height: 44vh; overflow-y: auto;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 10px; }
+    .chip { font-size: 14px; min-height: 44px; padding: 10px 14px; }
+    .actor-row { flex-wrap: wrap; }
+    .actor-input { flex: 1 1 100%; }
+    .actor-row .key { flex: 1; }
+    #clearBtn { flex: 0 0 56px; }
+    .card { padding: 18px 16px; }
+    .card-main { flex-direction: column; }
+    .card-poster { width: 108px; }
+    .card-title { font-size: 34px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #stage, .sleeve-body, .btn-main, .chip, .key { transition: none; }
+    .card.tuning .sleeve-body { filter: none; transform: none; }
+  }
+</style>
+</head>
+<body>
+<!--
+  THESIS: the chooser is a tube TV on a rental-store counter at night; a pick is a channel change — half a second of snow or torn bars, then the film plays like a tape. Refuses the dark app card on a flat page.
+  OWN-WORLD: Blender-built silver 70s portable on a 90s VCR, three.js-lit in front of a Cycles store plate (face-out tapes, blue headers, pink neon). UI in rental-store blue + sticker yellow, fluorescent decade stickers, VFD cyan, VT323 OSD, Archivo condensed caps; chunky plastic keys, no glass.
+  STORY: open → the TV shows WHAT ARE WE WATCHING on VCR blue; press SURPRISE ME → snow + shh → a film plays; the sleeve back gives the words and where to watch.
+  FIRST VIEWPORT: desktop — sign board left, TV centre on the counter with the yellow key under it, sleeve right. Phone — TV pinned across the top, yellow key directly below.
+  FORM: brief-pinned (owner: video store + CRT, pre-Frutiger-Aero), code-led, no seed roll.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<h1 class="sr-only">What Are We Watching</h1>
+
+<div class="stage-wrap">
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <div class="flat" aria-hidden="true"><div id="flatPlate"></div><div class="flat-tv" id="flatTv"><div class="flat-face"><div class="flat-bezel"><canvas id="flatScreen"></canvas></div><div class="flat-panel"><div class="flat-dial"></div><div class="flat-dial"></div><div class="flat-speaker"></div></div></div></div></div>
+</div>
+
+<main class="counter">
+  <div class="tv-slot" id="tvSlot" aria-hidden="true"></div>
+
+  <section class="playbar" aria-label="Pick a film">
+    <button class="btn-main" id="surpriseBtn" type="button">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5v17a1 1 0 0 0 1.52.85l13.2-8.5a1 1 0 0 0 0-1.7L7.52 2.65A1 1 0 0 0 6 3.5z"/></svg>
+      Surprise me
+    </button>
+    <div class="vfd"><span class="count" id="countLine" aria-live="polite"></span></div>
+    <button class="key key-sound" id="soundBtn" type="button" aria-pressed="true" aria-label="Channel-change sound">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="mute" d="M16.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="label">SOUND ON</span>
+    </button>
+  </section>
+
+  <article class="card" id="card" aria-live="polite" aria-label="The tape you picked">
+    <div class="rewind" aria-hidden="true">BE KIND<br>PLEASE<br>REWIND</div>
+    <div class="sleeve-body">
+      <div class="actor-note" id="actorNote" style="display:none"></div>
+      <div class="card-main">
+        <div class="card-top">
+          <img class="card-poster hidden" id="cardPoster" alt="" crossorigin="anonymous">
+          <div class="card-head">
+            <h2 class="card-title" id="cardTitle"></h2>
+            <div class="card-year" id="cardYear"></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc" id="cardDesc"></p>
+          <div class="card-tags" id="cardTags"></div>
+          <div class="card-cast" id="cardCast"></div>
+          <div class="card-streaming" id="cardStreaming"></div>
+          <div class="card-watch" id="cardWatch"><a class="btn-watch" id="watchLink" href="#" target="_blank" rel="noopener">Where to watch<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h11.6l-4.3-4.3 1.4-1.4L20.4 12l-6.7 6.7-1.4-1.4 4.3-4.3H5z"/></svg></a></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <section class="directory" aria-label="Filters">
+    <p class="sub">CLASSICS · CULT · DOCS · FRINGE · SPACE · <span class="nb"><span id="total"></span> FILMS</span></p>
+    <div class="group">
+      <h2 class="plaque plaque-genres">Genres</h2>
+      <button class="chip genre-toggle" id="genreToggle" type="button" aria-expanded="false" aria-controls="genres"><span class="label">GENRES</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.3 8.3 12 15l6.7-6.7 1.4 1.4L12 17.8 3.9 9.7z"/></svg></button>
+      <div class="filter-row" id="genres"></div>
+    </div>
+    <div class="group">
+      <h2 class="plaque">Decade</h2>
+      <div class="filter-row" id="decades"></div>
+    </div>
+    <div class="group">
+      <h2 class="plaque">First film</h2>
+      <div class="actor-row">
+        <input class="actor-input" id="actorInput" aria-label="Actor name" placeholder="actor name → their first film in the list" autocomplete="off" spellcheck="false">
+        <button class="key" id="actorBtn" type="button">First film</button>
+        <button class="key" id="clearBtn" type="button" aria-label="Clear actor search"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/*@FILMS@*/
+/*@APP@*/
+</script>
+<script>
+/*@SCENE@*/
+</script>
+</body>
+</html>

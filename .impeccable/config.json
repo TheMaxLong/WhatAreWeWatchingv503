@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/page.html"
+        ],
+        "createdAt": "2026-09-27T15:31:29.092Z",
+        "reason": "Claude: #cardPoster is filled by JS from TMDB on every pick and carries .hidden (display:none) until then, same as the pre-makeover page"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "src/page.html"
+        ],
+        "createdAt": "2026-09-27T15:31:29.278Z",
+        "reason": "Claude: the only glow is the VCR count window, a vacuum-fluorescent display, whose phosphor genuinely glows cyan; domain-appropriate to the owner's pinned VCR/CRT brief"
+      }
+    ]
+  }
+}

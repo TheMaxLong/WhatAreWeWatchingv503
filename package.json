@@ -1,0 +1,14 @@
+{
+  "name": "what-are-we-watching",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node tests/check.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "playwright-core": "1.55.0",
+    "three": "0.186.1"
+  }
+}
